@@ -1,0 +1,4 @@
+LogDir ..\\logdata
+ResTimeIndex 2
+FilePerDay 3
+LogFileName daouoffic.com_access
