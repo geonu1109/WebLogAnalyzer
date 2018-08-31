@@ -31,8 +31,12 @@ InputData *View::function1(void) {
 	system("clear");
 #endif
 	printf("Filter Delayed API\n\n");
-	printf("YYYY MM DD: ");
-	scanf("%s%s%s", data->YYYY, data->MM, data->DD);
+	printf("date(YYYYMMDD): ");
+	scanf("%s", data->DATE);
+	printf("start time(HHMMSS): ");
+	scanf("%s", data->TIME_START);
+	printf("end time(HHMMSS): ");
+	scanf("%s", data->TIME_END);
 	printf("delay time: ");
 	scanf("%d", &data->delay);
 

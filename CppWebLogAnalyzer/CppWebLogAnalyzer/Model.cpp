@@ -19,9 +19,9 @@ void Model::function1(const InputData *data) {
 	char buffer[2048];
 
 	for (int i = 0; i < pConfig->LOG_FILE_COUNT; i++) {
-		sprintf(path, "%s\\%s%s%s\\ap%d.%s_%s-%s-%s.txt", pConfig->LOG_FILE_DIR, data->YYYY, data->MM, data->DD, i + 1, "daouoffice.com_access", data->YYYY, data->MM, data->DD);
+		sprintf(path, "%s\\%s\\ap%d.%s_%s-%s-%s.txt", pConfig->LOG_FILE_DIR, data->DATE, i + 1, "daouoffice.com_access", data->DATE, data->DATE, data->DATE);
 		ifp = FileProc::open(path, "r");
-		sprintf(path, "%s\\%s%s%s\\ap%d.%s_%s-%s-%s_proc1.txt", pConfig->LOG_FILE_DIR, data->YYYY, data->MM, data->DD, i + 1, "daouoffice.com_access", data->YYYY, data->MM, data->DD);
+		sprintf(path, "%s\\%s\\ap%d.%s_%s-%s-%s_proc1.txt", pConfig->LOG_FILE_DIR, data->DATE, i + 1, "daouoffice.com_access", data->DATE, data->DATE, data->DATE);
 		ofp = FileProc::open(path, "w");
 
 		clock_t st, et;

@@ -3,7 +3,7 @@
 
 class InputData {
 public:
-	char YYYY[5], MM[3], DD[3];
+	char DATE[9];
 	char TIME_START[7];
 	char TIME_END[7];
 	int delay;
