@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <stack>
+#include <ctime>
 
 Model::Model(const Config &config) : pConfig(&config) {
 	field = (char **)malloc(sizeof(char *) * pConfig->FIELD_COUNT);
@@ -23,6 +24,8 @@ void Model::function1(const InputData *data) {
 		sprintf(path, "%s\\%s%s%s\\ap%d.%s_%s-%s-%s_proc1.txt", pConfig->LOG_FILE_DIR, data->YYYY, data->MM, data->DD, i + 1, "daouoffice.com_access", data->YYYY, data->MM, data->DD);
 		ofp = FileProc::open(path, "w");
 
+		clock_t st, et;
+		st = clock();
 		while (fgets(buffer, 2048, ifp)) {
 			strcpy_s(record, 2048, buffer);
 			splitRecord(buffer);
@@ -30,6 +33,8 @@ void Model::function1(const InputData *data) {
 				fprintf(ofp, "%s", record);
 			}
 		}
+		et = clock();
+		printf("%s %f seconds\n", path, (float)(et - st) / 1000);
 
 		FileProc::close(ifp);
 		FileProc::close(ofp);
