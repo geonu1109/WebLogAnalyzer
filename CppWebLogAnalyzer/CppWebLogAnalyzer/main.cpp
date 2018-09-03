@@ -1,11 +1,11 @@
-#include "View.h"
-#include "Config.h"
-#include "FileProc.h"
-#include "Model.h"
+#include "Controller.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <ctime>
 
 int main(void) {
-	Config config; // 기본경로의 설정파일을 사용해 객체 생성
-	Model model(config); // 설정파일의 내용이 적용된 모델 생성
+	Controller controller;
 
 	/*
 	FILE *fp = fopen("C:\\Users\\user\\Desktop\\logdata\\20180824\\ap1.daouoffice.com_access_2018-08-24.txt", "r");
@@ -17,22 +17,20 @@ int main(void) {
 	}
 	scanf("%c", stdin);
 	*/ // 파싱 테스트 코드
-	
-	switch (View::showMenu()) {
-	case 1:
-		model.function1(View::function1());
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
-	case 4:
-		break;
-	case 5:
-		break;
-	default:
-		;
-	}
 
+	/*
+	FILE *fp = fopen("C:\\Users\\user\\Desktop\\logdata\\20180824\\ap1.daouoffice.com_access_2018-08-24.txt", "r");
+	char str[2048];
+	clock_t st, et;
+
+	st = clock();
+	while (fgets(str, 2048, fp)) {
+		// printf("%s", str);
+	}
+	et = clock();
+
+	printf("걸린 시간: %f초\n", (float)(et - st) / 1000);
+	*/ // 파일 입출력 시간 측정
+	system("pause");
 	return 0;
 }

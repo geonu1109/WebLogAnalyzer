@@ -1,19 +1,19 @@
-#include "Config.h"
+#include "DataConfig.h"
 #include "FileProc.h"
 #include <cstdlib>
 #include <cstring>
 #define BUFFER_SIZE 2048
 
-Config::Config(void) {
+DataConfig::DataConfig(void) {
 	char path[] = "..\\CppWebLogAnalyzer\\wlacfg.txt";
 	load(path);
 }
 
-Config::~Config() {
+DataConfig::~DataConfig() {
 	if(LOG_FILE_DIR) free(LOG_FILE_DIR);
 }
 
-void Config::load(char *path) {
+void DataConfig::load(char *path) {
 	 FILE *fp = FileProc::open(path, "r");
 	 char buffer[BUFFER_SIZE];
 	 char *pToken;
@@ -37,7 +37,11 @@ void Config::load(char *path) {
 		 if (!strcmp("INDEX_RESPONSE_TIME", pToken)) {
 			 pToken = strtok(NULL, " ");
 			 INDEX_RESPONSE_TIME = atoi(pToken);
-		 } // 응답시간 위치
+		 } // 응답시간 필드 위치
+		 if (!strcmp("INDEX_DATETIME", pToken)) {
+			 pToken = strtok(NULL, " ");
+			 INDEX_DATETIME = atoi(pToken);
+		 } // 날짜 및 시간 필드 위치
 	 }
 
 	 FileProc::close(fp);

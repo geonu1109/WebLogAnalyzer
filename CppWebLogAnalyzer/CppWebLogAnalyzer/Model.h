@@ -1,21 +1,24 @@
 #ifndef __MODEL_H__
 #define __MODEL_H__
 
-#include "Config.h"
-#include "InputData.h"
+#include "DataConfig.h"
+#include "DataInput.h"
 
 class Model
 {
 public:
-	const Config *pConfig;
+	const DataConfig *pConfig;
 	char **field;
 	char record[2048];
 
 public:
-	Model(const Config &config);
+	Model(const DataConfig &config);
 	~Model();
-	void function1(const InputData *data);
-	void splitRecord(char *record);
+	void function1(const DataInput *data);
+
+private:
+	void splitBuffer(char *record);
+	int isValidTime(const DataInput *pData);
 };
 
 #endif

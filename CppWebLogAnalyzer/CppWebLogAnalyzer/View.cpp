@@ -22,8 +22,10 @@ int View::showMenu(void) {
 	return select;
 }
 
-InputData *View::function1(void) {
-	InputData *data = new InputData();
+DataInput *View::function1(void) {
+	DataInput *data = new DataInput();
+	char strBuffer[9];
+	int nDelay;
 
 #ifdef WINDOWS
 	system("cls");
@@ -32,13 +34,17 @@ InputData *View::function1(void) {
 #endif
 	printf("Filter Delayed API\n\n");
 	printf("date(YYYYMMDD): ");
-	scanf("%s", data->DATE);
+	scanf_s("%s", strBuffer, 9);
+	data->getDate(strBuffer);
 	printf("start time(HHMMSS): ");
-	scanf("%s", data->TIME_START);
+	scanf_s("%s", strBuffer, 7);
+	data->getTimeStart(strBuffer);
 	printf("end time(HHMMSS): ");
-	scanf("%s", data->TIME_END);
+	scanf_s("%s", strBuffer, 7);
+	data->getTimeEnd(strBuffer);
 	printf("delay time: ");
-	scanf("%d", &data->delay);
+	scanf_s("%d", &nDelay, 4);
+	data->getDelay(nDelay);
 
 	return data;
 }
