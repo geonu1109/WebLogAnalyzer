@@ -14,6 +14,7 @@ Controller::Controller() {
 	case 2:
 		break;
 	case 3:
+		model.function3(View::function3());
 		break;
 	case 4:
 		break;

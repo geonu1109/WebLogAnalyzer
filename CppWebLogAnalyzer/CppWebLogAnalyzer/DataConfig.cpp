@@ -42,6 +42,10 @@ void DataConfig::load(char *path) {
 			 pToken = strtok(NULL, " ");
 			 INDEX_DATETIME = atoi(pToken);
 		 } // 날짜 및 시간 필드 위치
+		 if (!strcmp("INDEX_HTTP_STATUS", pToken)) {
+			 pToken = strtok(NULL, " ");
+			 INDEX_HTTP_STATUS = atoi(pToken);
+		 } // HTTP 상태 필드 위치
 	 }
 
 	 FileProc::close(fp);

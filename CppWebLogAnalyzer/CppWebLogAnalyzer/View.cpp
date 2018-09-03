@@ -48,3 +48,21 @@ DataInput *View::function1(void) {
 
 	return data;
 }
+
+DataInput *View::function3(void) {
+	DataInput *data = new DataInput();
+	char strBuffer[9];
+
+#ifdef WINDOWS
+	system("cls");
+#else
+	system("clear");
+#endif
+	printf("Filter Delayed API\n\n");
+	printf("Count HTTP status\n\n");
+	printf("date(YYYYMMDD): ");
+	scanf_s("%s", strBuffer, 9);
+	data->getDate(strBuffer);
+
+	return data;
+}

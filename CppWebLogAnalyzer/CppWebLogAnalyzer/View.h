@@ -9,6 +9,7 @@ public:
 	~View();
 	static int showMenu(void);
 	static DataInput *function1(void);
+	static DataInput *function3(void);
 };
 
 #endif

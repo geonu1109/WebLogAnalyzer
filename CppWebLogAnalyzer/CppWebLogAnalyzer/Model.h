@@ -3,6 +3,7 @@
 
 #include "DataConfig.h"
 #include "DataInput.h"
+#include <cstdio>
 
 class Model
 {
@@ -15,10 +16,13 @@ public:
 	Model(const DataConfig &config);
 	~Model();
 	void function1(const DataInput *data);
+	void function3(const DataInput *pData);
 
 private:
 	void splitBuffer(char *record);
 	int isValidTime(const DataInput *pData);
+	FILE *getIFP(const DataInput *pData, int iAP);
+	FILE *getOFP(const DataInput *pData, int iAP, int iProc);
 };
 
 #endif

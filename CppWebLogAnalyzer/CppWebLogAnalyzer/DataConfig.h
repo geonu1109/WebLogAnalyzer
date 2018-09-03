@@ -8,6 +8,7 @@ public:
 	int FIELD_COUNT;
 	int INDEX_RESPONSE_TIME;
 	int INDEX_DATETIME;
+	int INDEX_HTTP_STATUS;
 
 public:
 	DataConfig(void);
