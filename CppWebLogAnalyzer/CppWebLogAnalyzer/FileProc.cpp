@@ -13,7 +13,7 @@ FILE *FileProc::open(const char *path, const char *mode) {
 	FILE *fp = fopen(path, mode);
 	if (fp) return fp;
 	else {
-		printf("[Error] Failed to open file '%s'\n", path);
+		printf("\n[Error] Failed to open file '%s'\n\n", path);
 		system("pause");
 	}
 }

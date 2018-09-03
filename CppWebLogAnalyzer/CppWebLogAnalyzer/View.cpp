@@ -18,6 +18,7 @@ int View::showMenu(void) {
 	printf("5. Classify Client-Agent (by time interval)\n");
 	printf("\nSelect: ");
 	scanf("%d", &select);
+	printf("\n");
 	
 	return select;
 }
@@ -45,6 +46,7 @@ DataInput *View::function1(void) {
 	printf("delay time: ");
 	scanf_s("%d", &nDelay, 4);
 	data->getDelay(nDelay);
+	printf("\n");
 
 	return data;
 }
@@ -63,6 +65,7 @@ DataInput *View::function3(void) {
 	printf("date(YYYYMMDD): ");
 	scanf_s("%s", strBuffer, 9);
 	data->getDate(strBuffer);
+	printf("\n");
 
 	return data;
 }

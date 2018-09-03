@@ -1,11 +1,11 @@
 #include "Model.h"
 #include "FileProc.h"
+#include "CounterHTTPStatus.h"
 #include <cstdlib>
 #include <cstring>
 #include <stack>
 #include <ctime>
 #include <list>
-#include <utility>
 using namespace std;
 
 Model::Model(const DataConfig &config) : pConfig(&config) {
@@ -21,17 +21,17 @@ void Model::function1(const DataInput *pData) {
 	char buffer[2048];
 	clock_t st, et;
 
-	for (int i = 0; i < pConfig->LOG_FILE_COUNT; i++) // 동일 날짜의 로그 파일 한 개씩 수행
+	for (int i = 0; i < pConfig->LOG_FILE_COUNT; i++) // 같은 날짜의 로그파일 순서대로 조회
 	{
-		
+
 		ifp = getIFP(pData, i + 1); // 입력파일 열기
 		ofp = getOFP(pData, i + 1, 1); // 출력파일 열기
 
 		st = clock();
-		while (fgets(buffer, 2048, ifp)) // 입력파일이 끝날 때까지 로그를 한 줄씩 읽어오기
+		while (fgets(buffer, 2048, ifp)) // 입력파일에서 로그 한 줄 씩 추출
 		{
 			splitBuffer(buffer); // 읽어온 로그를 필드 단위로 분리
-			if (isValidTime(pData) && atof(field[pConfig->INDEX_RESPONSE_TIME-1]) >= pData->delay) // 해당 로그가 유효시간의 로그이고 지연 시간이 기준 시간을 넘은 경우
+			if (isValidTime(pData) && atof(field[pConfig->INDEX_RESPONSE_TIME - 1]) >= pData->delay) // 해당 로그가 유효시간의 로그이고 지연 시간이 기준 시간을 넘은 경우
 			{
 				fprintf(ofp, "%s", record); // 출력파일에 쓰기
 			}
@@ -44,28 +44,36 @@ void Model::function1(const DataInput *pData) {
 	}
 }
 
-void Model ::function3(const DataInput *pData) {
+void Model::function3(const DataInput *pData) {
 	FILE *ifp = NULL, *ofp = NULL;
-	list<pair<int, int>> listCounterStatus; // first: 횟수, second: 상태
-	list<pair<int, int>>::iterator iterList;
+	list<CounterHTTPStatus *> listCounterStatus;
+	list<CounterHTTPStatus *>::iterator iterList;
 	char buffer[2048];
 	int isCounted = 0;
+	int curHour;
 	clock_t st, et;
 
-	for (int i = 0; i < pConfig->LOG_FILE_COUNT; i++) {
+	ofp = getOFP(pData, 0, 3);
+	for (int i = 0; i < pConfig->LOG_FILE_COUNT; i++) // 같은 날짜의 로그파일 순서대로 조회
+	{
 		st = clock();
 		ifp = getIFP(pData, i + 1);
-		while (fgets(buffer, 2048, ifp)) {
+		while (fgets(buffer, 2048, ifp)) // 입력파일에서 로그 한 줄 씩 추출
+		{
 			splitBuffer(buffer);
-			for (iterList = listCounterStatus.begin(); iterList != listCounterStatus.end(); iterList++) {
-				if (iterList->second == atoi(field[pConfig->INDEX_HTTP_STATUS - 1])) {
-					iterList->first++;
+			curHour = getHour();
+			for (iterList = listCounterStatus.begin(); iterList != listCounterStatus.end(); iterList++) // 리스트 순회
+			{
+				if ((*iterList)->getHour() == curHour && (*iterList)->getCode() == atoi(field[pConfig->INDEX_HTTP_STATUS - 1])) // 리스트에 등록된 상태가 있는 경우
+				{
+					(*iterList)->incrCounter();
 					isCounted = 1;
 					break;
 				}
 			}
-			if (!isCounted) {
-				listCounterStatus.push_back(pair<int, int>(1, atoi(field[pConfig->INDEX_HTTP_STATUS - 1])));
+			if (!isCounted) // 리스트에 등록이 아직 안 된 경우
+			{
+				listCounterStatus.push_back(new CounterHTTPStatus(curHour, atoi(field[pConfig->INDEX_HTTP_STATUS - 1])));
 				isCounted = 1;
 			}
 			isCounted = 0;
@@ -74,16 +82,15 @@ void Model ::function3(const DataInput *pData) {
 		FileProc::close(ifp);
 		printf("%d번 째 파일 입력 시간: %f 초\n", i + 1, (float)(et - st) / 1000);
 	}
-
-	st = clock();
-	ofp = getOFP(pData, 0, 3);
+	///////////////////////////// 이 밑에 고쳐야 함
 	listCounterStatus.sort(greater<pair<int, int>>());
+	fprintf(ofp, "%02d o'clock:\n");
 	for (iterList = listCounterStatus.begin(); iterList != listCounterStatus.end(); iterList++) {
-		fprintf(ofp, "%03d: %+8d times\n", iterList->second, iterList->first);
+		fprintf(ofp, "%02d o'clock, %03d code: %+8d times\n", (*iterList)->getHour(), (*iterList)->getCode(), (*iterList)->getCounter());
 	}
-	et = clock();
+	fprintf(ofp, "\n");
+
 	FileProc::close(ofp);
-	printf("파일 출력 시간: %f 초\n", (float)(et - st) / 1000);
 
 }
 
@@ -105,7 +112,7 @@ void Model::splitBuffer(char *buffer) // 매개변수로 입력받은 레코드의 필드를 나�
 		else if (buffer[i] == '[') // 필드 값이 대괄호로 시작하는 경우
 		{
 			stk.push(buffer[i]); // 스택에 대괄호 삽입
-		} 
+		}
 		else if (buffer[i] == ']' && !stk.empty() && stk.top() == '[') // 대괄호가 끝나는 경우 스택에 대괄호가 있으면
 		{
 			stk.pop(); // 스택에서 대괄호 삭제
@@ -128,24 +135,21 @@ int Model::isValidTime(const DataInput *pData) // 현재 객체가 가진 로그의 시간이
 	int hour, minute, second;
 	char tmp[3];
 
-	strncpy_s(tmp, 3, &field[pConfig->INDEX_DATETIME - 1][13], 2); // 필드에서 시 가져오기
-	hour = atoi(tmp); // 시를 정수로 변환
+	hour = getHour(); // 시 정보 받아오기
 	if (hour > pData->hour_start && hour < pData->hour_end) // 시가 유효 시 사이인 경우
 	{
 		return 1; // 1을 반환
 	}
 	else if (hour == pData->hour_start || hour == pData->hour_end) // 시가 경계 값인 경우
 	{
-		strncpy_s(tmp, 3, &field[pConfig->INDEX_DATETIME - 1][16], 2); // 필드에서 분 가져오기
-		minute = atoi(tmp); // 분을 정수로 변환
+		minute = getMinute(); // 분 정보 받아오기
 		if (minute > pData->minute_start && minute < pData->minute_end) // 분이 유효 분 사이인 경우
 		{
 			return 1; // 1을 반환
 		}
 		else if (minute == pData->minute_start || minute == pData->minute_end) // 분이 경계 값인 경우
 		{
-			strncpy_s(tmp, 3, &field[pConfig->INDEX_DATETIME - 1][19], 2); // 필드에서 초 가져오기
-			second = atoi(tmp); // 초를 정수로 변환
+			second = getSecond(); // 초 정보 받아오기
 			if (second >= pData->second_start && second <= pData->second_end) // 초가 유효 초 사이인 경우
 			{
 				return 1; // 1을 반환
@@ -173,4 +177,25 @@ FILE *Model::getOFP(const DataInput *pData, int iAP, int iProc) {
 	ofp = FileProc::open(path, "w"); // 출력파일 열기
 
 	return ofp; // 출력파일포인터 반환
+}
+
+int Model::getHour(void) {
+	char strHour[3];
+
+	strncpy_s(strHour, 3, &field[pConfig->INDEX_DATETIME - 1][13], 2);
+	return atoi(strHour);
+}
+
+int Model::getMinute(void) {
+	char strMinute[3];
+
+	strncpy_s(strMinute, 3, &field[pConfig->INDEX_DATETIME - 1][16], 2);
+	return atoi(strMinute);
+}
+
+int Model::getSecond(void) {
+	char strSecond[3];
+
+	strncpy_s(strSecond, 3, &field[pConfig->INDEX_DATETIME - 1][19], 2);
+	return atoi(strSecond);
 }

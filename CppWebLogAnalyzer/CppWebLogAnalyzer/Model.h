@@ -23,6 +23,9 @@ private:
 	int isValidTime(const DataInput *pData);
 	FILE *getIFP(const DataInput *pData, int iAP);
 	FILE *getOFP(const DataInput *pData, int iAP, int iProc);
+	int getHour(void);
+	int getMinute(void);
+	int getSecond(void);
 };
 
 #endif

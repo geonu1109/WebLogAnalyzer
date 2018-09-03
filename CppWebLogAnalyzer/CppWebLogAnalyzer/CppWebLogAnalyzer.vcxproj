@@ -119,6 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CounterHTTPStatus.cpp" />
     <ClCompile Include="DataConfig.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="FileProc.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CounterHTTPStatus.h" />
     <ClInclude Include="DataConfig.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="FileProc.h" />
