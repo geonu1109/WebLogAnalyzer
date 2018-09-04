@@ -1,6 +1,6 @@
-LOG_FILE_DIR C:\Users\user\Desktop\logdata
-LOG_FILE_COUNT 3
-INDEX_RESPONSE_TIME 14
-INDEX_DATETIME 5
-INDEX_HTTP_STATUS 9
-FIELD_COUNT 14
+PathLogFileDir C:\Users\user\Desktop\logdata
+NumberOfLogFile 3
+NumberOfField 14
+IndexResponseTime 14
+IndexDateTime 5
+IndexHttpStatus 9

@@ -1,13 +1,14 @@
 #include "View.h"
-#include <cstdio>
-#include <cstdlib>
+#include <iostream>
+#include <string>
+using namespace std;
 #define WINDOWS
 
 View::View() {}
 
 View::~View() {}
 
-int View::showMenu(void) {
+const int View::showMenu(void) const {
 	int select;
 
 	printf("Web Log Analyzer\n\n");
@@ -19,53 +20,59 @@ int View::showMenu(void) {
 	printf("\nSelect: ");
 	scanf("%d", &select);
 	printf("\n");
-	
+
 	return select;
 }
 
-DataInput *View::function1(void) {
-	DataInput *data = new DataInput();
-	char strBuffer[9];
-	int nDelay;
+const DataInput View::showMenu1(void) const {
+	DataInput dataInput;
+	string strBuffer;
+	int nDelayLimit;
 
 #ifdef WINDOWS
 	system("cls");
 #else
 	system("clear");
 #endif
-	printf("Filter Delayed API\n\n");
-	printf("date(YYYYMMDD): ");
-	scanf_s("%s", strBuffer, 9);
-	data->getDate(strBuffer);
-	printf("start time(HHMMSS): ");
-	scanf_s("%s", strBuffer, 7);
-	data->getTimeStart(strBuffer);
-	printf("end time(HHMMSS): ");
-	scanf_s("%s", strBuffer, 7);
-	data->getTimeEnd(strBuffer);
-	printf("delay time: ");
-	scanf_s("%d", &nDelay, 4);
-	data->getDelay(nDelay);
-	printf("\n");
+	cout << "Filter Delayed API" << endl << endl;
 
-	return data;
+	cout << "date(YYYYMMDD): ";
+	cin >> strBuffer;
+	dataInput.setDate(strBuffer);
+
+	cout << "start time(HHMMSS): ";
+	cin >> strBuffer;
+	dataInput.setTimeStart(strBuffer);
+
+	cout << "end time(HHMMSS): ";
+	cin >> strBuffer;
+	dataInput.setTimeEnd(strBuffer);
+
+	cout << "delay limit(second): ";
+	cin >> nDelayLimit;
+	dataInput.setDelayLimit(nDelayLimit);
+
+	cout << endl;
+
+	return dataInput;
 }
 
-DataInput *View::function3(void) {
-	DataInput *data = new DataInput();
-	char strBuffer[9];
+const DataInput View::showMenu3(void) const {
+	DataInput dataInput;
+	string strBuffer;
 
 #ifdef WINDOWS
 	system("cls");
 #else
 	system("clear");
 #endif
-	printf("Filter Delayed API\n\n");
-	printf("Count HTTP status\n\n");
-	printf("date(YYYYMMDD): ");
-	scanf_s("%s", strBuffer, 9);
-	data->getDate(strBuffer);
-	printf("\n");
+	cout << "Count HTTP status" << endl << endl;
 
-	return data;
+	cout << "date(YYYYMMDD): ";
+	cin >> strBuffer;
+	dataInput.setDate(strBuffer);
+	
+	cout << endl;
+
+	return dataInput;
 }

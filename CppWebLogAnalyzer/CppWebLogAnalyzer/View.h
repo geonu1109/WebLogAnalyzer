@@ -1,15 +1,15 @@
 #ifndef __VIEW_H__
 #define __VIEW_H__
 
-#include "DataInput.h"
+#include "Data/DataInput.h"
 
 class View {
 public:
 	View();
 	~View();
-	static int showMenu(void);
-	static DataInput *function1(void);
-	static DataInput *function3(void);
+	const int showMenu(void) const;
+	const DataInput showMenu1(void) const;
+	const DataInput showMenu3(void) const;
 };
 
 #endif
