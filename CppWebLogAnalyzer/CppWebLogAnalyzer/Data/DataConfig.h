@@ -16,10 +16,10 @@ private:
 public:
 	DataConfig(void);
 	~DataConfig(void);
-	const string &getPathLogFileDir(void) const;
-	const int &getNumberOfLogFile(void) const;
-	const int &getNumberOfField(void) const;
-	const int &getIndexResponseTime(void) const;
+	const string getPathLogFileDir(void) const;
+	const int getNumberOfLogFile(void) const;
+	const int getNumberOfField(void) const;
+	const int getIndexResponseTime(void) const;
 
 private:
 	void load(const string &strFilePath);

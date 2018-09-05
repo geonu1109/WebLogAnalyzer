@@ -11,19 +11,19 @@ DataConfig::DataConfig(void) {
 DataConfig::~DataConfig() {
 }
 
-const string &DataConfig::getPathLogFileDir(void) const {
+const string DataConfig::getPathLogFileDir(void) const {
 	return PathLogFileDir;
 }
 
-const int &DataConfig::getNumberOfLogFile(void) const {
+const int DataConfig::getNumberOfLogFile(void) const {
 	return NumberOfLogFile;
 }
 
-const int &DataConfig::getNumberOfField(void) const {
+const int DataConfig::getNumberOfField(void) const {
 	return NumberOfField;
 }
 
-const int &DataConfig::getIndexResponseTime(void) const {
+const int DataConfig::getIndexResponseTime(void) const {
 	return IndexResponseTime;
 }
 

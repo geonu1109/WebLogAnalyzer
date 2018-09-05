@@ -18,13 +18,13 @@ private:
 public:
 	DataLog(const DataConfig &dataConfig, const DataInput &dataInput, const int &iFile);
 	~DataLog(void);
-	const string &nextRecord(void);
-	const string &getRecord(void) const;
-	const float &getResponseTime(void) const;
+	const string nextRecord(void);
+	const string getRecord(void) const;
+	const float getResponseTime(void) const;
 
 private:
 	void setField(void);
-	string getInFilePath(const int &iFile);
+	const string getInFilePath(const int &iFile);
 };
 
 #endif

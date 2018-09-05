@@ -29,42 +29,42 @@ void DataInput::setDelayLimit(const int &nDelayLimit) {
 	m_nDelayLimit = nDelayLimit;
 }
 
-const int &DataInput::getYear(void) const {
+const int DataInput::getYear(void) const {
 	return m_nYear;
 }
 
-const int & DataInput::getMonth(void) const {
+const int DataInput::getMonth(void) const {
 	return m_nMonth;
 }
 
-const int & DataInput::getDay(void) const {
+const int DataInput::getDay(void) const {
 	return m_nDay;
 }
 
-const int & DataInput::getHourStart(void) const {
+const int DataInput::getHourStart(void) const {
 	return m_nHourStart;
 }
 
-const int & DataInput::getMinuteStart(void) const {
+const int DataInput::getMinuteStart(void) const {
 	return m_nMinuteStart;
 }
 
-const int & DataInput::getSecondStart(void) const {
+const int DataInput::getSecondStart(void) const {
 	return m_nSecondStart;
 }
 
-const int & DataInput::getHourEnd(void) const {
+const int DataInput::getHourEnd(void) const {
 	return m_nHourEnd;
 }
 
-const int & DataInput::getMinuteEnd(void) const {
+const int DataInput::getMinuteEnd(void) const {
 	return m_nMinuteEnd;
 }
 
-const int & DataInput::getSecondEnd(void) const {
+const int DataInput::getSecondEnd(void) const {
 	return m_nSecondEnd;
 }
 
-const int & DataInput::getDelayLimit(void) const {
+const int DataInput::getDelayLimit(void) const {
 	return m_nDelayLimit;
 }
