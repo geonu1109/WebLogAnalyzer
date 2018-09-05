@@ -27,6 +27,14 @@ const int DataConfig::getIndexResponseTime(void) const {
 	return IndexResponseTime;
 }
 
+const int DataConfig::getIndexDateTime(void) const {
+	return IndexDateTime;
+}
+
+const int DataConfig::getIndexHttpStatus(void) const {
+	return IndexHttpStatus;
+}
+
 void DataConfig::load(const string &strFilePath) {
 	ifstream ifConfig(strFilePath);
 	string strBuffer, strToken;

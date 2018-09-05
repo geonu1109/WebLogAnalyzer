@@ -20,6 +20,8 @@ public:
 	const int getNumberOfLogFile(void) const;
 	const int getNumberOfField(void) const;
 	const int getIndexResponseTime(void) const;
+	const int getIndexDateTime(void) const;
+	const int getIndexHttpStatus(void) const;
 
 private:
 	void load(const string &strFilePath);

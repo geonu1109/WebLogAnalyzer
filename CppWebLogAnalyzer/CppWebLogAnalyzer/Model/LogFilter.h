@@ -16,7 +16,8 @@ public:
 	void filterDelayedApi(const DataInput &dataInput);
 	
 private:
-	string getOutFilePath(const DataInput &dataInput, const int &iProc, const int &iFile);
+	const string getInFilePath(const tm &tmDate, const int &iFile);
+	const string getOutFilePath(const tm &tmDate, const int &iProc, const int &iFile);
 };
 
 #endif

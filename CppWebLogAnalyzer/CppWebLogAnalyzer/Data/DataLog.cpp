@@ -2,10 +2,15 @@
 #include <iostream>
 #include <stack>
 
-DataLog::DataLog(const DataConfig &dataConfig, const DataInput &dataInput, const int &iFile) : m_dataConfig(dataConfig), m_dataInput(dataInput) {
-	m_ifLog.open(getInFilePath(iFile));
+DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath) : m_dataConfig(dataConfig), m_ifLog(strFilePath) {
 	if (m_ifLog.fail()) {
-		cout << "log파일 열기 실패" << endl;
+		cout << endl;
+		cout << "[method] DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath)" << endl;
+		cout << "[fatal error] fail to open log file" << endl;
+		cout << "[file path] " << strFilePath << endl;
+		cout << endl;
+		system("pause");
+		exit(0);
 	}
 	m_arrField = new string[m_dataConfig.getNumberOfField()];
 }
@@ -32,6 +37,25 @@ const string DataLog::getRecord(void) const {
 
 const float DataLog::getResponseTime(void) const {
 	return stof(m_arrField[m_dataConfig.getIndexResponseTime() - 1]);
+}
+
+const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const {
+	tm tmTimeCur;
+	tmTimeCur.tm_hour = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
+	tmTimeCur.tm_min = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(16, 2));
+	tmTimeCur.tm_sec = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(19, 2));
+
+	if (getSecond(tmTimeStart) > getSecond(tmTimeEnd)) {
+		cout << endl;
+		cout << "[method] const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const" << endl;
+		cout << "[fatal error] invalid time" << endl;
+		cout << endl;
+		system("pause");
+		exit(0);
+	}
+
+	if (getSecond(tmTimeStart) <= getSecond(tmTimeCur) && getSecond(tmTimeCur) <= getSecond(tmTimeEnd)) return true;
+	else return false;
 }
 
 void DataLog::setField(void) {
@@ -119,9 +143,6 @@ void DataLog::setField(void) {
 	}
 }
 
-const string DataLog::getInFilePath(const int &iFile) {
-	char strFilePath[512];
-
-	sprintf(strFilePath, "%s\\%04d%02d%02d\\ap%d.%s_%04d-%02d-%02d.txt", m_dataConfig.getPathLogFileDir().c_str(), m_dataInput.getYear(), m_dataInput.getMonth(), m_dataInput.getDay(), iFile, "daouoffice.com_access", m_dataInput.getYear(), m_dataInput.getMonth(), m_dataInput.getDay()); // 입력파일 이름 지정
-	return string(strFilePath);
+int DataLog::getSecond(const tm &tmTime) const {
+	return tmTime.tm_hour * 3600 + tmTime.tm_min * 60 + tmTime.tm_sec;
 }

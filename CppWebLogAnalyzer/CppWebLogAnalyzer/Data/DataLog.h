@@ -3,6 +3,7 @@
 
 #include <string>
 #include <fstream>
+#include <ctime>
 #include "DataConfig.h"
 #include "DataInput.h"
 using namespace std;
@@ -12,19 +13,19 @@ private:
 	ifstream m_ifLog; // 입력받을 로그파일
 	string m_strRecord; // 현재 로그의 레코드
 	string *m_arrField; // 현재 로그의 필드목록
-	const DataConfig &m_dataConfig; // 설정파일에서 읽어온 설정
-	const DataInput &m_dataInput;
+	const DataConfig &m_dataConfig; // 설정파일에서 받아온 정보
 
 public:
-	DataLog(const DataConfig &dataConfig, const DataInput &dataInput, const int &iFile);
+	DataLog(const DataConfig &dataConfig, const string &strFilePath);
 	~DataLog(void);
 	const string nextRecord(void);
 	const string getRecord(void) const;
 	const float getResponseTime(void) const;
+	const bool isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const;
 
 private:
 	void setField(void);
-	const string getInFilePath(const int &iFile);
+	int getSecond(const tm &tmTime) const;
 };
 
 #endif
