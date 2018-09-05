@@ -26,10 +26,12 @@ public:
 	const bool isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const;
 	const int getHour(void) const;
 	const int getHttpStatusCode(void) const;
+	const string getHttpRequestMethod(void) const;
+	const string getApi(void) const;
 
 private:
 	void setField(void);
-	int getSecond(const tm &tmTime) const;
+	int calTotalTime(const tm &tmTime) const;
 };
 
 #endif

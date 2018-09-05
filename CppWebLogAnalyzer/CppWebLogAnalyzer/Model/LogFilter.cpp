@@ -3,6 +3,7 @@
 #include <fstream>
 #include <ctime>
 #include <list>
+#include <utility>
 
 LogFilter::LogFilter(const DataConfig &dataConfig) : m_dataConfig(dataConfig) {
 }
@@ -45,8 +46,69 @@ void LogFilter::filterDelayedApi(const DataInput &dataInput) {
 	}
 }
 
-void sortDynamicApi(const DataInput &dataInput) {
+void LogFilter::sortDynamicApi(const DataInput &dataInput) {
+	ofstream ofResult(getOutFilePath(dataInput.getDate(), 2, 0));
+	list<pair<string, int>> listApiCounter;
+	list<pair<string, int>>::iterator iterApiCounter;
+	bool isInserted = false;
+	clock_t st, et;
 
+	if (ofResult.fail()) {
+		cout << endl;
+		cout << "[method] void LogFilter::sortDynamicApi(const DataInput &dataInput)" << endl;
+		cout << "[fatal error] fail to open result file" << endl;
+		cout << "[file path] " << getOutFilePath(dataInput.getDate(), 2, 0) << endl;
+		cout << endl;
+		system("pause");
+		exit(0);
+	}
+
+	for (int iFile = 0; iFile < m_dataConfig.getNumberOfLogFile(); iFile++) // 파일 조회
+	{
+		DataLog dataLog(m_dataConfig, getInFilePath(dataInput.getDate(), iFile + 1));
+		
+		st = clock();
+
+		while (!dataLog.nextRecord().empty()) // 파일 내 레코드 조회
+		{
+			if (dataLog.getHttpRequestMethod() == dataInput.getHttpRequestMethod() && dataLog.getHttpStatusCode() == dataInput.getHttpStatusCode()) {
+				isInserted = false;
+				for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) // 리스트 조회
+				{
+					if (iterApiCounter->first == dataLog.getApi()) {
+						iterApiCounter->second++;
+						isInserted = true;
+					}
+				}
+				if (!isInserted) {
+					listApiCounter.push_back(pair<string, int>(dataLog.getApi(), 1));
+				}
+			}
+		}
+
+		et = clock();
+		cout << endl;
+		cout << "[system] File " << iFile + 1 << " complete: " << (float)(et - st) / 1000 << " seconds" << endl;
+		cout << endl;
+	}
+
+	ofResult << dataInput.getTimeStart().tm_hour << dataInput.getTimeStart().tm_min << dataInput.getTimeStart().tm_mday << " - ";
+	ofResult << dataInput.getTimeEnd().tm_hour << dataInput.getTimeEnd().tm_min << dataInput.getTimeEnd().tm_mday << endl;
+	ofResult << "HTTP Status Code: " << dataInput.getHttpStatusCode() << endl;
+	ofResult << "HTTP Request Method: " << dataInput.getHttpRequestMethod() << endl << endl;
+
+	st = clock();
+
+	for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) {
+		ofResult << iterApiCounter->first << ": " << iterApiCounter->second << endl;
+	}
+	
+	et = clock();
+	cout << endl;
+	cout << "[system] File output complete: " << (float)(et - st) / 1000 << " seconds" << endl;
+	cout << endl;
+
+	ofResult.close();
 }
 
 void LogFilter::countHttpStatusCode(const DataInput &dataInput) {

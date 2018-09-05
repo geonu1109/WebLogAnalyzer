@@ -52,3 +52,11 @@ const tm DataInput::getTimeEnd(void) const {
 const int DataInput::getDelayLimit(void) const {
 	return m_nDelayLimit;
 }
+
+const int DataInput::getHttpStatusCode(void) const {
+	return m_nHttpStatusCode;
+}
+
+const string DataInput::getHttpRequestMethod(void) const {
+	return m_strHttpRequestMethod;
+}

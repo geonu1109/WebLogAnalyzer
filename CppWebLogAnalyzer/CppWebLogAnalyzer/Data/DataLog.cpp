@@ -50,7 +50,7 @@ const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) cons
 	tmTimeCur.tm_min = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(16, 2));
 	tmTimeCur.tm_sec = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(19, 2));
 
-	if (getSecond(tmTimeStart) > getSecond(tmTimeEnd)) {
+	if (calTotalTime(tmTimeStart) > calTotalTime(tmTimeEnd)) {
 		cout << endl;
 		cout << "[method] const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const" << endl;
 		cout << "[fatal error] invalid time" << endl;
@@ -59,7 +59,7 @@ const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) cons
 		exit(0);
 	}
 
-	if (getSecond(tmTimeStart) <= getSecond(tmTimeCur) && getSecond(tmTimeCur) <= getSecond(tmTimeEnd))
+	if (calTotalTime(tmTimeStart) <= calTotalTime(tmTimeCur) && calTotalTime(tmTimeCur) <= calTotalTime(tmTimeEnd))
 		return true;
 	else
 		return false;
@@ -70,7 +70,15 @@ const int DataLog::getHour(void) const {
 }
 
 const int DataLog::getHttpStatusCode(void) const {
-	return stoi(m_arrField[m_dataConfig.getIndexHttpStatus() - 1]);
+	return stoi(m_arrField[m_dataConfig.getIndexHttpStatusCode() - 1]);
+}
+
+const string DataLog::getHttpRequestMethod(void) const {
+	return m_arrField[m_dataConfig.getIndexHttpRequestMethod() - 1];
+}
+
+const string DataLog::getApi(void) const {
+	return m_arrField[m_dataConfig.getIndexApi() - 1];
 }
 
 void DataLog::setField(void) {
@@ -158,6 +166,6 @@ void DataLog::setField(void) {
 	}
 }
 
-int DataLog::getSecond(const tm &tmTime) const {
+int DataLog::calTotalTime(const tm &tmTime) const {
 	return ((tmTime.tm_hour * 3600) + (tmTime.tm_min * 60) + tmTime.tm_sec);
 }

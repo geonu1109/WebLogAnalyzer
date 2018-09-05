@@ -11,7 +11,9 @@ private:
 	int NumberOfField;
 	int IndexResponseTime;
 	int IndexDateTime;
-	int IndexHttpStatus;
+	int IndexHttpStatusCode;
+	int IndexApi;
+	int IndexHttpRequestMethod;
 
 public:
 	DataConfig(void);
@@ -21,7 +23,9 @@ public:
 	const int getNumberOfField(void) const;
 	const int getIndexResponseTime(void) const;
 	const int getIndexDateTime(void) const;
-	const int getIndexHttpStatus(void) const;
+	const int getIndexHttpStatusCode(void) const;
+	const int getIndexApi(void) const;
+	const int getIndexHttpRequestMethod(void) const;
 
 private:
 	void load(const string &strFilePath);

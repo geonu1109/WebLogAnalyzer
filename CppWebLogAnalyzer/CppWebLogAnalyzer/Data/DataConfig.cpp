@@ -31,8 +31,16 @@ const int DataConfig::getIndexDateTime(void) const {
 	return IndexDateTime;
 }
 
-const int DataConfig::getIndexHttpStatus(void) const {
-	return IndexHttpStatus;
+const int DataConfig::getIndexHttpStatusCode(void) const {
+	return IndexHttpStatusCode;
+}
+
+const int DataConfig::getIndexApi(void) const {
+	return IndexApi;
+}
+
+const int DataConfig::getIndexHttpRequestMethod(void) const {
+	return IndexHttpRequestMethod;
 }
 
 void DataConfig::load(const string &strFilePath) {
@@ -68,9 +76,17 @@ void DataConfig::load(const string &strFilePath) {
 			ssBuffer >> strToken;
 			IndexDateTime = stoi(strToken);
 		} // 날짜 및 시간 필드의 위치
-		else if (strToken == "IndexHttpStatus") {
+		else if (strToken == "IndexHttpStatusCode") {
 			ssBuffer >> strToken;
-			IndexHttpStatus = stoi(strToken);
+			IndexHttpStatusCode = stoi(strToken);
 		} // HTTP 상태 코드 필드의 위치
+		else if (strToken == "IndexApi") {
+			ssBuffer >> strToken;
+			IndexApi = stoi(strToken);
+		} // Api 필드의 위치
+		else if (strToken == "IndexHttpRequestMethod") {
+			ssBuffer >> strToken;
+			IndexHttpRequestMethod = stoi(strToken);
+		} // HTTP 요청 방식 필드의 위치
 	}
 }

@@ -27,6 +27,8 @@ public:
 	const tm getTimeStart(void) const;
 	const tm getTimeEnd(void) const;
 	const int getDelayLimit(void) const;
+	const int getHttpStatusCode(void) const;
+	const string getHttpRequestMethod(void) const;
 };
 
 #endif

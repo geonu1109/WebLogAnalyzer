@@ -3,4 +3,6 @@ NumberOfLogFile 3
 NumberOfField 14
 IndexResponseTime 14
 IndexDateTime 5
-IndexHttpStatus 9
+IndexHttpStatusCode 9
+IndexApi 7
+IndexHttpRequestMethod 6
