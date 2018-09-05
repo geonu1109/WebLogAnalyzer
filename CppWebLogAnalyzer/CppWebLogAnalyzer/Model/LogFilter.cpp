@@ -5,6 +5,11 @@
 #include <list>
 #include <utility>
 
+const bool desc(pair<string, int> &first, pair<string, int> &second) {
+	if (first.second > second.second) return true;
+	else return false;
+}
+
 LogFilter::LogFilter(const DataConfig &dataConfig) : m_dataConfig(dataConfig) {
 }
 
@@ -32,7 +37,8 @@ void LogFilter::filterDelayedApi(const DataInput &dataInput) {
 		}
 		while (!dataLog.nextRecord().empty()) // 로그 파일에서 레코드 한줄 씩 가져오기
 		{
-			if (dataLog.isValidTime(dataInput.getTimeStart(), dataInput.getTimeEnd())) {
+			if (!dataLog.isValidTime(dataInput.getTimeEnd())) break; // 읽어온 로그의 기록 시간이 끝 시간을 넘으면 해당 파일에서 레코드 읽어오기 종료
+			else if (dataLog.isValidTime(dataInput.getTimeStart(), dataInput.getTimeEnd())) {
 				if (dataLog.getResponseTime() >= dataInput.getDelayLimit()) {
 					ofResult << dataLog.getRecord() << endl;
 				}
@@ -50,6 +56,7 @@ void LogFilter::sortDynamicApi(const DataInput &dataInput) {
 	ofstream ofResult(getOutFilePath(dataInput.getDate(), 2, 0));
 	list<pair<string, int>> listApiCounter;
 	list<pair<string, int>>::iterator iterApiCounter;
+	string strApiGroup;
 	bool isInserted = false;
 	clock_t st, et;
 
@@ -66,22 +73,25 @@ void LogFilter::sortDynamicApi(const DataInput &dataInput) {
 	for (int iFile = 0; iFile < m_dataConfig.getNumberOfLogFile(); iFile++) // 파일 조회
 	{
 		DataLog dataLog(m_dataConfig, getInFilePath(dataInput.getDate(), iFile + 1));
-		
+
 		st = clock();
 
 		while (!dataLog.nextRecord().empty()) // 파일 내 레코드 조회
 		{
-			if (dataLog.getHttpRequestMethod() == dataInput.getHttpRequestMethod() && dataLog.getHttpStatusCode() == dataInput.getHttpStatusCode()) {
+			if (!dataLog.isValidTime(dataInput.getTimeEnd())) break; // 읽어온 로그의 기록 시간이 끝 시간을 넘으면 해당 파일에서 레코드 읽어오기 종료
+			else if (dataLog.isApi() && dataLog.isValidTime(dataInput.getTimeStart(), dataInput.getTimeEnd()) && dataLog.getHttpRequestMethod() == dataInput.getHttpRequestMethod() && dataLog.getHttpStatusCode() == dataInput.getHttpStatusCode()) {
 				isInserted = false;
+				strApiGroup = dataLog.getApiGroup();
 				for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) // 리스트 조회
 				{
-					if (iterApiCounter->first == dataLog.getApi()) {
+					if (iterApiCounter->first == strApiGroup) {
 						iterApiCounter->second++;
 						isInserted = true;
+						break;
 					}
 				}
 				if (!isInserted) {
-					listApiCounter.push_back(pair<string, int>(dataLog.getApi(), 1));
+					listApiCounter.push_back(pair<string, int>(strApiGroup, 1));
 				}
 			}
 		}
@@ -92,17 +102,19 @@ void LogFilter::sortDynamicApi(const DataInput &dataInput) {
 		cout << endl;
 	}
 
-	ofResult << dataInput.getTimeStart().tm_hour << dataInput.getTimeStart().tm_min << dataInput.getTimeStart().tm_mday << " - ";
-	ofResult << dataInput.getTimeEnd().tm_hour << dataInput.getTimeEnd().tm_min << dataInput.getTimeEnd().tm_mday << endl;
+	st = clock();
+
+	listApiCounter.sort(desc);
+
+	ofResult << dataInput.getTimeStart().tm_hour << ":" << dataInput.getTimeStart().tm_min << ":" << dataInput.getTimeStart().tm_sec << " - ";
+	ofResult << dataInput.getTimeEnd().tm_hour << ":" << dataInput.getTimeEnd().tm_min << ":" << dataInput.getTimeEnd().tm_sec << endl;
 	ofResult << "HTTP Status Code: " << dataInput.getHttpStatusCode() << endl;
 	ofResult << "HTTP Request Method: " << dataInput.getHttpRequestMethod() << endl << endl;
-
-	st = clock();
 
 	for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) {
 		ofResult << iterApiCounter->first << ": " << iterApiCounter->second << endl;
 	}
-	
+
 	et = clock();
 	cout << endl;
 	cout << "[system] File output complete: " << (float)(et - st) / 1000 << " seconds" << endl;
@@ -147,7 +159,7 @@ void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
 	}
 
 	st = clock();
-	
+
 	for (int i = 0; i < 24; i++) {
 		arrlistHourlyStatus[i].sort();
 		ofResult << i << " o'clock" << endl;
@@ -156,7 +168,7 @@ void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
 		}
 		ofResult << endl;
 	}
-	
+
 	et = clock();
 	cout << endl;
 	cout << "[system] File output complete: " << (float)(et - st) / 1000 << " seconds" << endl;

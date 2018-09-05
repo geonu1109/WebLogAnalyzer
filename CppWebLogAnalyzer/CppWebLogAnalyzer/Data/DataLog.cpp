@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stack>
 
-DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath) : m_dataConfig(dataConfig), m_ifLog(strFilePath), m_nLine(1){
+DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath) : m_dataConfig(dataConfig), m_ifLog(strFilePath), m_nLine(1) {
 	if (m_ifLog.fail()) {
 		cout << endl;
 		cout << "[method] DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath)" << endl;
@@ -44,6 +44,18 @@ const float DataLog::getResponseTime(void) const {
 	return stof(m_arrField[m_dataConfig.getIndexResponseTime() - 1]);
 }
 
+const bool DataLog::isValidTime(const tm &tmTimeEnd) const {
+	tm tmTimeCur;
+	tmTimeCur.tm_hour = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
+	tmTimeCur.tm_min = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(16, 2));
+	tmTimeCur.tm_sec = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(19, 2));
+
+	if (calTotalTime(tmTimeCur) <= calTotalTime(tmTimeEnd) + 600)
+		return true;
+	else
+		return false;
+}
+
 const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const {
 	tm tmTimeCur;
 	tmTimeCur.tm_hour = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
@@ -65,6 +77,15 @@ const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) cons
 		return false;
 }
 
+const bool DataLog::isApi(void) const {
+	if (m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, 4) == "/api") {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 const int DataLog::getHour(void) const {
 	return stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
 }
@@ -78,6 +99,17 @@ const string DataLog::getHttpRequestMethod(void) const {
 }
 
 const string DataLog::getApi(void) const {
+	return m_arrField[m_dataConfig.getIndexApi() - 1];
+}
+
+const string DataLog::getApiGroup(void) const {
+	const int nApiLen = m_arrField[m_dataConfig.getIndexApi() - 1].length();
+
+	for (int iApiChar = 5; iApiChar < nApiLen; iApiChar++) {
+		if (m_arrField[m_dataConfig.getIndexApi() - 1].at(iApiChar) == '/' || m_arrField[m_dataConfig.getIndexApi() - 1].at(iApiChar) == '?') {
+			return m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, iApiChar);
+		}
+	}
 	return m_arrField[m_dataConfig.getIndexApi() - 1];
 }
 

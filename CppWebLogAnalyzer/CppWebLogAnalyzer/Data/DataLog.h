@@ -23,11 +23,14 @@ public:
 	const int getLine(void) const;
 	const string getRecord(void) const;
 	const float getResponseTime(void) const;
+	const bool isValidTime(const tm &tmTimeEnd) const;
 	const bool isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const;
+	const bool isApi(void) const;
 	const int getHour(void) const;
 	const int getHttpStatusCode(void) const;
 	const string getHttpRequestMethod(void) const;
 	const string getApi(void) const;
+	const string getApiGroup(void) const;
 
 private:
 	void setField(void);

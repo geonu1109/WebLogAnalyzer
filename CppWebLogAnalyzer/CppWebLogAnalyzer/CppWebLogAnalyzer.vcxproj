@@ -96,7 +96,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
     </ClCompile>
     <Link>
