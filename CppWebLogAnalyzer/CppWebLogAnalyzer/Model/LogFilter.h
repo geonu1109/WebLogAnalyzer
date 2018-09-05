@@ -14,6 +14,7 @@ public:
 	LogFilter(const DataConfig &dataConfig);
 	~LogFilter();
 	void filterDelayedApi(const DataInput &dataInput);
+	void countHttpStatusCode(const DataInput &dataInput);
 	
 private:
 	const string getInFilePath(const tm &tmDate, const int &iFile);

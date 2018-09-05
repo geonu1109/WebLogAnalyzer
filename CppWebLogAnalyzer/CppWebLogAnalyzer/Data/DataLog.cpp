@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stack>
 
-DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath) : m_dataConfig(dataConfig), m_ifLog(strFilePath) {
+DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath) : m_dataConfig(dataConfig), m_ifLog(strFilePath), m_nLine(1){
 	if (m_ifLog.fail()) {
 		cout << endl;
 		cout << "[method] DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath)" << endl;
@@ -21,6 +21,7 @@ DataLog::~DataLog(void) {
 
 const string DataLog::nextRecord(void) {
 	if (!m_ifLog.eof()) {
+		m_nLine++;
 		getline(m_ifLog, m_strRecord);
 		setField();
 
@@ -29,6 +30,10 @@ const string DataLog::nextRecord(void) {
 	else {
 		return string();
 	}
+}
+
+const int DataLog::getLine(void) const {
+	return m_nLine;
 }
 
 const string DataLog::getRecord(void) const {
@@ -54,8 +59,18 @@ const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) cons
 		exit(0);
 	}
 
-	if (getSecond(tmTimeStart) <= getSecond(tmTimeCur) && getSecond(tmTimeCur) <= getSecond(tmTimeEnd)) return true;
-	else return false;
+	if (getSecond(tmTimeStart) <= getSecond(tmTimeCur) && getSecond(tmTimeCur) <= getSecond(tmTimeEnd))
+		return true;
+	else
+		return false;
+}
+
+const int DataLog::getHour(void) const {
+	return stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
+}
+
+const int DataLog::getHttpStatusCode(void) const {
+	return stoi(m_arrField[m_dataConfig.getIndexHttpStatus() - 1]);
 }
 
 void DataLog::setField(void) {
@@ -144,5 +159,5 @@ void DataLog::setField(void) {
 }
 
 int DataLog::getSecond(const tm &tmTime) const {
-	return tmTime.tm_hour * 3600 + tmTime.tm_min * 60 + tmTime.tm_sec;
+	return ((tmTime.tm_hour * 3600) + (tmTime.tm_min * 60) + tmTime.tm_sec);
 }
