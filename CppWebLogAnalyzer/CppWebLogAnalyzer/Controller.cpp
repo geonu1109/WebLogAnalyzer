@@ -15,12 +15,10 @@ Controller::Controller() {
 
 	switch (view.showMenu()) {
 	case 1:
-		st = clock();
 		logFilter.filterDelayedApi(view.showMenu1());
-		et = clock();
-		cout << "걸린 시간: " << (float)(et - st) / 1000 << endl;
 		break;
 	case 2:
+		logFilter.sortDynamicApi(view.showMenu2());
 		break;
 	case 3:
 		logFilter.countHttpStatusCode(view.showMenu3());

@@ -14,6 +14,7 @@ public:
 	LogFilter(const DataConfig &dataConfig);
 	~LogFilter();
 	void filterDelayedApi(const DataInput &dataInput);
+	void sortDynamicApi(const DataInput &dataInput);
 	void countHttpStatusCode(const DataInput &dataInput);
 	
 private:

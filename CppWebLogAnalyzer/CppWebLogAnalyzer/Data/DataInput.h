@@ -11,6 +11,8 @@ private:
 	tm m_tmTimeStart;
 	tm m_tmTimeEnd;
 	int m_nDelayLimit;
+	int m_nHttpStatusCode;
+	string m_strHttpRequestMethod;
 
 public:
 	DataInput();
@@ -19,6 +21,8 @@ public:
 	void setTimeStart(const string &strTime);
 	void setTimeEnd(const string &strTime);
 	void setDelayLimit(const int &nDelayLimit);
+	void setHttpStatusCode(const int &nHttpStatusCode);
+	void setHttpRequestMethod(const string &strHttpRequestMethod);
 	const tm getDate(void) const;
 	const tm getTimeStart(void) const;
 	const tm getTimeEnd(void) const;

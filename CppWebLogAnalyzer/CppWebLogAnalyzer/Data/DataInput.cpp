@@ -29,6 +29,14 @@ void DataInput::setDelayLimit(const int &nDelayLimit) {
 	m_nDelayLimit = nDelayLimit;
 }
 
+void DataInput::setHttpStatusCode(const int &nHttpStatusCode) {
+	m_nHttpStatusCode = nHttpStatusCode;
+}
+
+void DataInput::setHttpRequestMethod(const string &strHttpRequestMethod) {
+	m_strHttpRequestMethod = strHttpRequestMethod;
+}
+
 const tm DataInput::getDate(void) const {
 	return m_tmDate;
 }

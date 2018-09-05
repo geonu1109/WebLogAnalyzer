@@ -57,6 +57,36 @@ const DataInput View::showMenu1(void) const {
 	return dataInput;
 }
 
+const DataInput View::showMenu2(void) const {
+	DataInput dataInput;
+	string strBuffer;
+	int nBuffer;
+
+	cout << "Sort dynamic API" << endl << endl;
+
+	cout << "date(YYYYMMDD): ";
+	cin >> strBuffer;
+	dataInput.setDate(strBuffer);
+
+	cout << "start time(HHMMSS): ";
+	cin >> strBuffer;
+	dataInput.setTimeStart(strBuffer);
+
+	cout << "end time(HHMMSS): ";
+	cin >> strBuffer;
+	dataInput.setTimeEnd(strBuffer);
+
+	cout << "HTTP Status Code: ";
+	cin >> nBuffer;
+	dataInput.setHttpStatusCode(nBuffer);
+
+	cout << "HTTP Request Method: ";
+	cin >> strBuffer;
+	dataInput.setHttpRequestMethod(strBuffer);
+
+	return dataInput;
+}
+
 const DataInput View::showMenu3(void) const {
 	DataInput dataInput;
 	string strBuffer;

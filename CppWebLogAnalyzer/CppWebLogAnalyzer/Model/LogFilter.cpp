@@ -45,6 +45,10 @@ void LogFilter::filterDelayedApi(const DataInput &dataInput) {
 	}
 }
 
+void sortDynamicApi(const DataInput &dataInput) {
+
+}
+
 void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
 	ofstream ofResult(getOutFilePath(dataInput.getDate(), 3, 0));
 	clock_t st, et;

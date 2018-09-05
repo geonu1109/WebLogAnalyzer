@@ -9,6 +9,7 @@ public:
 	~View();
 	const int showMenu(void) const;
 	const DataInput showMenu1(void) const;
+	const DataInput showMenu2(void) const;
 	const DataInput showMenu3(void) const;
 };
 
