@@ -6,3 +6,4 @@ IndexDateTime 5
 IndexHttpStatusCode 9
 IndexApi 7
 IndexHttpRequestMethod 6
+IndexClientAgent 12

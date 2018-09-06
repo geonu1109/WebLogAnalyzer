@@ -43,6 +43,10 @@ const int DataConfig::getIndexHttpRequestMethod(void) const {
 	return IndexHttpRequestMethod;
 }
 
+const int DataConfig::getIndexClientAgent(void) const {
+	return IndexClientAgent;
+}
+
 void DataConfig::load(const string &strFilePath) {
 	ifstream ifConfig(strFilePath);
 	string strBuffer, strToken;
@@ -87,6 +91,10 @@ void DataConfig::load(const string &strFilePath) {
 		else if (strToken == "IndexHttpRequestMethod") {
 			ssBuffer >> strToken;
 			IndexHttpRequestMethod = stoi(strToken);
+		} // HTTP 요청 방식 필드의 위치
+		else if (strToken == "IndexClientAgent") {
+			ssBuffer >> strToken;
+			IndexClientAgent = stoi(strToken);
 		} // HTTP 요청 방식 필드의 위치
 	}
 }

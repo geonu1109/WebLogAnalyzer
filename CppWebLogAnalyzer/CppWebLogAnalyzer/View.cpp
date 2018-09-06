@@ -62,6 +62,11 @@ const DataInput View::showMenu2(void) const {
 	string strBuffer;
 	int nBuffer;
 
+#ifdef WINDOWS
+	system("cls");
+#else
+	system("clear");
+#endif
 	cout << "Sort dynamic API" << endl << endl;
 
 	cout << "date(YYYYMMDD): ";
@@ -102,6 +107,53 @@ const DataInput View::showMenu3(void) const {
 	cin >> strBuffer;
 	dataInput.setDate(strBuffer);
 	
+	cout << endl;
+
+	return dataInput;
+}
+
+const DataInput View::showMenu4(void) const {
+	DataInput dataInput;
+	string strBuffer;
+	int nBuffer;
+
+#ifdef WINDOWS
+	system("cls");
+#else
+	system("clear");
+#endif
+	cout << "List most called API" << endl << endl;
+
+	cout << "date(YYYYMMDD): ";
+	cin >> strBuffer;
+	dataInput.setDate(strBuffer);
+
+	cout << "start time(HHMMSS): ";
+	cin >> strBuffer;
+	dataInput.setTimeStart(strBuffer);
+
+	cout << "end time(HHMMSS): ";
+	cin >> strBuffer;
+	dataInput.setTimeEnd(strBuffer);
+
+	return dataInput;
+}
+
+const DataInput View::showMenu5(void) const {
+	DataInput dataInput;
+	string strBuffer;
+
+#ifdef WINDOWS
+	system("cls");
+#else
+	system("clear");
+#endif
+	cout << "Classify Client-Agent" << endl << endl;
+
+	cout << "date(YYYYMMDD): ";
+	cin >> strBuffer;
+	dataInput.setDate(strBuffer);
+
 	cout << endl;
 
 	return dataInput;

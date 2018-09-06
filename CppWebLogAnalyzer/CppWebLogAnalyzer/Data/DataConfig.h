@@ -14,6 +14,7 @@ private:
 	int IndexHttpStatusCode;
 	int IndexApi;
 	int IndexHttpRequestMethod;
+	int IndexClientAgent;
 
 public:
 	DataConfig(void);
@@ -26,6 +27,7 @@ public:
 	const int getIndexHttpStatusCode(void) const;
 	const int getIndexApi(void) const;
 	const int getIndexHttpRequestMethod(void) const;
+	const int getIndexClientAgent(void) const;
 
 private:
 	void load(const string &strFilePath);

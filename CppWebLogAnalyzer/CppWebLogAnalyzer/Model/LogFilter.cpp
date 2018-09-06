@@ -52,11 +52,11 @@ void LogFilter::filterDelayedApi(const DataInput &dataInput) {
 	}
 }
 
-void LogFilter::sortDynamicApi(const DataInput &dataInput) {
-	ofstream ofResult(getOutFilePath(dataInput.getDate(), 2, 0));
+void LogFilter::sortDynamicApi(const int &iProc, const DataInput &dataInput) {
+	ofstream ofResult(getOutFilePath(dataInput.getDate(), iProc, 0));
 	list<pair<string, int>> listApiCounter;
 	list<pair<string, int>>::iterator iterApiCounter;
-	string strApiGroup;
+	string strApi;
 	bool isInserted = false;
 	clock_t st, et;
 
@@ -70,6 +70,8 @@ void LogFilter::sortDynamicApi(const DataInput &dataInput) {
 		exit(0);
 	}
 
+	// 입력
+
 	for (int iFile = 0; iFile < m_dataConfig.getNumberOfLogFile(); iFile++) // 파일 조회
 	{
 		DataLog dataLog(m_dataConfig, getInFilePath(dataInput.getDate(), iFile + 1));
@@ -79,19 +81,21 @@ void LogFilter::sortDynamicApi(const DataInput &dataInput) {
 		while (!dataLog.nextRecord().empty()) // 파일 내 레코드 조회
 		{
 			if (!dataLog.isValidTime(dataInput.getTimeEnd())) break; // 읽어온 로그의 기록 시간이 끝 시간을 넘으면 해당 파일에서 레코드 읽어오기 종료
-			else if (dataLog.isApi() && dataLog.isValidTime(dataInput.getTimeStart(), dataInput.getTimeEnd()) && dataLog.getHttpRequestMethod() == dataInput.getHttpRequestMethod() && dataLog.getHttpStatusCode() == dataInput.getHttpStatusCode()) {
-				isInserted = false;
-				strApiGroup = dataLog.getApiGroup();
-				for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) // 리스트 조회
-				{
-					if (iterApiCounter->first == strApiGroup) {
-						iterApiCounter->second++;
-						isInserted = true;
-						break;
+			else if (!dataLog.isStaticResource() && dataLog.isValidTime(dataInput.getTimeStart(), dataInput.getTimeEnd())) {
+				if (iProc == 4 || (dataLog.getHttpRequestMethod() == dataInput.getHttpRequestMethod() && dataLog.getHttpStatusCode() == dataInput.getHttpStatusCode())) {
+					isInserted = false;
+					strApi = dataLog.getApiGroup();
+					for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) // 리스트 조회
+					{
+						if (iterApiCounter->first == strApi) {
+							iterApiCounter->second++;
+							isInserted = true;
+							break;
+						}
 					}
-				}
-				if (!isInserted) {
-					listApiCounter.push_back(pair<string, int>(strApiGroup, 1));
+					if (!isInserted) {
+						listApiCounter.push_back(pair<string, int>(strApi, 1));
+					}
 				}
 			}
 		}
@@ -102,14 +106,19 @@ void LogFilter::sortDynamicApi(const DataInput &dataInput) {
 		cout << endl;
 	}
 
+	// 출력
+
 	st = clock();
 
 	listApiCounter.sort(desc);
 
 	ofResult << dataInput.getTimeStart().tm_hour << ":" << dataInput.getTimeStart().tm_min << ":" << dataInput.getTimeStart().tm_sec << " - ";
 	ofResult << dataInput.getTimeEnd().tm_hour << ":" << dataInput.getTimeEnd().tm_min << ":" << dataInput.getTimeEnd().tm_sec << endl;
-	ofResult << "HTTP Status Code: " << dataInput.getHttpStatusCode() << endl;
-	ofResult << "HTTP Request Method: " << dataInput.getHttpRequestMethod() << endl << endl;
+	if (iProc == 2) {
+		ofResult << "HTTP Status Code: " << dataInput.getHttpStatusCode() << endl;
+		ofResult << "HTTP Request Method: " << dataInput.getHttpRequestMethod() << endl;
+	}
+	cout << endl;
 
 	for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) {
 		ofResult << iterApiCounter->first << ": " << iterApiCounter->second << endl;

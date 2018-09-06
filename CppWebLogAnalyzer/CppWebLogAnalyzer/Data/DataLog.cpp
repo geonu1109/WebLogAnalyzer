@@ -86,6 +86,11 @@ const bool DataLog::isApi(void) const {
 	}
 }
 
+const bool DataLog::isStaticResource(void) const {
+	if (m_arrField[m_dataConfig.getIndexApi() - 1].find("/rs") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/resources") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".css") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".js") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/favicon.ico") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".png") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".txt") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/thumb") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/img") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".gif") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".php") != string::npos) return true;
+	else return false;
+}
+
 const int DataLog::getHour(void) const {
 	return stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
 }
@@ -98,11 +103,23 @@ const string DataLog::getHttpRequestMethod(void) const {
 	return m_arrField[m_dataConfig.getIndexHttpRequestMethod() - 1];
 }
 
-const string DataLog::getApi(void) const {
+const string DataLog::getApiField(void) const {
 	return m_arrField[m_dataConfig.getIndexApi() - 1];
 }
 
 const string DataLog::getApiGroup(void) const {
+	int iApiChar = m_arrField[m_dataConfig.getIndexApi() - 1].find('?');
+	if (iApiChar == string::npos) {
+		return string();
+	}
+	else return m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, iApiChar);
+
+
+
+
+
+
+	/*
 	const int nApiLen = m_arrField[m_dataConfig.getIndexApi() - 1].length();
 
 	for (int iApiChar = 5; iApiChar < nApiLen; iApiChar++) {
@@ -111,6 +128,7 @@ const string DataLog::getApiGroup(void) const {
 		}
 	}
 	return m_arrField[m_dataConfig.getIndexApi() - 1];
+	*/
 }
 
 void DataLog::setField(void) {

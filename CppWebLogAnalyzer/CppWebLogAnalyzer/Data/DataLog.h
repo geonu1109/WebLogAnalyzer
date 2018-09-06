@@ -26,10 +26,11 @@ public:
 	const bool isValidTime(const tm &tmTimeEnd) const;
 	const bool isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const;
 	const bool isApi(void) const;
+	const bool isStaticResource(void) const;
 	const int getHour(void) const;
 	const int getHttpStatusCode(void) const;
 	const string getHttpRequestMethod(void) const;
-	const string getApi(void) const;
+	const string getApiField(void) const;
 	const string getApiGroup(void) const;
 
 private:

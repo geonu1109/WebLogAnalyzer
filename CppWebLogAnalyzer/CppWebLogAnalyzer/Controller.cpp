@@ -18,12 +18,13 @@ Controller::Controller() {
 		logFilter.filterDelayedApi(view.showMenu1());
 		break;
 	case 2:
-		logFilter.sortDynamicApi(view.showMenu2());
+		logFilter.sortDynamicApi(2, view.showMenu2());
 		break;
 	case 3:
 		logFilter.countHttpStatusCode(view.showMenu3());
 		break;
 	case 4:
+		logFilter.sortDynamicApi(4, view.showMenu4());
 		break;
 	case 5:
 		break;
