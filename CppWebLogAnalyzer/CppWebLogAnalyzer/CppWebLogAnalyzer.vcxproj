@@ -119,6 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClientAgentClassifierThread.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Data\DataConfig.cpp" />
     <ClCompile Include="Data\DataInput.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClientAgentClassifierThread.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Data\DataConfig.h" />
     <ClInclude Include="Data\DataInput.h" />

@@ -78,6 +78,9 @@
     <ClCompile Include="DynamicApiCounterThread.cpp">
       <Filter>소스 파일\Model</Filter>
     </ClCompile>
+    <ClCompile Include="ClientAgentClassifierThread.cpp">
+      <Filter>소스 파일\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data\DataConfig.h">
@@ -108,6 +111,9 @@
       <Filter>헤더 파일\Model</Filter>
     </ClInclude>
     <ClInclude Include="DynamicApiCounterThread.h">
+      <Filter>헤더 파일\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientAgentClassifierThread.h">
       <Filter>헤더 파일\Model</Filter>
     </ClInclude>
   </ItemGroup>
