@@ -33,7 +33,6 @@ void ClientAgentClassifierThread::process(void) {
 
 	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) {
 		stkThread.push(thread(&subprocess, iFile, arrlistClientAgent)); // 파일 별로 스레드 할당
-		
 	}
 
 	while (!stkThread.empty()) {

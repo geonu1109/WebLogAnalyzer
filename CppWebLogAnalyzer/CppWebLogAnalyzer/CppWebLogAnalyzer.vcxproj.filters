@@ -19,12 +19,6 @@
     <Filter Include="헤더 파일\Data">
       <UniqueIdentifier>{b86ca95d-1ba7-483d-9f88-4abe1e5f9f4a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Model">
-      <UniqueIdentifier>{f4ff5813-0413-4682-aee9-da5d76db4485}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\Model">
-      <UniqueIdentifier>{beb180b4-7c45-45a3-949a-0b8216049968}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Controller">
       <UniqueIdentifier>{08a88159-c06e-431b-89b1-aa7e910e5879}</UniqueIdentifier>
     </Filter>
@@ -43,6 +37,12 @@
     <Filter Include="헤더 파일\Utility">
       <UniqueIdentifier>{e8d6b4fe-ef2f-48ff-98d0-144593dd5b4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Processor">
+      <UniqueIdentifier>{f4ff5813-0413-4682-aee9-da5d76db4485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Processor">
+      <UniqueIdentifier>{beb180b4-7c45-45a3-949a-0b8216049968}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data\DataConfig.cpp">
@@ -53,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="Data\DataLog.cpp">
       <Filter>소스 파일\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\LogFilter.cpp">
-      <Filter>소스 파일\Model</Filter>
     </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>소스 파일\Controller</Filter>
@@ -70,16 +67,16 @@
       <Filter>소스 파일\Utility</Filter>
     </ClCompile>
     <ClCompile Include="LogFilterThread.cpp">
-      <Filter>소스 파일\Model</Filter>
+      <Filter>소스 파일\Processor</Filter>
     </ClCompile>
     <ClCompile Include="HttpStatusCounterThread.cpp">
-      <Filter>소스 파일\Model</Filter>
+      <Filter>소스 파일\Processor</Filter>
     </ClCompile>
     <ClCompile Include="DynamicApiCounterThread.cpp">
-      <Filter>소스 파일\Model</Filter>
+      <Filter>소스 파일\Processor</Filter>
     </ClCompile>
     <ClCompile Include="ClientAgentClassifierThread.cpp">
-      <Filter>소스 파일\Model</Filter>
+      <Filter>소스 파일\Processor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,9 +89,6 @@
     <ClInclude Include="Data\DataLog.h">
       <Filter>헤더 파일\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Model\LogFilter.h">
-      <Filter>헤더 파일\Model</Filter>
-    </ClInclude>
     <ClInclude Include="View.h">
       <Filter>헤더 파일\View</Filter>
     </ClInclude>
@@ -105,16 +99,16 @@
       <Filter>헤더 파일\Utility</Filter>
     </ClInclude>
     <ClInclude Include="LogFilterThread.h">
-      <Filter>헤더 파일\Model</Filter>
+      <Filter>헤더 파일\Processor</Filter>
     </ClInclude>
     <ClInclude Include="HttpStatusCounterThread.h">
-      <Filter>헤더 파일\Model</Filter>
+      <Filter>헤더 파일\Processor</Filter>
     </ClInclude>
     <ClInclude Include="DynamicApiCounterThread.h">
-      <Filter>헤더 파일\Model</Filter>
+      <Filter>헤더 파일\Processor</Filter>
     </ClInclude>
     <ClInclude Include="ClientAgentClassifierThread.h">
-      <Filter>헤더 파일\Model</Filter>
+      <Filter>헤더 파일\Processor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

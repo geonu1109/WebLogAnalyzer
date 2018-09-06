@@ -129,7 +129,6 @@
     <ClCompile Include="HttpStatusCounterThread.cpp" />
     <ClCompile Include="LogFilterThread.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model\LogFilter.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,7 +141,6 @@
     <ClInclude Include="FilePathGenerator.h" />
     <ClInclude Include="HttpStatusCounterThread.h" />
     <ClInclude Include="LogFilterThread.h" />
-    <ClInclude Include="Model\LogFilter.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
