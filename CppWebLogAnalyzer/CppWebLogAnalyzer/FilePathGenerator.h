@@ -9,8 +9,8 @@ using namespace std;
 class FilePathGenerator {
 public:
 	~FilePathGenerator();
-	static const string getInFilePath(int iFile);
-	static const string getOutFilePath(int iFile);
+	static const string getInFilePath(const int &iFile);
+	static const string getOutFilePath(const int &iFile);
 
 private:
 	FilePathGenerator();

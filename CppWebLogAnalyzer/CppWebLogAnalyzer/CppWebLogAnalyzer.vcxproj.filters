@@ -69,6 +69,12 @@
     <ClCompile Include="FilePathGenerator.cpp">
       <Filter>소스 파일\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="LogFilterThread.cpp">
+      <Filter>소스 파일\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpStatusCounterThread.cpp">
+      <Filter>소스 파일\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data\DataConfig.h">
@@ -91,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="FilePathGenerator.h">
       <Filter>헤더 파일\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="LogFilterThread.h">
+      <Filter>헤더 파일\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpStatusCounterThread.h">
+      <Filter>헤더 파일\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

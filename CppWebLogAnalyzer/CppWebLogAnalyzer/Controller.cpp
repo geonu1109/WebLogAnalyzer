@@ -1,6 +1,7 @@
 #include "Controller.h"
 #include "Data/DataConfig.h"
 #include "Model/LogFilter.h"
+#include "LogFilterThread.h"
 #include "Model.h"
 #include "View.h"
 #include <iostream>
@@ -9,12 +10,13 @@ using namespace std;
 
 Controller::Controller() {
 	LogFilter logFilter;
+	LogFilterThread logFilterThread;
 	DataInput::getInstance().setSelect(View::getInstance().showMenu());
 
 	switch (DataInput::getInstance().getSelect()) {
 	case 1:
 		View::getInstance().showMenu1();
-		logFilter.filterDelayedApi();
+		logFilterThread.process();
 		break;
 	case 2:
 		View::getInstance().showMenu2();
