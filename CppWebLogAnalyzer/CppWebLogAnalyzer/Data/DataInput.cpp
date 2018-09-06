@@ -1,4 +1,5 @@
 #include "DataInput.h"
+#include <iostream>
 
 DataInput DataInput::instance;
 
@@ -71,6 +72,6 @@ const string DataInput::getHttpRequestMethod(void) {
 	return m_strHttpRequestMethod;
 }
 
-DataInput DataInput::getInstance(void) {
+DataInput &DataInput::getInstance(void) {
 	return instance;
 }

@@ -33,7 +33,7 @@ public:
 	const int getDelayLimit(void);
 	const int getHttpStatusCode(void);
 	const string getHttpRequestMethod(void);
-	static DataInput getInstance(void);
+	static DataInput &getInstance(void);
 
 private:
 	DataInput();

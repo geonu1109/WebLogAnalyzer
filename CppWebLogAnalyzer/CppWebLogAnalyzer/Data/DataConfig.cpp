@@ -6,6 +6,7 @@
 DataConfig DataConfig::instance;
 
 DataConfig::DataConfig(void) : ConfigFilePath("..\\CppWebLogAnalyzer\\wlacfg.txt") {
+	load();
 }
 
 DataConfig::~DataConfig() {
@@ -99,6 +100,6 @@ void DataConfig::load(void) {
 	}
 }
 
-DataConfig DataConfig::getInstance(void) {
+DataConfig &DataConfig::getInstance(void) {
 	return instance;
 }

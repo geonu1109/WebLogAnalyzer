@@ -3,15 +3,20 @@
 
 #include "Data/DataInput.h"
 
-class View {
+class View // Singleton
+{
+public:
+	static View instance;
+
 public:
 	~View();
-	static const int showMenu(void);
-	static const void showMenu1(void);
-	static const void showMenu2(void);
-	static const void showMenu3(void);
-	static const void showMenu4(void);
-	static const void showMenu5(void);
+	const int showMenu(void);
+	void showMenu1(void);
+	void showMenu2(void);
+	void showMenu3(void);
+	void showMenu4(void);
+	void showMenu5(void);
+	static View &getInstance(void);
 
 private:
 	View();

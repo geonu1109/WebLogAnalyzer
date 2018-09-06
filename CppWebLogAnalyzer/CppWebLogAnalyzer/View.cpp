@@ -4,12 +4,14 @@
 using namespace std;
 #define WINDOWS
 
+View View::instance;
+
 View::View() {}
 
 View::~View() {}
 
 const int View::showMenu(void) {
-	int select;
+	int nSelect;
 
 	printf("Web Log Analyzer\n\n");
 	printf("1. Filter delayed API (in specific time period)\n");
@@ -18,13 +20,13 @@ const int View::showMenu(void) {
 	printf("4. List most called API (in specific time period)\n");
 	printf("5. Classify Client-Agent (by time interval)\n");
 	printf("\nSelect: ");
-	scanf("%d", &select);
+	cin >> nSelect;
 	printf("\n");
 
-	return select;
+	return nSelect;
 }
 
-const void View::showMenu1(void) {
+void View::showMenu1(void) {
 	string strBuffer;
 	int nDelayLimit;
 
@@ -54,7 +56,7 @@ const void View::showMenu1(void) {
 	cout << endl;
 }
 
-const void View::showMenu2(void) {
+void View::showMenu2(void) {
 	string strBuffer;
 	int nBuffer;
 
@@ -88,7 +90,7 @@ const void View::showMenu2(void) {
 	cout << endl;
 }
 
-const void View::showMenu3(void) {
+void View::showMenu3(void) {
 	string strBuffer;
 
 #ifdef WINDOWS
@@ -105,7 +107,7 @@ const void View::showMenu3(void) {
 	cout << endl;
 }
 
-const void View::showMenu4(void) {
+void View::showMenu4(void) {
 	string strBuffer;
 
 #ifdef WINDOWS
@@ -130,7 +132,7 @@ const void View::showMenu4(void) {
 	cout << endl;
 }
 
-const void View::showMenu5(void) {
+void View::showMenu5(void) {
 	string strBuffer;
 
 #ifdef WINDOWS
@@ -145,4 +147,8 @@ const void View::showMenu5(void) {
 	DataInput::getInstance().setDate(strBuffer);
 
 	cout << endl;
+}
+
+View &View::getInstance(void) {
+	return instance;
 }

@@ -8,30 +8,28 @@
 using namespace std;
 
 Controller::Controller() {
-	DataConfig::getInstance().load(); // 설정파일 불러오기
 	LogFilter logFilter;
-
-	DataInput::getInstance().setSelect(View::showMenu());
+	DataInput::getInstance().setSelect(View::getInstance().showMenu());
 
 	switch (DataInput::getInstance().getSelect()) {
 	case 1:
-		View::showMenu1();
+		View::getInstance().showMenu1();
 		logFilter.filterDelayedApi();
 		break;
 	case 2:
-		View::showMenu2();
+		View::getInstance().showMenu2();
 		logFilter.sortDynamicApi();
 		break;
 	case 3:
-		View::showMenu3();
+		View::getInstance().showMenu3();
 		logFilter.countHttpStatusCode();
 		break;
 	case 4:
-		View::showMenu4();
+		View::getInstance().showMenu4();
 		logFilter.sortDynamicApi();
 		break;
 	case 5:
-		View::showMenu5();
+		View::getInstance().showMenu5();
 		logFilter.classifyClientAgent();
 		break;
 	default:

@@ -31,7 +31,7 @@ public:
 	const int getIndexApi(void);
 	const int getIndexHttpRequestMethod(void);
 	const int getIndexClientAgent(void);
-	static DataConfig getInstance(void);
+	static DataConfig &getInstance(void);
 
 private:
 	DataConfig(void);
