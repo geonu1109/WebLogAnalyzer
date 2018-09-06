@@ -9,7 +9,7 @@ using namespace std;
 class HttpStatusCounterThread
 {
 private:
-	static mutex mtxList;
+	static mutex m_mtxList;
 
 public:
 	HttpStatusCounterThread();

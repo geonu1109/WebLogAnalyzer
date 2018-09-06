@@ -10,7 +10,7 @@
 #include <vector>
 #include <thread>
 
-mutex HttpStatusCounterThread::mtx;
+mutex HttpStatusCounterThread::m_mtxList;
 
 HttpStatusCounterThread::HttpStatusCounterThread()
 {
@@ -34,11 +34,12 @@ void HttpStatusCounterThread::process(void) {
 	st = clock();
 
 	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) {
-		stkThread.push(thread(&subprocess, iFile, arrlistHourlyStatus));
+		stkThread.push(thread(&subprocess, iFile, arrlistHourlyStatus)); // 파일 별로 스레드 할당
 	}
+
 	while (!stkThread.empty()) {
-		stkThread.top().join();
-		stkThread.pop();
+		stkThread.top().join(); // 스레드가 종료될 때 까지 대기
+		stkThread.pop(); // 종료된 스레드 제거
 	}
 
 	et = clock();
@@ -79,17 +80,17 @@ void HttpStatusCounterThread::subprocess(const int &iFile, list<pair<int, int>> 
  
 		for (iterHourlyStatus = arrlistHourlyStatus[nHour].begin(); iterHourlyStatus != arrlistHourlyStatus[nHour].end(); iterHourlyStatus++) {
 			if (iterHourlyStatus->first == nHttpStatusCode) {
-				mtxList.lock();
+				m_mtxList.lock();
 				iterHourlyStatus->second++;
-				mtxList.unlock();
+				m_mtxList.unlock();
 				isInserted = true;
 				break;
 			}
 		}
 		if (!isInserted) {
-			mtxList.lock();
+			m_mtxList.lock();
 			arrlistHourlyStatus[nHour].push_back(pair<int, int>(nHttpStatusCode, 1));
-			mtxList.unlock();
+			m_mtxList.unlock();
 		}
 	}
 

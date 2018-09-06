@@ -2,6 +2,7 @@
 #include "Data/DataConfig.h"
 #include "Model/LogFilter.h"
 #include "LogFilterThread.h"
+#include "DynamicApiCounterThread.h"
 #include "HttpStatusCounterThread.h"
 #include "Model.h"
 #include "View.h"
@@ -20,16 +21,17 @@ Controller::Controller() {
 		break;
 	case 2:
 		View::getInstance().showMenu2();
-		logFilter.sortDynamicApi();
+		// logFilter.sortDynamicApi();
+		DynamicApiCounterThread().process();
 		break;
 	case 3:
 		View::getInstance().showMenu3();
-		// logFilter.countHttpStatusCode();
 		HttpStatusCounterThread().process();
 		break;
 	case 4:
 		View::getInstance().showMenu4();
-		logFilter.sortDynamicApi();
+		// logFilter.sortDynamicApi();
+		DynamicApiCounterThread().process();
 		break;
 	case 5:
 		View::getInstance().showMenu5();
