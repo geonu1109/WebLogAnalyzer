@@ -49,7 +49,7 @@ void LogFilter::filterDelayedApi(void) {
 	}
 
 	et = clock();
-	cout << "[system] Total Time: " << (float)(et - st) / 1000 << " seconds" << endl;
+	cout << "[system] Total processing time: " << (float)(et - st) / 1000 << " seconds" << endl;
 }
 
 void LogFilter::sortDynamicApi(void) {
@@ -62,9 +62,12 @@ void LogFilter::sortDynamicApi(void) {
 
 	// 입력
 
+	st = clock();
+
 	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) // 파일 조회
 	{
 		DataLog dataLog(FilePathGenerator::getInFilePath(iFile));
+		clock_t st, et;
 
 		st = clock();
 
@@ -93,6 +96,9 @@ void LogFilter::sortDynamicApi(void) {
 		et = clock();
 		cout << "[system] File " << iFile << " process completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 	}
+
+	et = clock();
+	cout << "[system] Total processing time: " << (float)(et - st) / 1000 << " seconds" << endl;
 
 	// 출력
 
@@ -127,7 +133,11 @@ void LogFilter::countHttpStatusCode(void) {
 	int nHour, nHttpStatusCode;
 	bool isInserted = false;
 
+	st = clock();
+
 	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) {
+		clock_t st, et;
+
 		st = clock();
 
 		DataLog dataLog(FilePathGenerator::getInFilePath(iFile));
@@ -150,6 +160,9 @@ void LogFilter::countHttpStatusCode(void) {
 		et = clock();
 		cout << "[system] File " << iFile << " process completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 	}
+
+	et = clock();
+	cout << "[system] Total processing time: " << (float)(et - st) / 1000 << " seconds" << endl;
 
 	st = clock();
 
@@ -176,13 +189,15 @@ void LogFilter::classifyClientAgent(void) {
 	ofstream ofResult;
 
 	clock_t st, et;
+	st = clock();
 
 	// input
 
 	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) {
 		DataLog dataLog(FilePathGenerator::getInFilePath(iFile));
 		pair<string, string> strClientAgent;
-		
+
+		clock_t st, et;
 		st = clock();
 
 		while (!dataLog.nextRecord().empty()) {
@@ -210,6 +225,9 @@ void LogFilter::classifyClientAgent(void) {
 		et = clock();
 		cout << "[system] File " << iFile << " process completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 	}
+
+	et = clock();
+	cout << "[system] Total processing time: " << (float)(et - st) / 1000 << " seconds" << endl;
 
 	// output
 
