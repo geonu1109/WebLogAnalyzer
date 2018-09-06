@@ -119,25 +119,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CounterHTTPStatus.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Data\DataConfig.cpp" />
     <ClCompile Include="Data\DataInput.cpp" />
     <ClCompile Include="Data\DataLog.cpp" />
-    <ClCompile Include="FileProc.cpp" />
+    <ClCompile Include="FilePathGenerator.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Model\LogFilter.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CounterHTTPStatus.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Data\DataConfig.h" />
     <ClInclude Include="Data\DataInput.h" />
     <ClInclude Include="Data\DataLog.h" />
-    <ClInclude Include="FileProc.h" />
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="FilePathGenerator.h" />
     <ClInclude Include="Model\LogFilter.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>

@@ -14,10 +14,9 @@ private:
 	ifstream m_ifLog; // 입력받을 로그파일
 	string m_strRecord; // 현재 로그의 레코드
 	string *m_arrField; // 현재 로그의 필드목록
-	const DataConfig &m_dataConfig; // 설정파일에서 받아온 정보
 
 public:
-	DataLog(const DataConfig &dataConfig, const string &strFilePath);
+	DataLog(const string &strFilePath);
 	~DataLog(void);
 	const string nextRecord(void);
 	const int getLine(void) const;

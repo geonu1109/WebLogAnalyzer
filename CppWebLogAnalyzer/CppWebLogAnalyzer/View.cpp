@@ -8,7 +8,7 @@ View::View() {}
 
 View::~View() {}
 
-const int View::showMenu(void) const {
+const int View::showMenu(void) {
 	int select;
 
 	printf("Web Log Analyzer\n\n");
@@ -24,8 +24,7 @@ const int View::showMenu(void) const {
 	return select;
 }
 
-const DataInput View::showMenu1(void) const {
-	DataInput dataInput;
+const void View::showMenu1(void) {
 	string strBuffer;
 	int nDelayLimit;
 
@@ -38,27 +37,24 @@ const DataInput View::showMenu1(void) const {
 
 	cout << "date(YYYYMMDD): ";
 	cin >> strBuffer;
-	dataInput.setDate(strBuffer);
+	DataInput::getInstance().setDate(strBuffer);
 
 	cout << "start time(HHMMSS): ";
 	cin >> strBuffer;
-	dataInput.setTimeStart(strBuffer);
+	DataInput::getInstance().setTimeStart(strBuffer);
 
 	cout << "end time(HHMMSS): ";
 	cin >> strBuffer;
-	dataInput.setTimeEnd(strBuffer);
+	DataInput::getInstance().setTimeEnd(strBuffer);
 
 	cout << "delay limit(second): ";
 	cin >> nDelayLimit;
-	dataInput.setDelayLimit(nDelayLimit);
+	DataInput::getInstance().setDelayLimit(nDelayLimit);
 
 	cout << endl;
-
-	return dataInput;
 }
 
-const DataInput View::showMenu2(void) const {
-	DataInput dataInput;
+const void View::showMenu2(void) {
 	string strBuffer;
 	int nBuffer;
 
@@ -71,31 +67,28 @@ const DataInput View::showMenu2(void) const {
 
 	cout << "date(YYYYMMDD): ";
 	cin >> strBuffer;
-	dataInput.setDate(strBuffer);
+	DataInput::getInstance().setDate(strBuffer);
 
 	cout << "start time(HHMMSS): ";
 	cin >> strBuffer;
-	dataInput.setTimeStart(strBuffer);
+	DataInput::getInstance().setTimeStart(strBuffer);
 
 	cout << "end time(HHMMSS): ";
 	cin >> strBuffer;
-	dataInput.setTimeEnd(strBuffer);
+	DataInput::getInstance().setTimeEnd(strBuffer);
 
 	cout << "HTTP Status Code: ";
 	cin >> nBuffer;
-	dataInput.setHttpStatusCode(nBuffer);
+	DataInput::getInstance().setHttpStatusCode(nBuffer);
 
 	cout << "HTTP Request Method: ";
 	cin >> strBuffer;
-	dataInput.setHttpRequestMethod(strBuffer);
+	DataInput::getInstance().setHttpRequestMethod(strBuffer);
 
 	cout << endl;
-
-	return dataInput;
 }
 
-const DataInput View::showMenu3(void) const {
-	DataInput dataInput;
+const void View::showMenu3(void) {
 	string strBuffer;
 
 #ifdef WINDOWS
@@ -107,17 +100,13 @@ const DataInput View::showMenu3(void) const {
 
 	cout << "date(YYYYMMDD): ";
 	cin >> strBuffer;
-	dataInput.setDate(strBuffer);
+	DataInput::getInstance().setDate(strBuffer);
 	
 	cout << endl;
-
-	return dataInput;
 }
 
-const DataInput View::showMenu4(void) const {
-	DataInput dataInput;
+const void View::showMenu4(void) {
 	string strBuffer;
-	int nBuffer;
 
 #ifdef WINDOWS
 	system("cls");
@@ -128,23 +117,20 @@ const DataInput View::showMenu4(void) const {
 
 	cout << "date(YYYYMMDD): ";
 	cin >> strBuffer;
-	dataInput.setDate(strBuffer);
+	DataInput::getInstance().setDate(strBuffer);
 
 	cout << "start time(HHMMSS): ";
 	cin >> strBuffer;
-	dataInput.setTimeStart(strBuffer);
+	DataInput::getInstance().setTimeStart(strBuffer);
 
 	cout << "end time(HHMMSS): ";
 	cin >> strBuffer;
-	dataInput.setTimeEnd(strBuffer);
+	DataInput::getInstance().setTimeEnd(strBuffer);
 
 	cout << endl;
-
-	return dataInput;
 }
 
-const DataInput View::showMenu5(void) const {
-	DataInput dataInput;
+const void View::showMenu5(void) {
 	string strBuffer;
 
 #ifdef WINDOWS
@@ -156,9 +142,7 @@ const DataInput View::showMenu5(void) const {
 
 	cout << "date(YYYYMMDD): ";
 	cin >> strBuffer;
-	dataInput.setDate(strBuffer);
+	DataInput::getInstance().setDate(strBuffer);
 
 	cout << endl;
-
-	return dataInput;
 }

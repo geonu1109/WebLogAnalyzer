@@ -8,26 +8,31 @@
 using namespace std;
 
 Controller::Controller() {
-	DataConfig config; // 기본경로의 설정파일을 사용해 객체 생성
-	LogFilter logFilter(config);
-	View view;
-	clock_t st, et;
+	DataConfig::getInstance().load(); // 설정파일 불러오기
+	LogFilter logFilter;
 
-	switch (view.showMenu()) {
+	DataInput::getInstance().setSelect(View::showMenu());
+
+	switch (DataInput::getInstance().getSelect()) {
 	case 1:
-		logFilter.filterDelayedApi(view.showMenu1());
+		View::showMenu1();
+		logFilter.filterDelayedApi();
 		break;
 	case 2:
-		logFilter.sortDynamicApi(2, view.showMenu2());
+		View::showMenu2();
+		logFilter.sortDynamicApi();
 		break;
 	case 3:
-		logFilter.countHttpStatusCode(view.showMenu3());
+		View::showMenu3();
+		logFilter.countHttpStatusCode();
 		break;
 	case 4:
-		logFilter.sortDynamicApi(4, view.showMenu4());
+		View::showMenu4();
+		logFilter.sortDynamicApi();
 		break;
 	case 5:
-		logFilter.classifyClientAgent(view.showMenu5());
+		View::showMenu5();
+		logFilter.classifyClientAgent();
 		break;
 	default:
 		;

@@ -11,36 +11,27 @@ const bool desc(pair<string, int> &first, pair<string, int> &second) {
 	else return false;
 }
 
-LogFilter::LogFilter(const DataConfig &dataConfig) : m_dataConfig(dataConfig) {
+LogFilter::LogFilter(void) {
 }
 
 LogFilter::~LogFilter()
 {
 }
 
-void LogFilter::filterDelayedApi(const DataInput &dataInput) {
+void LogFilter::filterDelayedApi(void) {
 	ofstream ofResult;
 	clock_t st, et;
 
-	for (int iFile = 0; iFile < m_dataConfig.getNumberOfLogFile(); iFile++) {
+	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) {
 		st = clock();
-		DataLog dataLog(m_dataConfig, getInFilePath(dataInput.getDate(), iFile + 1)); // 로그 파일 자료 관리 객체 생성
-		ofResult.open(getOutFilePath(dataInput.getDate(), 1, iFile + 1)); // 결과 파일 열기
-		if (!ofResult.is_open()) // 파일이 제대로 열렸나 검사
-		{
-			cout << endl;
-			cout << "[method] void LogFilter::filterDelayedApi(const DataInput &dataInput)" << endl;
-			cout << "[fatal error] fail to open result file" << endl;
-			cout << "[file path] " << getOutFilePath(dataInput.getDate(), 1, iFile + 1) << endl;
-			cout << endl;
-			system("pause");
-			exit(0);
-		}
+		DataLog dataLog(FilePathGenerator::getInFilePath(iFile)); // 로그 파일 자료 관리 객체 생성
+		ofResult.open(FilePathGenerator::getOutFilePath(iFile)); // 결과 파일 열기
+
 		while (!dataLog.nextRecord().empty()) // 로그 파일에서 레코드 한줄 씩 가져오기
 		{
-			if (!dataLog.isValidTime(dataInput.getTimeEnd())) break; // 읽어온 로그의 기록 시간이 끝 시간을 넘으면 해당 파일에서 레코드 읽어오기 종료
-			else if (dataLog.isValidTime(dataInput.getTimeStart(), dataInput.getTimeEnd())) {
-				if (dataLog.getResponseTime() >= dataInput.getDelayLimit()) {
+			if (!dataLog.isValidTime(DataInput::getInstance().getTimeEnd())) break; // 읽어온 로그의 기록 시간이 끝 시간을 넘으면 해당 파일에서 레코드 읽어오기 종료
+			else if (dataLog.isValidTime(DataInput::getInstance().getTimeStart(), DataInput::getInstance().getTimeEnd())) {
+				if (dataLog.getResponseTime() >= DataInput::getInstance().getDelayLimit()) {
 					ofResult << dataLog.getRecord() << endl;
 				}
 			}
@@ -52,37 +43,27 @@ void LogFilter::filterDelayedApi(const DataInput &dataInput) {
 	}
 }
 
-void LogFilter::sortDynamicApi(const int &iProc, const DataInput &dataInput) {
-	ofstream ofResult(getOutFilePath(dataInput.getDate(), iProc, 0));
+void LogFilter::sortDynamicApi(void) {
+	ofstream ofResult(FilePathGenerator::getOutFilePath(0));
 	list<pair<string, int>> listApiCounter;
 	list<pair<string, int>>::iterator iterApiCounter;
 	string strApi;
 	bool isInserted = false;
 	clock_t st, et;
 
-	if (ofResult.fail()) {
-		cout << endl;
-		cout << "[method] void LogFilter::sortDynamicApi(const DataInput &dataInput)" << endl;
-		cout << "[fatal error] fail to open result file" << endl;
-		cout << "[file path] " << getOutFilePath(dataInput.getDate(), 2, 0) << endl;
-		cout << endl;
-		system("pause");
-		exit(0);
-	}
-
 	// 입력
 
-	for (int iFile = 0; iFile < m_dataConfig.getNumberOfLogFile(); iFile++) // 파일 조회
+	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) // 파일 조회
 	{
-		DataLog dataLog(m_dataConfig, getInFilePath(dataInput.getDate(), iFile + 1));
+		DataLog dataLog(FilePathGenerator::getInFilePath(iFile));
 
 		st = clock();
 
 		while (!dataLog.nextRecord().empty()) // 파일 내 레코드 조회
 		{
-			if (!dataLog.isValidTime(dataInput.getTimeEnd())) break; // 읽어온 로그의 기록 시간이 끝 시간을 넘으면 해당 파일에서 레코드 읽어오기 종료
-			else if (!dataLog.isStaticResource() && dataLog.isValidTime(dataInput.getTimeStart(), dataInput.getTimeEnd())) {
-				if (iProc == 4 || (dataLog.getHttpRequestMethod() == dataInput.getHttpRequestMethod() && dataLog.getHttpStatusCode() == dataInput.getHttpStatusCode())) {
+			if (!dataLog.isValidTime(DataInput::getInstance().getTimeEnd())) break; // 읽어온 로그의 기록 시간이 끝 시간을 넘으면 해당 파일에서 레코드 읽어오기 종료
+			else if (!dataLog.isStaticResource() && dataLog.isValidTime(DataInput::getInstance().getTimeStart(), DataInput::getInstance().getTimeEnd())) {
+				if (DataInput::getInstance().getSelect() == 4 || (dataLog.getHttpRequestMethod() == DataInput::getInstance().getHttpRequestMethod() && dataLog.getHttpStatusCode() == DataInput::getInstance().getHttpStatusCode())) {
 					isInserted = false;
 					strApi = dataLog.getApiGroup();
 					for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) // 리스트 조회
@@ -110,11 +91,11 @@ void LogFilter::sortDynamicApi(const int &iProc, const DataInput &dataInput) {
 
 	listApiCounter.sort(desc);
 
-	ofResult << dataInput.getTimeStart().tm_hour << ":" << dataInput.getTimeStart().tm_min << ":" << dataInput.getTimeStart().tm_sec << " - ";
-	ofResult << dataInput.getTimeEnd().tm_hour << ":" << dataInput.getTimeEnd().tm_min << ":" << dataInput.getTimeEnd().tm_sec << endl;
-	if (iProc == 2) {
-		ofResult << "HTTP Status Code: " << dataInput.getHttpStatusCode() << endl;
-		ofResult << "HTTP Request Method: " << dataInput.getHttpRequestMethod() << endl;
+	ofResult << DataInput::getInstance().getTimeStart().tm_hour << ":" << DataInput::getInstance().getTimeStart().tm_min << ":" << DataInput::getInstance().getTimeStart().tm_sec << " - ";
+	ofResult << DataInput::getInstance().getTimeEnd().tm_hour << ":" << DataInput::getInstance().getTimeEnd().tm_min << ":" << DataInput::getInstance().getTimeEnd().tm_sec << endl;
+	if (DataInput::getInstance().getSelect() == 2) {
+		ofResult << "HTTP Status Code: " << DataInput::getInstance().getHttpStatusCode() << endl;
+		ofResult << "HTTP Request Method: " << DataInput::getInstance().getHttpRequestMethod() << endl;
 	}
 	ofResult << endl;
 
@@ -128,19 +109,19 @@ void LogFilter::sortDynamicApi(const int &iProc, const DataInput &dataInput) {
 	ofResult.close();
 }
 
-void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
-	ofstream ofResult(getOutFilePath(dataInput.getDate(), 3, 0));
+void LogFilter::countHttpStatusCode(void) {
+	ofstream ofResult(FilePathGenerator::getOutFilePath(0));
 	clock_t st, et;
 	list<pair<int, int>> arrlistHourlyStatus[24]; // 횟수, 코드
 	list<pair<int, int>>::iterator iterHourlyStatus;
-	tm tmTime;
+
 	int nHour, nHttpStatusCode;
 	bool isInserted = false;
 
-	for (int iFile = 0; iFile < m_dataConfig.getNumberOfLogFile(); iFile++) {
+	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) {
 		st = clock();
 
-		DataLog dataLog(m_dataConfig, getInFilePath(dataInput.getDate(), iFile + 1));
+		DataLog dataLog(FilePathGenerator::getInFilePath(iFile));
 		while (!dataLog.nextRecord().empty()) {
 			nHour = dataLog.getHour();
 			isInserted = false;
@@ -178,7 +159,7 @@ void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
 	ofResult.close();
 }
 
-void LogFilter::classifyClientAgent(const DataInput &dataInput) {
+void LogFilter::classifyClientAgent(void) {
 	list<pair<pair<string, string>, int>> arrlistClientAgent[24];
 	list<pair<pair<string, string>, int>>::iterator iterClientAgent;
 	bool isInserted = false;
@@ -189,8 +170,8 @@ void LogFilter::classifyClientAgent(const DataInput &dataInput) {
 
 	// input
 
-	for (int iFile = 1; iFile < m_dataConfig.getNumberOfLogFile() + 1; iFile++) {
-		DataLog dataLog(m_dataConfig, getInFilePath(dataInput.getDate(), iFile));
+	for (int iFile = 1; iFile < DataConfig::getInstance().getNumberOfLogFile() + 1; iFile++) {
+		DataLog dataLog(FilePathGenerator::getInFilePath(iFile));
 		pair<string, string> strClientAgent;
 		
 		st = clock();
@@ -223,7 +204,7 @@ void LogFilter::classifyClientAgent(const DataInput &dataInput) {
 
 	// output
 
-	ofResult.open(getOutFilePath(dataInput.getDate(), 5, 0));
+	ofResult.open(FilePathGenerator::getOutFilePath(0));
 
 	st = clock();
 
@@ -240,18 +221,4 @@ void LogFilter::classifyClientAgent(const DataInput &dataInput) {
 	cout << "[system] File output completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 
 	ofResult.close();
-}
-
-const string LogFilter::getInFilePath(const tm &tmDate, const int &iFile) {
-	char strFilePath[512];
-
-	sprintf(strFilePath, "%s\\%04d%02d%02d\\ap%d.%s_%04d-%02d-%02d.txt", m_dataConfig.getPathLogFileDir().c_str(), tmDate.tm_year, tmDate.tm_mon, tmDate.tm_mday, iFile, "daouoffice.com_access", tmDate.tm_year, tmDate.tm_mon, tmDate.tm_mday); // 입력파일 이름 지정
-	return string(strFilePath);
-}
-
-const string LogFilter::getOutFilePath(const tm &tmDate, const int &iProc, const int &iFile) {
-	char strFilePath[512];
-
-	sprintf(strFilePath, "%s\\%04d%02d%02d\\ap%d.%s_%04d-%02d-%02d_proc%d.txt", m_dataConfig.getPathLogFileDir().c_str(), tmDate.tm_year, tmDate.tm_mon, tmDate.tm_mday, iFile, "daouoffice.com_access", tmDate.tm_year, tmDate.tm_mon, tmDate.tm_mday, iProc);
-	return string(strFilePath);
 }

@@ -25,12 +25,6 @@
     <Filter Include="헤더 파일\Model">
       <UniqueIdentifier>{beb180b4-7c45-45a3-949a-0b8216049968}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Discard">
-      <UniqueIdentifier>{1d44636d-9701-4179-b7dd-d28e0435c788}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\Discard">
-      <UniqueIdentifier>{2648e8d9-dd52-47c0-b5af-b7f4a473e1d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Controller">
       <UniqueIdentifier>{08a88159-c06e-431b-89b1-aa7e910e5879}</UniqueIdentifier>
     </Filter>
@@ -43,6 +37,12 @@
     <Filter Include="헤더 파일\View">
       <UniqueIdentifier>{70434d23-f32a-4b46-9157-027492f3beaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Utility">
+      <UniqueIdentifier>{65f7a193-0fe5-437b-9063-6b4599f6eaec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Utility">
+      <UniqueIdentifier>{e8d6b4fe-ef2f-48ff-98d0-144593dd5b4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data\DataConfig.cpp">
@@ -53,15 +53,6 @@
     </ClCompile>
     <ClCompile Include="Data\DataLog.cpp">
       <Filter>소스 파일\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>소스 파일\Discard</Filter>
-    </ClCompile>
-    <ClCompile Include="CounterHTTPStatus.cpp">
-      <Filter>소스 파일\Discard</Filter>
-    </ClCompile>
-    <ClCompile Include="FileProc.cpp">
-      <Filter>소스 파일\Discard</Filter>
     </ClCompile>
     <ClCompile Include="Model\LogFilter.cpp">
       <Filter>소스 파일\Model</Filter>
@@ -74,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="View.cpp">
       <Filter>소스 파일\View</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePathGenerator.cpp">
+      <Filter>소스 파일\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,20 +83,14 @@
     <ClInclude Include="Model\LogFilter.h">
       <Filter>헤더 파일\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>헤더 파일\Discard</Filter>
-    </ClInclude>
-    <ClInclude Include="FileProc.h">
-      <Filter>헤더 파일\Discard</Filter>
-    </ClInclude>
-    <ClInclude Include="CounterHTTPStatus.h">
-      <Filter>헤더 파일\Discard</Filter>
-    </ClInclude>
     <ClInclude Include="View.h">
       <Filter>헤더 파일\View</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>헤더 파일\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="FilePathGenerator.h">
+      <Filter>헤더 파일\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

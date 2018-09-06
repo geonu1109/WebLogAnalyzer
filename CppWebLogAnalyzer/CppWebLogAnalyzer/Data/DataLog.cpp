@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stack>
 
-DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath) : m_dataConfig(dataConfig), m_ifLog(strFilePath), m_nLine(1) {
+DataLog::DataLog(const string &strFilePath) : m_ifLog(strFilePath), m_nLine(1) {
 	if (m_ifLog.fail()) {
 		cout << endl;
 		cout << "[method] DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath)" << endl;
@@ -12,7 +12,7 @@ DataLog::DataLog(const DataConfig &dataConfig, const string &strFilePath) : m_da
 		system("pause");
 		exit(0);
 	}
-	m_arrField = new string[m_dataConfig.getNumberOfField()];
+	m_arrField = new string[DataConfig::getInstance().getNumberOfField()];
 }
 
 DataLog::~DataLog(void) {
@@ -41,14 +41,14 @@ const string DataLog::getRecord(void) const {
 }
 
 const float DataLog::getResponseTime(void) const {
-	return stof(m_arrField[m_dataConfig.getIndexResponseTime() - 1]);
+	return stof(m_arrField[DataConfig::getInstance().getIndexResponseTime() - 1]);
 }
 
 const bool DataLog::isValidTime(const tm &tmTimeEnd) const {
 	tm tmTimeCur;
-	tmTimeCur.tm_hour = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
-	tmTimeCur.tm_min = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(16, 2));
-	tmTimeCur.tm_sec = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(19, 2));
+	tmTimeCur.tm_hour = stoi(m_arrField[DataConfig::getInstance().getIndexDateTime() - 1].substr(13, 2));
+	tmTimeCur.tm_min = stoi(m_arrField[DataConfig::getInstance().getIndexDateTime() - 1].substr(16, 2));
+	tmTimeCur.tm_sec = stoi(m_arrField[DataConfig::getInstance().getIndexDateTime() - 1].substr(19, 2));
 
 	if (calTotalTime(tmTimeCur) <= calTotalTime(tmTimeEnd) + 600)
 		return true;
@@ -58,9 +58,9 @@ const bool DataLog::isValidTime(const tm &tmTimeEnd) const {
 
 const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) const {
 	tm tmTimeCur;
-	tmTimeCur.tm_hour = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
-	tmTimeCur.tm_min = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(16, 2));
-	tmTimeCur.tm_sec = stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(19, 2));
+	tmTimeCur.tm_hour = stoi(m_arrField[DataConfig::getInstance().getIndexDateTime() - 1].substr(13, 2));
+	tmTimeCur.tm_min = stoi(m_arrField[DataConfig::getInstance().getIndexDateTime() - 1].substr(16, 2));
+	tmTimeCur.tm_sec = stoi(m_arrField[DataConfig::getInstance().getIndexDateTime() - 1].substr(19, 2));
 
 	if (calTotalTime(tmTimeStart) > calTotalTime(tmTimeEnd)) {
 		cout << endl;
@@ -78,7 +78,7 @@ const bool DataLog::isValidTime(const tm &tmTimeStart, const tm &tmTimeEnd) cons
 }
 
 const bool DataLog::isApi(void) const {
-	if (m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, 4) == "/api") {
+	if (m_arrField[DataConfig::getInstance().getIndexApi() - 1].substr(0, 4) == "/api") {
 		return true;
 	}
 	else {
@@ -88,35 +88,35 @@ const bool DataLog::isApi(void) const {
 
 const bool DataLog::isStaticResource(void) const {
 	// if (m_arrField[m_dataConfig.getIndexApi() - 1].find("/rs") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/resources") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".css") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".js") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/favicon.ico") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".png") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".txt") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/thumb") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/img") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".gif") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".php") != string::npos) return true;
-	if (m_arrField[m_dataConfig.getIndexApi() - 1].find('.') != string::npos) return true;
+	if (m_arrField[DataConfig::getInstance().getIndexApi() - 1].find('.') != string::npos) return true;
 	else return false;
 }
 
 const int DataLog::getHour(void) const {
-	return stoi(m_arrField[m_dataConfig.getIndexDateTime() - 1].substr(13, 2));
+	return stoi(m_arrField[DataConfig::getInstance().getIndexDateTime() - 1].substr(13, 2));
 }
 
 const int DataLog::getHttpStatusCode(void) const {
-	return stoi(m_arrField[m_dataConfig.getIndexHttpStatusCode() - 1]);
+	return stoi(m_arrField[DataConfig::getInstance().getIndexHttpStatusCode() - 1]);
 }
 
 const string DataLog::getHttpRequestMethod(void) const {
-	return m_arrField[m_dataConfig.getIndexHttpRequestMethod() - 1];
+	return m_arrField[DataConfig::getInstance().getIndexHttpRequestMethod() - 1];
 }
 
 const string DataLog::getApiField(void) const {
-	return m_arrField[m_dataConfig.getIndexApi() - 1];
+	return m_arrField[DataConfig::getInstance().getIndexApi() - 1];
 }
 
 const string DataLog::getApiGroup(void) const {
-	int iApiChar = m_arrField[m_dataConfig.getIndexApi() - 1].find('?');
+	int iApiChar = m_arrField[DataConfig::getInstance().getIndexApi() - 1].find('?');
 	string strApi;
 	
 	if (iApiChar != string::npos) {
-		strApi = m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, iApiChar);
+		strApi = m_arrField[DataConfig::getInstance().getIndexApi() - 1].substr(0, iApiChar);
 	}
 	else {
-		strApi = m_arrField[m_dataConfig.getIndexApi() - 1];
+		strApi = m_arrField[DataConfig::getInstance().getIndexApi() - 1];
 	}
 
 	iApiChar = strApi.find('/', 1);
@@ -132,11 +132,11 @@ const string DataLog::getApiGroup(void) const {
 }
 
 const string DataLog::getClientAgentField(void) const {
-	return m_arrField[m_dataConfig.getIndexClientAgent() - 1];
+	return m_arrField[DataConfig::getInstance().getIndexClientAgent() - 1];
 }
 
 const string DataLog::getBrowser(void) const {
-	const string &strAgent = m_arrField[m_dataConfig.getIndexClientAgent() - 1];
+	const string &strAgent = m_arrField[DataConfig::getInstance().getIndexClientAgent() - 1];
 
 	if (strAgent.find("compatible") != string::npos || strAgent.find("compatible") != string::npos) return string("Internet Explorer");
 	else if (strAgent.find("Safari") != string::npos) {
@@ -167,7 +167,7 @@ const string DataLog::getBrowser(void) const {
 }
 
 const string DataLog::getOS(void) const {
-	const string &strAgent = m_arrField[m_dataConfig.getIndexClientAgent() - 1];
+	const string &strAgent = m_arrField[DataConfig::getInstance().getIndexClientAgent() - 1];
 
 	if (strAgent.find("Windows") != string::npos) return string("Windows");
 	else if (strAgent.find("Linux") != string::npos) {
@@ -185,7 +185,7 @@ void DataLog::setField(void) {
 	const int nRecordLength = m_strRecord.length();
 
 	for (int iRecordChar = 0; iRecordChar < nRecordLength; iRecordChar++) {
-		if (iField == m_dataConfig.getNumberOfField()) {
+		if (iField == DataConfig::getInstance().getNumberOfField()) {
 			cout << endl;
 			cout << "[method] void DataLog::setField(void)" << endl;
 			cout << "[fatal error] Field index is overflowed." << endl;
@@ -206,7 +206,7 @@ void DataLog::setField(void) {
 				exit(0);
 			}
 
-			else if (iField == m_dataConfig.getNumberOfField() - 1) {
+			else if (iField == DataConfig::getInstance().getNumberOfField() - 1) {
 				m_arrField[iField] = m_strRecord.substr(iFieldStart, iRecordChar - iFieldStart + 1);
 				break;
 			}

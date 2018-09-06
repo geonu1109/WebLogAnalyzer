@@ -1,11 +1,17 @@
 #include "DataInput.h"
 
+DataInput DataInput::instance;
+
 DataInput::DataInput()
 {
 }
 
 DataInput::~DataInput()
 {
+}
+
+void DataInput::setSelect(const int &nSelect) {
+	m_nSelect = nSelect;
 }
 
 void DataInput::setDate(const string &strDate) {
@@ -37,26 +43,34 @@ void DataInput::setHttpRequestMethod(const string &strHttpRequestMethod) {
 	m_strHttpRequestMethod = strHttpRequestMethod;
 }
 
-const tm DataInput::getDate(void) const {
+const int DataInput::getSelect(void) {
+	return m_nSelect;
+}
+
+const tm DataInput::getDate(void) {
 	return m_tmDate;
 }
 
-const tm DataInput::getTimeStart(void) const {
+const tm DataInput::getTimeStart(void) {
 	return m_tmTimeStart;
 }
 
-const tm DataInput::getTimeEnd(void) const {
+const tm DataInput::getTimeEnd(void) {
 	return m_tmTimeEnd;
 }
 
-const int DataInput::getDelayLimit(void) const {
+const int DataInput::getDelayLimit(void) {
 	return m_nDelayLimit;
 }
 
-const int DataInput::getHttpStatusCode(void) const {
+const int DataInput::getHttpStatusCode(void) {
 	return m_nHttpStatusCode;
 }
 
-const string DataInput::getHttpRequestMethod(void) const {
+const string DataInput::getHttpRequestMethod(void) {
 	return m_strHttpRequestMethod;
+}
+
+DataInput DataInput::getInstance(void) {
+	return instance;
 }

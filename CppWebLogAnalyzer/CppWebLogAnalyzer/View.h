@@ -5,14 +5,16 @@
 
 class View {
 public:
-	View();
 	~View();
-	const int showMenu(void) const;
-	const DataInput showMenu1(void) const;
-	const DataInput showMenu2(void) const;
-	const DataInput showMenu3(void) const;
-	const DataInput showMenu4(void) const;
-	const DataInput showMenu5(void) const;
+	static const int showMenu(void);
+	static const void showMenu1(void);
+	static const void showMenu2(void);
+	static const void showMenu3(void);
+	static const void showMenu4(void);
+	static const void showMenu5(void);
+
+private:
+	View();
 };
 
 #endif

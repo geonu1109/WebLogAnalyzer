@@ -5,30 +5,38 @@
 #include <ctime>
 using namespace std;
 
-class DataInput {
+class DataInput // Singleton
+{
 private:
+	int m_nSelect;
 	tm m_tmDate;
 	tm m_tmTimeStart;
 	tm m_tmTimeEnd;
 	int m_nDelayLimit;
 	int m_nHttpStatusCode;
 	string m_strHttpRequestMethod;
+	static DataInput instance;
 
 public:
-	DataInput();
 	~DataInput();
+	void setSelect(const int &nSelect);
 	void setDate(const string &strDate);
 	void setTimeStart(const string &strTime);
 	void setTimeEnd(const string &strTime);
 	void setDelayLimit(const int &nDelayLimit);
 	void setHttpStatusCode(const int &nHttpStatusCode);
 	void setHttpRequestMethod(const string &strHttpRequestMethod);
-	const tm getDate(void) const;
-	const tm getTimeStart(void) const;
-	const tm getTimeEnd(void) const;
-	const int getDelayLimit(void) const;
-	const int getHttpStatusCode(void) const;
-	const string getHttpRequestMethod(void) const;
+	const int getSelect(void);
+	const tm getDate(void);
+	const tm getTimeStart(void);
+	const tm getTimeEnd(void);
+	const int getDelayLimit(void);
+	const int getHttpStatusCode(void);
+	const string getHttpRequestMethod(void);
+	static DataInput getInstance(void);
+
+private:
+	DataInput();
 };
 
 #endif

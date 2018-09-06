@@ -3,56 +3,56 @@
 #include <fstream>
 #include <sstream>
 
-DataConfig::DataConfig(void) {
-	string strFilePath = "..\\CppWebLogAnalyzer\\wlacfg.txt";
-	load(strFilePath);
+DataConfig DataConfig::instance;
+
+DataConfig::DataConfig(void) : ConfigFilePath("..\\CppWebLogAnalyzer\\wlacfg.txt") {
 }
 
 DataConfig::~DataConfig() {
 }
 
-const string DataConfig::getPathLogFileDir(void) const {
+const string DataConfig::getPathLogFileDir(void) {
 	return PathLogFileDir;
 }
 
-const int DataConfig::getNumberOfLogFile(void) const {
+const int DataConfig::getNumberOfLogFile(void) {
 	return NumberOfLogFile;
 }
 
-const int DataConfig::getNumberOfField(void) const {
+const int DataConfig::getNumberOfField(void) {
 	return NumberOfField;
 }
 
-const int DataConfig::getIndexResponseTime(void) const {
+const int DataConfig::getIndexResponseTime(void) {
 	return IndexResponseTime;
 }
 
-const int DataConfig::getIndexDateTime(void) const {
+const int DataConfig::getIndexDateTime(void) {
 	return IndexDateTime;
 }
 
-const int DataConfig::getIndexHttpStatusCode(void) const {
+const int DataConfig::getIndexHttpStatusCode(void) {
 	return IndexHttpStatusCode;
 }
 
-const int DataConfig::getIndexApi(void) const {
+const int DataConfig::getIndexApi(void) {
 	return IndexApi;
 }
 
-const int DataConfig::getIndexHttpRequestMethod(void) const {
+const int DataConfig::getIndexHttpRequestMethod(void) {
 	return IndexHttpRequestMethod;
 }
 
-const int DataConfig::getIndexClientAgent(void) const {
+const int DataConfig::getIndexClientAgent(void) {
 	return IndexClientAgent;
 }
 
-void DataConfig::load(const string &strFilePath) {
-	ifstream ifConfig(strFilePath);
+void DataConfig::load(void) {
+	ifstream ifConfig(ConfigFilePath);
 	string strBuffer, strToken;
 	stringstream ssBuffer;
 	
-	if (!ifConfig.is_open()) {
+	if (ifConfig.fail()) {
 		cout << "config파일 열기 실패" << endl;
 	}
 	while (getline(ifConfig, strBuffer)) {
@@ -97,4 +97,8 @@ void DataConfig::load(const string &strFilePath) {
 			IndexClientAgent = stoi(strToken);
 		} // HTTP 요청 방식 필드의 위치
 	}
+}
+
+DataConfig DataConfig::getInstance(void) {
+	return instance;
 }

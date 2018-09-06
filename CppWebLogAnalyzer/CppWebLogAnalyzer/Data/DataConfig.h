@@ -4,8 +4,10 @@
 #include <string>
 using namespace std;
 
-class DataConfig {
+class DataConfig // Singleton
+{
 private:
+	const string ConfigFilePath;
 	string PathLogFileDir;
 	int NumberOfLogFile;
 	int NumberOfField;
@@ -15,22 +17,24 @@ private:
 	int IndexApi;
 	int IndexHttpRequestMethod;
 	int IndexClientAgent;
+	static DataConfig instance;
 
 public:
-	DataConfig(void);
 	~DataConfig(void);
-	const string getPathLogFileDir(void) const;
-	const int getNumberOfLogFile(void) const;
-	const int getNumberOfField(void) const;
-	const int getIndexResponseTime(void) const;
-	const int getIndexDateTime(void) const;
-	const int getIndexHttpStatusCode(void) const;
-	const int getIndexApi(void) const;
-	const int getIndexHttpRequestMethod(void) const;
-	const int getIndexClientAgent(void) const;
+	void load(void);
+	const string getPathLogFileDir(void);
+	const int getNumberOfLogFile(void);
+	const int getNumberOfField(void);
+	const int getIndexResponseTime(void);
+	const int getIndexDateTime(void);
+	const int getIndexHttpStatusCode(void);
+	const int getIndexApi(void);
+	const int getIndexHttpRequestMethod(void);
+	const int getIndexClientAgent(void);
+	static DataConfig getInstance(void);
 
 private:
-	void load(const string &strFilePath);
+	DataConfig(void);
 };
 
 #endif
