@@ -110,10 +110,25 @@ const string DataLog::getApiField(void) const {
 
 const string DataLog::getApiGroup(void) const {
 	int iApiChar = m_arrField[m_dataConfig.getIndexApi() - 1].find('?');
-	if (iApiChar == string::npos) {
-		return m_arrField[m_dataConfig.getIndexApi() - 1];
+	string strApi;
+	
+	if (iApiChar != string::npos) {
+		strApi = m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, iApiChar);
 	}
-	else return m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, iApiChar);
+	else {
+		strApi = m_arrField[m_dataConfig.getIndexApi() - 1];
+	}
+
+	iApiChar = strApi.find('/', 1);
+	iApiChar = strApi.find('/', iApiChar + 1);
+	iApiChar = strApi.find('/', iApiChar + 1);
+
+	if (iApiChar != string::npos) {
+		return strApi.substr(0, iApiChar);
+	}
+	else {
+		return strApi;
+	}
 }
 
 const string DataLog::getClientAgentField(void) const {
@@ -144,11 +159,11 @@ const string DataLog::getBrowser(void) const {
 			return string("Safari");
 		}
 		else {
-			return string("etc");
+			return string("?");
 		}
 	}
 	else if (strAgent.find("Firefox")) return string("Firefox");
-	else return string("etc");
+	else return string("?");
 }
 
 const string DataLog::getOS(void) const {
@@ -161,7 +176,7 @@ const string DataLog::getOS(void) const {
 	}
 	else if (strAgent.find("iPhone") != string::npos || strAgent.find("iPad") != string::npos) return string("iOS");
 	else if (strAgent.find("Macintosh") != string::npos) return string("macOS");
-	else return string("etc");
+	else return string("?");
 }
 
 void DataLog::setField(void) {

@@ -89,6 +89,8 @@ const DataInput View::showMenu2(void) const {
 	cin >> strBuffer;
 	dataInput.setHttpRequestMethod(strBuffer);
 
+	cout << endl;
+
 	return dataInput;
 }
 
@@ -135,6 +137,8 @@ const DataInput View::showMenu4(void) const {
 	cout << "end time(HHMMSS): ";
 	cin >> strBuffer;
 	dataInput.setTimeEnd(strBuffer);
+
+	cout << endl;
 
 	return dataInput;
 }

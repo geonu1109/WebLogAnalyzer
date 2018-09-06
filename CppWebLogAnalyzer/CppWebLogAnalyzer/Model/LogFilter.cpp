@@ -45,11 +45,10 @@ void LogFilter::filterDelayedApi(const DataInput &dataInput) {
 				}
 			}
 		}
-		ofResult.close(); // 결과 파일 닫기
 		et = clock();
-		cout << endl;
-		cout << "[system] File " << iFile + 1 << " end: " << (float)(et - st) / 1000 << " seconds" << endl;
-		cout << endl;
+		cout << "[system] File " << iFile + 1 << " process completed: " << (float)(et - st) / 1000 << " seconds" << endl;
+
+		ofResult.close(); // 결과 파일 닫기
 	}
 }
 
@@ -102,9 +101,7 @@ void LogFilter::sortDynamicApi(const int &iProc, const DataInput &dataInput) {
 		}
 
 		et = clock();
-		cout << endl;
-		cout << "[system] File " << iFile + 1 << " complete: " << (float)(et - st) / 1000 << " seconds" << endl;
-		cout << endl;
+		cout << "[system] File " << iFile + 1 << " process completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 	}
 
 	// 출력
@@ -122,13 +119,11 @@ void LogFilter::sortDynamicApi(const int &iProc, const DataInput &dataInput) {
 	ofResult << endl;
 
 	for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) {
-		ofResult << iterApiCounter->first << ": " << iterApiCounter->second << endl;
+		ofResult << "[" << iterApiCounter->first << "] " << iterApiCounter->second << " times" << endl;
 	}
 
 	et = clock();
-	cout << endl;
-	cout << "[system] File output complete: " << (float)(et - st) / 1000 << " seconds" << endl;
-	cout << endl;
+	cout << "[system] File output completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 
 	ofResult.close();
 }
@@ -163,9 +158,7 @@ void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
 		}
 
 		et = clock();
-		cout << endl;
-		cout << "[system] File " << iFile + 1 << " complete: " << (float)(et - st) / 1000 << " seconds" << endl;
-		cout << endl;
+		cout << "[system] File " << iFile + 1 << " process completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 	}
 
 	st = clock();
@@ -174,15 +167,13 @@ void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
 		arrlistHourlyStatus[i].sort();
 		ofResult << i << " o'clock" << endl;
 		for (iterHourlyStatus = arrlistHourlyStatus[i].begin(); iterHourlyStatus != arrlistHourlyStatus[i].end(); iterHourlyStatus++) {
-			ofResult << "    " << iterHourlyStatus->first << ": " << iterHourlyStatus->second << " times" << endl;
+			ofResult << "  [" << iterHourlyStatus->first << "] " << iterHourlyStatus->second << " times" << endl;
 		}
 		ofResult << endl;
 	}
 
 	et = clock();
-	cout << endl;
-	cout << "[system] File output complete: " << (float)(et - st) / 1000 << " seconds" << endl;
-	cout << endl;
+	cout << "[system] File output completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 
 	ofResult.close();
 }
@@ -227,7 +218,7 @@ void LogFilter::classifyClientAgent(const DataInput &dataInput) {
 		}
 
 		et = clock();
-		cout << "[system] File " << iFile << " process complete: " << (float)(et - st) / 1000 << " seconds" << endl;
+		cout << "[system] File " << iFile << " process completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 	}
 
 	// output
@@ -238,15 +229,15 @@ void LogFilter::classifyClientAgent(const DataInput &dataInput) {
 
 	for (int i = 0; i < 24; i++) {
 		arrlistClientAgent[i].sort();
-		ofResult << "[" << i << " o'clock]" << endl;
+		ofResult << i << " o'clock" << endl;
 		for (iterClientAgent = arrlistClientAgent[i].begin(); iterClientAgent != arrlistClientAgent[i].end(); iterClientAgent++) {
-			ofResult << "  (" << iterClientAgent->first.first << ", " << iterClientAgent->first.second << ") " << iterClientAgent->second << " times" << endl;
+			ofResult << "  [" << iterClientAgent->first.first << ", " << iterClientAgent->first.second << "] " << iterClientAgent->second << " times" << endl;
 		}
 		ofResult << endl;
 	}
 
 	et = clock();
-	cout << "[system] File output complete: " << (float)(et - st) / 1000 << " seconds" << endl;
+	cout << "[system] File output completed: " << (float)(et - st) / 1000 << " seconds" << endl;
 
 	ofResult.close();
 }
