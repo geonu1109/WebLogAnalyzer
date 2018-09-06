@@ -16,7 +16,8 @@ public:
 	void filterDelayedApi(const DataInput &dataInput);
 	void sortDynamicApi(const int &iProc, const DataInput &dataInput);
 	void countHttpStatusCode(const DataInput &dataInput);
-	
+	void classifyClientAgent(const DataInput &dataInput);
+
 private:
 	const string getInFilePath(const tm &tmDate, const int &iFile);
 	const string getOutFilePath(const tm &tmDate, const int &iProc, const int &iFile);

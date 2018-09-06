@@ -31,17 +31,20 @@
     <Filter Include="헤더 파일\Discard">
       <UniqueIdentifier>{2648e8d9-dd52-47c0-b5af-b7f4a473e1d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Controller">
+      <UniqueIdentifier>{08a88159-c06e-431b-89b1-aa7e910e5879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\View">
+      <UniqueIdentifier>{ebba3303-e8f9-4988-a579-f854b4cc7728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Controller">
+      <UniqueIdentifier>{f3348a94-c4f1-4c5b-b445-3f3f656886cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\View">
+      <UniqueIdentifier>{70434d23-f32a-4b46-9157-027492f3beaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="View.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Controller.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Data\DataConfig.cpp">
       <Filter>소스 파일\Data</Filter>
     </ClCompile>
@@ -63,14 +66,17 @@
     <ClCompile Include="Model\LogFilter.cpp">
       <Filter>소스 파일\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>소스 파일\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>소스 파일\View</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="View.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Data\DataConfig.h">
       <Filter>헤더 파일\Data</Filter>
     </ClInclude>
@@ -91,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="CounterHTTPStatus.h">
       <Filter>헤더 파일\Discard</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>헤더 파일\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>헤더 파일\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

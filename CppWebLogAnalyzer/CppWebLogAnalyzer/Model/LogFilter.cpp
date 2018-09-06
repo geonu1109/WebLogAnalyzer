@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <vector>
 #include <list>
 #include <utility>
 
@@ -118,7 +119,7 @@ void LogFilter::sortDynamicApi(const int &iProc, const DataInput &dataInput) {
 		ofResult << "HTTP Status Code: " << dataInput.getHttpStatusCode() << endl;
 		ofResult << "HTTP Request Method: " << dataInput.getHttpRequestMethod() << endl;
 	}
-	cout << endl;
+	ofResult << endl;
 
 	for (iterApiCounter = listApiCounter.begin(); iterApiCounter != listApiCounter.end(); iterApiCounter++) {
 		ofResult << iterApiCounter->first << ": " << iterApiCounter->second << endl;
@@ -173,7 +174,7 @@ void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
 		arrlistHourlyStatus[i].sort();
 		ofResult << i << " o'clock" << endl;
 		for (iterHourlyStatus = arrlistHourlyStatus[i].begin(); iterHourlyStatus != arrlistHourlyStatus[i].end(); iterHourlyStatus++) {
-			ofResult << "    " << iterHourlyStatus->first << ": " << iterHourlyStatus->second << endl;
+			ofResult << "    " << iterHourlyStatus->first << ": " << iterHourlyStatus->second << " times" << endl;
 		}
 		ofResult << endl;
 	}
@@ -182,6 +183,70 @@ void LogFilter::countHttpStatusCode(const DataInput &dataInput) {
 	cout << endl;
 	cout << "[system] File output complete: " << (float)(et - st) / 1000 << " seconds" << endl;
 	cout << endl;
+
+	ofResult.close();
+}
+
+void LogFilter::classifyClientAgent(const DataInput &dataInput) {
+	list<pair<pair<string, string>, int>> arrlistClientAgent[24];
+	list<pair<pair<string, string>, int>>::iterator iterClientAgent;
+	bool isInserted = false;
+	int nHour;
+	ofstream ofResult;
+
+	clock_t st, et;
+
+	// input
+
+	for (int iFile = 1; iFile < m_dataConfig.getNumberOfLogFile() + 1; iFile++) {
+		DataLog dataLog(m_dataConfig, getInFilePath(dataInput.getDate(), iFile));
+		pair<string, string> strClientAgent;
+		
+		st = clock();
+
+		while (!dataLog.nextRecord().empty()) {
+			strClientAgent.first = dataLog.getBrowser();
+			strClientAgent.second = dataLog.getOS();
+			isInserted = false;
+
+			//if (dataLog.getBrowser() == "etc" || dataLog.getOS() == "etc") {
+			//	cout << "[User-Agent] " << dataLog.getClientAgentField() << endl;
+			//}
+
+			nHour = dataLog.getHour();
+
+			for (iterClientAgent = arrlistClientAgent[nHour].begin(); iterClientAgent != arrlistClientAgent[nHour].end(); iterClientAgent++) {
+				if (iterClientAgent->first.first == strClientAgent.first && iterClientAgent->first.second == strClientAgent.second) {
+					iterClientAgent->second++;
+					isInserted = true;
+				}
+			}
+			if (!isInserted) {
+				arrlistClientAgent[nHour].push_back(pair<pair<string, string>, int>(strClientAgent, 1));
+			}
+		}
+
+		et = clock();
+		cout << "[system] File " << iFile << " process complete: " << (float)(et - st) / 1000 << " seconds" << endl;
+	}
+
+	// output
+
+	ofResult.open(getOutFilePath(dataInput.getDate(), 5, 0));
+
+	st = clock();
+
+	for (int i = 0; i < 24; i++) {
+		arrlistClientAgent[i].sort();
+		ofResult << "[" << i << " o'clock]" << endl;
+		for (iterClientAgent = arrlistClientAgent[i].begin(); iterClientAgent != arrlistClientAgent[i].end(); iterClientAgent++) {
+			ofResult << "  (" << iterClientAgent->first.first << ", " << iterClientAgent->first.second << ") " << iterClientAgent->second << " times" << endl;
+		}
+		ofResult << endl;
+	}
+
+	et = clock();
+	cout << "[system] File output complete: " << (float)(et - st) / 1000 << " seconds" << endl;
 
 	ofResult.close();
 }

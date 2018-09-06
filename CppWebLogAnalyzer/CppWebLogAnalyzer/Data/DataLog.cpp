@@ -87,7 +87,8 @@ const bool DataLog::isApi(void) const {
 }
 
 const bool DataLog::isStaticResource(void) const {
-	if (m_arrField[m_dataConfig.getIndexApi() - 1].find("/rs") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/resources") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".css") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".js") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/favicon.ico") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".png") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".txt") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/thumb") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/img") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".gif") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".php") != string::npos) return true;
+	// if (m_arrField[m_dataConfig.getIndexApi() - 1].find("/rs") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/resources") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".css") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".js") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/favicon.ico") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".png") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".txt") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/thumb") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find("/img") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".gif") != string::npos || m_arrField[m_dataConfig.getIndexApi() - 1].find(".php") != string::npos) return true;
+	if (m_arrField[m_dataConfig.getIndexApi() - 1].find('.') != string::npos) return true;
 	else return false;
 }
 
@@ -110,25 +111,57 @@ const string DataLog::getApiField(void) const {
 const string DataLog::getApiGroup(void) const {
 	int iApiChar = m_arrField[m_dataConfig.getIndexApi() - 1].find('?');
 	if (iApiChar == string::npos) {
-		return string();
+		return m_arrField[m_dataConfig.getIndexApi() - 1];
 	}
 	else return m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, iApiChar);
+}
 
+const string DataLog::getClientAgentField(void) const {
+	return m_arrField[m_dataConfig.getIndexClientAgent() - 1];
+}
 
+const string DataLog::getBrowser(void) const {
+	const string &strAgent = m_arrField[m_dataConfig.getIndexClientAgent() - 1];
 
-
-
-
-	/*
-	const int nApiLen = m_arrField[m_dataConfig.getIndexApi() - 1].length();
-
-	for (int iApiChar = 5; iApiChar < nApiLen; iApiChar++) {
-		if (m_arrField[m_dataConfig.getIndexApi() - 1].at(iApiChar) == '/' || m_arrField[m_dataConfig.getIndexApi() - 1].at(iApiChar) == '?') {
-			return m_arrField[m_dataConfig.getIndexApi() - 1].substr(0, iApiChar);
+	if (strAgent.find("compatible") != string::npos || strAgent.find("compatible") != string::npos) return string("Internet Explorer");
+	else if (strAgent.find("Safari") != string::npos) {
+		if (strAgent.find("Chrome") != string::npos) {
+			if (strAgent.find("Edge") != string::npos) {
+				return string("Edge");
+			}
+			else if (strAgent.find("OPR") != string::npos) {
+				return string("Opera");
+			}
+			else if (strAgent.find("Whale") != string::npos) {
+				return string("Whale");
+			}
+			else return string("Chrome");
+		}
+		else if (strAgent.find("Android") != string::npos) {
+			return string("Android Browser");
+		}
+		else if (strAgent.find("Version") != string::npos) {
+			return string("Safari");
+		}
+		else {
+			return string("etc");
 		}
 	}
-	return m_arrField[m_dataConfig.getIndexApi() - 1];
-	*/
+	else if (strAgent.find("Firefox")) return string("Firefox");
+	else return string("etc");
+}
+
+const string DataLog::getOS(void) const {
+	const string &strAgent = m_arrField[m_dataConfig.getIndexClientAgent() - 1];
+
+	if (strAgent.find("Windows") != string::npos) return string("Windows");
+	else if (strAgent.find("Linux") != string::npos) {
+		if (strAgent.find("Android") != string::npos) return string("Android");
+		else return string("Linux");
+	}
+	else if (strAgent.find("iPhone") != string::npos || strAgent.find("iPad") != string::npos) return string("iOS");
+	else if (strAgent.find("Macintosh") != string::npos) return string("macOS");
+	else return string("etc");
 }
 
 void DataLog::setField(void) {
@@ -187,19 +220,19 @@ void DataLog::setField(void) {
 			break;
 		case ']':
 			if (!stkBracket.empty() && stkBracket.top() == '[') { stkBracket.pop(); }
-			else {
-				cout << endl;
-				cout << "[method] void DataLog::setField(void)" << endl;
-				cout << "[minor error] [ ] is not matched." << endl;
-				cout << "[record] " << m_strRecord << endl;
-				cout << endl;
-			}
+			//else {
+			//	cout << endl;
+			//	cout << "[method] void DataLog::setField(void)" << endl;
+			//	cout << "[minor error] [ ] is not matched." << endl;
+			//	cout << "[record] " << m_strRecord << endl;
+			//	cout << endl;
+			//}
 			break;
 		case '\"':
 			if (m_strRecord.at(iRecordChar - 1) == ' ') {
 				stkBracket.push('\"');
 			}
-			else if (m_strRecord.at(iRecordChar + 1) == ' ') {
+			else if (m_strRecord.at(iRecordChar + 1) == ' ' || iRecordChar == nRecordLength - 1) {
 				if (!stkBracket.empty() && stkBracket.top() == '\"') { stkBracket.pop(); }
 				else {
 					cout << endl;

@@ -32,6 +32,9 @@ public:
 	const string getHttpRequestMethod(void) const;
 	const string getApiField(void) const;
 	const string getApiGroup(void) const;
+	const string getClientAgentField(void) const;
+	const string getBrowser(void) const;
+	const string getOS(void) const;
 
 private:
 	void setField(void);

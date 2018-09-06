@@ -27,6 +27,7 @@ Controller::Controller() {
 		logFilter.sortDynamicApi(4, view.showMenu4());
 		break;
 	case 5:
+		logFilter.classifyClientAgent(view.showMenu5());
 		break;
 	default:
 		;
