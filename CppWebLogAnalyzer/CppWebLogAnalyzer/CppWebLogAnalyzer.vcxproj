@@ -123,6 +123,7 @@
     <ClCompile Include="Data\DataConfig.cpp" />
     <ClCompile Include="Data\DataInput.cpp" />
     <ClCompile Include="Data\DataLog.cpp" />
+    <ClCompile Include="DynamicApiCounterThread.cpp" />
     <ClCompile Include="FilePathGenerator.cpp" />
     <ClCompile Include="HttpStatusCounterThread.cpp" />
     <ClCompile Include="LogFilterThread.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="Data\DataConfig.h" />
     <ClInclude Include="Data\DataInput.h" />
     <ClInclude Include="Data\DataLog.h" />
+    <ClInclude Include="DynamicApiCounterThread.h" />
     <ClInclude Include="FilePathGenerator.h" />
     <ClInclude Include="HttpStatusCounterThread.h" />
     <ClInclude Include="LogFilterThread.h" />
