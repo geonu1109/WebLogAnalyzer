@@ -72,24 +72,29 @@ void HttpStatusCounterThread::subprocess(const int &iFile, list<pair<int, int>> 
 
 	st = clock();
 
-	DataLog dataLog(FilePathGenerator::getInFilePath(iFile));
-	while (!dataLog.nextRecord().empty()) {
+	DataLog dataLog(FilePathGenerator::getInFilePath(iFile)); // 로그 파일 객체 생성
+	while (!dataLog.nextRecord().empty()) // 로그 한 줄씩 불러오기
+	{
 		nHour = dataLog.getHour();
 		isInserted = false;
 		nHttpStatusCode = dataLog.getHttpStatusCode();
  
-		for (iterHourlyStatus = arrlistHourlyStatus[nHour].begin(); iterHourlyStatus != arrlistHourlyStatus[nHour].end(); iterHourlyStatus++) {
-			if (iterHourlyStatus->first == nHttpStatusCode) {
+		for (iterHourlyStatus = arrlistHourlyStatus[nHour].begin(); iterHourlyStatus != arrlistHourlyStatus[nHour].end(); iterHourlyStatus++) // HTTP Status Code 가 저장된 리스트 조회
+		{
+			if (iterHourlyStatus->first == nHttpStatusCode) // 이미 리스트에 등록된 게 있으면
+			{
 				m_mtxList.lock();
-				iterHourlyStatus->second++;
+				iterHourlyStatus->second++; // 카운터 1 증가(임계영역)
 				m_mtxList.unlock();
+
 				isInserted = true;
 				break;
 			}
 		}
-		if (!isInserted) {
+		if (!isInserted) // 리스트에 아직 등록되지 않은 Code이면
+		{
 			m_mtxList.lock();
-			arrlistHourlyStatus[nHour].push_back(pair<int, int>(nHttpStatusCode, 1));
+			arrlistHourlyStatus[nHour].push_back(pair<int, int>(nHttpStatusCode, 1)); // 리스트에 등록(임계영역)
 			m_mtxList.unlock();
 		}
 	}

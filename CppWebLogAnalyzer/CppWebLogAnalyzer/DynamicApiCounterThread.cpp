@@ -26,6 +26,7 @@ void DynamicApiCounterThread::process(void) {
 	list<pair<string, int>>::iterator iterApiCounter;
 	clock_t st, et;
 	stack<thread> stkThread;
+	char strBuffer[512];
 
 	// input
 
@@ -49,8 +50,8 @@ void DynamicApiCounterThread::process(void) {
 
 	listApiCounter.sort(&desc);
 
-	ofResult << DataInput::getInstance().getTimeStart().tm_hour << ":" << DataInput::getInstance().getTimeStart().tm_min << ":" << DataInput::getInstance().getTimeStart().tm_sec << " - ";
-	ofResult << DataInput::getInstance().getTimeEnd().tm_hour << ":" << DataInput::getInstance().getTimeEnd().tm_min << ":" << DataInput::getInstance().getTimeEnd().tm_sec << endl;
+	sprintf(strBuffer, "%02d:%02d:%02d - %02d:%02d:%02d", DataInput::getInstance().getTimeStart().tm_hour, DataInput::getInstance().getTimeStart().tm_min, DataInput::getInstance().getTimeStart().tm_sec, DataInput::getInstance().getTimeEnd().tm_hour, DataInput::getInstance().getTimeEnd().tm_min, DataInput::getInstance().getTimeEnd().tm_sec);
+	ofResult << strBuffer << endl;
 	if (DataInput::getInstance().getSelect() == 2) {
 		ofResult << "HTTP Status Code: " << DataInput::getInstance().getHttpStatusCode() << endl;
 		ofResult << "HTTP Request Method: " << DataInput::getInstance().getHttpRequestMethod() << endl;

@@ -12,7 +12,6 @@
 using namespace std;
 
 Controller::Controller() {
-	LogFilter logFilter;
 	DataInput::getInstance().setSelect(View::getInstance().showMenu());
 
 	switch (DataInput::getInstance().getSelect()) {
@@ -34,7 +33,6 @@ Controller::Controller() {
 		break;
 	case 5:
 		View::getInstance().showMenu5();
-		// logFilter.classifyClientAgent();
 		ClientAgentClassifierThread().process();
 		break;
 	default:
