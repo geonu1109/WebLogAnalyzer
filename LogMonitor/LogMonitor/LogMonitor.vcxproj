@@ -115,6 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DataLog.h" />
+    <ClInclude Include="DataLogField.h" />
+    <ClInclude Include="DataLogRecord.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DataLog.cpp" />
+    <ClCompile Include="DataLogField.cpp" />
+    <ClCompile Include="DataLogRecord.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
