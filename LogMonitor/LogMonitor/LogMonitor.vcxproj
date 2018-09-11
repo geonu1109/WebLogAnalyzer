@@ -115,14 +115,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="DataConfig.h" />
     <ClInclude Include="DataLog.h" />
-    <ClInclude Include="DataLogField.h" />
-    <ClInclude Include="DataLogRecord.h" />
+    <ClInclude Include="DataParam.h" />
+    <ClInclude Include="LogReader.h" />
+    <ClInclude Include="Processor.h" />
+    <ClInclude Include="ResultWriter.h" />
+    <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="DataConfig.cpp" />
     <ClCompile Include="DataLog.cpp" />
-    <ClCompile Include="DataLogField.cpp" />
-    <ClCompile Include="DataLogRecord.cpp" />
+    <ClCompile Include="DataParam.cpp" />
+    <ClCompile Include="LogReader.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Processor.cpp" />
+    <ClCompile Include="ResultWriter.cpp" />
+    <ClCompile Include="View.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="logmoncfg.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

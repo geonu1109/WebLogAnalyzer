@@ -1,0 +1,3 @@
+NumberOfLogField 14
+IndexOfResponseTimeField 14
+LogDirPath C:\Users\user\Desktop\logdata
