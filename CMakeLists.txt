@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.12)
+project(WebLogAnalyzer)
+
+set(CMAKE_CXX_STANDARD 14)
+
+set(CppWebLogAnalyzer CppWebLogAnalyzer/CppWebLogAnalyzer/ClientAgentClassifierThread.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/Controller.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/CounterHTTPStatus.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/DynamicApiCounterThread.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/FilePathGenerator.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/FileProc.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/HttpStatusCounterThread.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/LogFilterThread.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/main.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/Model.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/View.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/Data/DataConfig.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/Data/DataInput.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/Data/DataLog.cpp CppWebLogAnalyzer/CppWebLogAnalyzer/wlacfg.txt)
+
+add_executable(CppWebLogAnalyzer ${CppWebLogAnalyzer})

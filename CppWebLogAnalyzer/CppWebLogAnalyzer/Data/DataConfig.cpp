@@ -2,10 +2,15 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#define CLion
 DataConfig DataConfig::instance;
 
-DataConfig::DataConfig(void) : ConfigFilePath("..\\CppWebLogAnalyzer\\wlacfg.txt") {
+DataConfig::DataConfig(void)
+#ifdef CLion
+	: ConfigFilePath("../CppWebLogAnalyzer/CppWebLogAnalyzer/wlacfg.txt") {
+#else
+	: ConfigFilePath("../CppWebLogAnalyzer/wlacfg.txt") {
+#endif
 	load();
 }
 
@@ -54,49 +59,49 @@ void DataConfig::load(void) {
 	stringstream ssBuffer;
 	
 	if (ifConfig.fail()) {
-		cout << "configÆÄÀÏ ¿­±â ½ÇÆÐ" << endl;
+		cout << "[error] fail to open config file" << endl;
 	}
 	while (getline(ifConfig, strBuffer)) {
 		ssBuffer.clear();
 		ssBuffer.str(strBuffer);
 		ssBuffer >> strToken;
-		if (strToken.at(0) == '#') { continue; } // #À¸·Î ½ÃÀÛÇÏ´Â ÁÙÀº ÁÖ¼®Ã³¸®
+		if (strToken.at(0) == '#') { continue; } // #ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½Ã³ï¿½ï¿½
 		else if (strToken == "PathLogFileDir") {
 			ssBuffer >> strToken;
 			PathLogFileDir = strToken;
-		} // ·Î±×ÆÄÀÏÀÌ µé¾îÀÖ´Â µð·ºÅÍ¸®ÀÇ °æ·Î
+		} // ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		else if (strToken == "NumberOfLogFile") {
 			ssBuffer >> strToken;
 			NumberOfLogFile = stoi(strToken);
-		} // ·Î±×ÆÄÀÏÀÇ °³¼ö
+		} // ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		else if (strToken == "NumberOfField") {
 			ssBuffer >> strToken;
 			NumberOfField = stoi(strToken);
-		} // ·¹ÄÚµå ´ç ÇÊµåÀÇ °³¼ö
+		} // ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		else if (strToken == "IndexResponseTime") {
 			ssBuffer >> strToken;
 			IndexResponseTime = stoi(strToken);
-		} // ÀÀ´ä½Ã°£ ÇÊµåÀÇ À§Ä¡
+		} // ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 		else if (strToken == "IndexDateTime") {
 			ssBuffer >> strToken;
 			IndexDateTime = stoi(strToken);
-		} // ³¯Â¥ ¹× ½Ã°£ ÇÊµåÀÇ À§Ä¡
+		} // ï¿½ï¿½Â¥ ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 		else if (strToken == "IndexHttpStatusCode") {
 			ssBuffer >> strToken;
 			IndexHttpStatusCode = stoi(strToken);
-		} // HTTP »óÅÂ ÄÚµå ÇÊµåÀÇ À§Ä¡
+		} // HTTP ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 		else if (strToken == "IndexApi") {
 			ssBuffer >> strToken;
 			IndexApi = stoi(strToken);
-		} // Api ÇÊµåÀÇ À§Ä¡
+		} // Api ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 		else if (strToken == "IndexHttpRequestMethod") {
 			ssBuffer >> strToken;
 			IndexHttpRequestMethod = stoi(strToken);
-		} // HTTP ¿äÃ» ¹æ½Ä ÇÊµåÀÇ À§Ä¡
+		} // HTTP ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 		else if (strToken == "IndexClientAgent") {
 			ssBuffer >> strToken;
 			IndexClientAgent = stoi(strToken);
-		} // HTTP ¿äÃ» ¹æ½Ä ÇÊµåÀÇ À§Ä¡
+		} // HTTP ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	}
 }
 
