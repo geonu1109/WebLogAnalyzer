@@ -1,8 +1,7 @@
 #ifndef __LOGREADER_H__
 #define __LOGREADER_H__
 
-#include "DataConfig.h"
-#include "DataLog.h"
+#include "LogData.h"
 #include <fstream>
 #include <string>
 using namespace std;
@@ -11,7 +10,7 @@ class LogReader
 {
 private:
 	ifstream m_ifLogFile;
-	DataLog m_dataLog;
+	LogData m_dataLog;
 
 public:
 	LogReader(void);

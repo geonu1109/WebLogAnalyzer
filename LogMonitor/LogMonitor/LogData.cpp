@@ -1,40 +1,40 @@
-#include "DataLog.h"
+#include "LogData.h"
 #include <stack>
 
-DataLog::DataLog(void) {
-	m_arrstrLogField = new string[DataConfig::getInstance().getLogField()];
+LogData::LogData(void) {
+	m_arrstrLogField = new string[ConfigData::getInstance().getNumberOfLogField()];
 }
 
-DataLog::~DataLog() {
+LogData::~LogData() {
 	delete[] m_arrstrLogField;
 }
 
-void DataLog::update(const string &strLogRecord) {
+void LogData::update(const string &strLogRecord) {
 	m_strLogRecord = strLogRecord;
 	
 	splitLog();
 }
 
-const string &DataLog::getLogRecord(void) const {
+const string &LogData::getLogRecord(void) const {
 	return m_strLogRecord;
 }
 
-const string &DataLog::getLogField(int &iField) const {
+const string &LogData::getLogField(int &iField) const {
 	return m_arrstrLogField[iField];
 }
 
-void DataLog::splitLog(void) const {
+void LogData::splitLog(void) const {
 	const int nLogRecordLen = m_strLogRecord.length();
 	int iLogField = 0, iLogFieldCharStart = 0;
 	stack<char> stkChar;
 
 	for (int iLogRecordChar = 0; iLogRecordChar < nLogRecordLen; iLogRecordChar++) {
 		// handle exception
-		if (iLogField > DataConfig::getInstance().getLogField()) {
+		if (iLogField > ConfigData::getInstance().getNumberOfLogField()) {
 			throw string("indicated invalid log field");
 		}
 		if (iLogRecordChar == nLogRecordLen - 1) {
-			if (iLogField != DataConfig::getInstance().getLogField() - 1) {
+			if (iLogField != ConfigData::getInstance().getNumberOfLogField() - 1) {
 				throw string("fail to split log");
 			}
 			m_arrstrLogField[iLogField] = m_strLogRecord.substr(iLogFieldCharStart, iLogRecordChar - iLogFieldCharStart);

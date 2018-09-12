@@ -1,19 +1,23 @@
 #include "Controller.h"
-#include "DataConfig.h"
-#include "View.h"
+#include "ConfigData.h"
+#include "Console.h"
+#include "LogMonitor.h"
+#include <iostream>
 #include <string>
 using namespace std;
 
 Controller::Controller() {
-
 }
 
-void Controller::process(void) const {
-	View console;
+void Controller::run(void) const {
+	
+	
 	try {
+		
 	}
 	catch (string strErrMsg) {
-		console.printErr(strErrMsg);
+		Console::getInstance().printErr(strErrMsg);
+		system("pause");
 		exit(1);
 	}
 }

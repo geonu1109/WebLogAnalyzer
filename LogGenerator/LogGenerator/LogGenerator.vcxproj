@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{CBC92126-1222-41B6-A048-10B13388EDE3}</ProjectGuid>
-    <RootNamespace>LogMonitor</RootNamespace>
+    <ProjectGuid>{2EABE7D7-E25C-4CB5-BE7E-64911A60588D}</ProjectGuid>
+    <RootNamespace>LogGenerator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -115,28 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Controller.h" />
-    <ClInclude Include="ConfigData.h" />
-    <ClInclude Include="LogData.h" />
-    <ClInclude Include="LogMonitor.h" />
-    <ClInclude Include="ParamData.h" />
-    <ClInclude Include="LogReader.h" />
-    <ClInclude Include="ResultWriter.h" />
-    <ClInclude Include="Console.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="ConfigData.cpp" />
-    <ClCompile Include="LogData.cpp" />
-    <ClCompile Include="LogMonitor.cpp" />
-    <ClCompile Include="ParamData.cpp" />
-    <ClCompile Include="LogReader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ResultWriter.cpp" />
-    <ClCompile Include="Console.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="logmoncfg.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

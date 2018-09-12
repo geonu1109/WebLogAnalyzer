@@ -7,7 +7,7 @@ private:
 
 public:
 	Controller(void);
-	void process(void) const;
+	void run(void) const;
 
 private:
 };

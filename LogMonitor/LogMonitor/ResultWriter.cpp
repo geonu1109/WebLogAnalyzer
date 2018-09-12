@@ -1,5 +1,5 @@
 #include "ResultWriter.h"
-#include "DataConfig.h"
+#include "ConfigData.h"
 
 ResultWriter *ResultWriter::pInstance = nullptr;
 
@@ -17,7 +17,7 @@ void ResultWriter::init(const string &strResultFilePath) {
 }
 
 void ResultWriter::write(const string &str) {
-	m_ofResult.open();
+	//
 }
 
 ResultWriter::ResultWriter(const string &strResultFilePath) : ResultFilePath(strResultFilePath) {

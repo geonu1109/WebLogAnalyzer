@@ -1,9 +1,9 @@
-#include "DataParam.h"
+#include "ParamData.h"
 #include <sstream>
 
-DataParam *DataParam::pInstance = nullptr;
+ParamData *ParamData::pInstance = nullptr;
 
-DataParam &DataParam::getInstance(void) {
+ParamData &ParamData::getInstance(void) {
 	if (pInstance) {
 		return *pInstance;
 	}
@@ -12,16 +12,16 @@ DataParam &DataParam::getInstance(void) {
 	}
 }
 
-void DataParam::init(const int &argc, const char * const argv[]) {
+void ParamData::init(const int &argc, const char * const argv[]) {
 	string strBuffer;
 
 	for (int i = 1; i < argc; i++) {
 		strBuffer = string(argv[i]);
 		if (strBuffer == "--delayed" || strBuffer == "-d") {
-			DataParam::getInstance().nDelayedTimeLimit = stoi(argv[++i]);
+			ParamData::getInstance().nDelayedTimeLimit = stoi(argv[++i]);
 		}
 	}
 }
 
-DataParam::DataParam() {
+ParamData::ParamData() {
 }

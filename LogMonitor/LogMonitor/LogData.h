@@ -1,19 +1,18 @@
-#ifndef __LOGDATA_H__
-#define __LOGDATA_H__
+#ifndef __LogData_h__
+#define __LogData_h__
 
-#include "DataConfig.h"
+#include "ConfigData.h"
 #include <string>
 using namespace std;
 
-class DataLog
-{
+class LogData {
 private:
 	string m_strLogRecord;
 	string *m_arrstrLogField;
 
 public:
-	DataLog(void);
-	~DataLog(void);
+	LogData(void);
+	~LogData(void);
 	void update(const string &strLogRecord);
 	const string &getLogRecord(void) const;
 	const string &getLogField(int &iField) const;
