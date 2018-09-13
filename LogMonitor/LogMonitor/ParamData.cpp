@@ -13,14 +13,25 @@ ParamData &ParamData::getInstance(void) {
 }
 
 void ParamData::init(const int &argc, const char * const argv[]) {
+	if (pInstance == nullptr) {
+		pInstance = new ParamData();
+	}
+	else {
+		throw string("unable to initialize parameter data twice or more");
+	}
+
 	string strBuffer;
 
 	for (int i = 1; i < argc; i++) {
 		strBuffer = string(argv[i]);
-		if (strBuffer == "--delayed" || strBuffer == "-d") {
-			ParamData::getInstance().nDelayedTimeLimit = stoi(argv[++i]);
+		if (strBuffer == "--delay" || strBuffer == "-d") {
+			ParamData::getInstance().DelayTimeLimit = stof(argv[++i]);
 		}
 	}
+}
+
+const float &ParamData::getDelayTimeLimit(void) const {
+	return DelayTimeLimit;
 }
 
 ParamData::ParamData() {

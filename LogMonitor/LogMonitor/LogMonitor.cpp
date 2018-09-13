@@ -1,5 +1,6 @@
 #include "LogMonitor.h"
 #include "Console.h"
+#include "LogData.h"
 #include <iostream>
 #include <stack>
 #include <thread>
@@ -25,36 +26,45 @@ void LogMonitor::run(void) {
 }
 
 void LogMonitor::subprocess(const string &strLogFilePath) {
-	ifstream ifLog(strLogFilePath);
-	streampos posPrev(ifLog.seekg(0, ios::end).tellg()), posCur;
-	string strBuffer;
+	try {
+		ifstream ifLog(strLogFilePath);
+		LogData dataLog;
+		streampos posPrev(ifLog.seekg(0, ios::end).tellg()), posCur;
+		string strBuffer;
 
-	// error handling
-	if (ifLog.fail()) {
-		Console::getInstance().print(strLogFilePath);
-		Console::getInstance().printErr("fail to open log file");
-		// throw string("fail to open log file");
-	}
-
-	ifLog.close();
-
-	while (true) {
-		this_thread::sleep_for(chrono::seconds(1));
-
-		ifLog.open(strLogFilePath);
-		posCur = ifLog.seekg(0, ios::end).tellg();
-		if (posCur > posPrev) {
-			ifLog.seekg(posPrev);
-
-			while (!ifLog.eof()) {
-				strBuffer.clear();
-				getline(ifLog, strBuffer);
-				Console::getInstance().print(strBuffer);
-			}
-			posPrev = posCur;
+		// error handling
+		if (ifLog.fail()) {
+			Console::getInstance().print(strLogFilePath);
+			throw string("fail to open log file");
 		}
 
 		ifLog.close();
+
+		while (true) {
+			this_thread::sleep_for(chrono::seconds(1));
+
+			ifLog.open(strLogFilePath);
+			posCur = ifLog.seekg(0, ios::end).tellg();
+			if (posCur > posPrev) {
+				ifLog.seekg(posPrev);
+
+				while (!ifLog.eof()) {
+					getline(ifLog, strBuffer);
+					dataLog.update(strBuffer);
+					if (dataLog.isValid()) {
+						Console::getInstance().print(strBuffer);
+					}
+				}
+				posPrev = posCur;
+			}
+
+			ifLog.close();
+		}
+	}
+	catch (const string &strErrMsg) {
+		Console::getInstance().printErr(strErrMsg);
+		system("pause");
+		exit(1);
 	}
 }
 

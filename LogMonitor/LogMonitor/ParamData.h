@@ -7,11 +7,12 @@ using namespace std;
 class ParamData {
 private:
 	static ParamData *pInstance;
-	int nDelayedTimeLimit;
+	float DelayTimeLimit;
 
 public:
 	static ParamData &getInstance(void);
 	static void init(const int &argc, const char * const argv[]);
+	const float &getDelayTimeLimit(void) const;
 	
 private:
 	ParamData(void);

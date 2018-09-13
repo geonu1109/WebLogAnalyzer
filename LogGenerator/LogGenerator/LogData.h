@@ -14,9 +14,10 @@ public:
 	LogData(void);
 	~LogData(void);
 	void update(const string &strLogRecord);
-	const string &getLogRecord(void) const;
+	const string getLogRecord(void) const;
 	const string &getLogField(int &iField) const;
 	bool isValid(void) const;
+	void setDateTime(void);
 
 private:
 	void splitLog(const string &strLogRecord);
