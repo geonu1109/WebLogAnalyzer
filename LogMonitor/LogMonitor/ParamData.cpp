@@ -28,7 +28,7 @@ void ParamData::init(const int &argc, const char * const argv[]) {
 			ParamData::getInstance().DelayTimeLimit = stof(argv[++i]);
 		}
 		else if (strBuffer == "--status" || strBuffer == "-s") {
-			ParamData::getInstance().HttpStatusCode = stof(argv[++i]);
+			ParamData::getInstance().HttpStatusCode.push_back(stoi(argv[++i]));
 		}
 	}
 }
@@ -37,9 +37,9 @@ const float &ParamData::getDelayTimeLimit(void) const {
 	return DelayTimeLimit;
 }
 
-const float &ParamData::getHttpStatusCode(void) const {
+const list<int> &ParamData::getHttpStatusCode(void) const {
 	return HttpStatusCode;
 }
 
-ParamData::ParamData() : DelayTimeLimit(1.0), HttpStatusCode(0) {
+ParamData::ParamData() : DelayTimeLimit(0.0) {
 }

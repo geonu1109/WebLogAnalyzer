@@ -1,7 +1,6 @@
 #include "LogMonitor.h"
 #include "Console.h"
 #include "LogData.h"
-#include <iostream>
 #include <stack>
 #include <thread>
 #include <ctime>

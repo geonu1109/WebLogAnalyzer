@@ -29,13 +29,17 @@ const string &LogData::getLogField(int &iField) const {
 }
 
 bool LogData::isValid(void) const {
-	if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField()) return false;
+	if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField()) {
+		return false;
+	}
 	else if (stof(m_vecLogField[ConfigData::getInstance().getIndexOfResponseTimeField() - 1]) >= ParamData::getInstance().getDelayTimeLimit()) {
-		if (ParamData::getInstance().getHttpStatusCode == 0) {
+		if (ParamData::getInstance().getHttpStatusCode().empty()) {
 			return true;
 		}
-		else if (stoi(m_vecLogField[ConfigData::getInstance().getIndexOfHttpStatusCodeField() - 1]) == ParamData::getInstance().getHttpStatusCode()) {
-			return true;
+		for (auto i : ParamData::getInstance().getHttpStatusCode()) {
+			if (i == stoi(m_vecLogField[ConfigData::getInstance().getIndexOfHttpStatusCodeField() - 1])) {
+				return true;
+			}
 		}
 	}
 	return false;
