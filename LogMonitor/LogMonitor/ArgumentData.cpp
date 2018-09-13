@@ -30,6 +30,9 @@ void ArgumentData::init(const int &argc, const char * const argv[]) {
 		else if (strBuffer == "--status" || strBuffer == "-s") {
 			ArgumentData::getInstance().HttpStatusCode.push_back(stoi(argv[++i]));
 		}
+		else if (strBuffer == "--output" || strBuffer == "-o") {
+			ArgumentData::getInstance().ResultFilePath = argv[++i];
+		}
 	}
 }
 
@@ -39,6 +42,10 @@ const float &ArgumentData::getDelayTimeLimit(void) const {
 
 const list<int> &ArgumentData::getHttpStatusCode(void) const {
 	return HttpStatusCode;
+}
+
+const string &ArgumentData::getResultFilePath(void) const {
+	return ResultFilePath;
 }
 
 ArgumentData::ArgumentData() : DelayTimeLimit(0.0) {
