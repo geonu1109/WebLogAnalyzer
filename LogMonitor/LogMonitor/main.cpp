@@ -1,6 +1,6 @@
 #include "Controller.h"
 #include "ConfigData.h"
-#include "ParamData.h"
+#include "ArgumentData.h"
 #include "ResultWriter.h"
 #include "Console.h"
 #include "LogMonitor.h"
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 
 	try {
 		ConfigData::load(ConfigFilePath);
-		ParamData::init(argc, argv);
+		ArgumentData::init(argc, argv);
 
 		logMonitor.run();
 	}

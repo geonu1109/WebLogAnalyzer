@@ -119,7 +119,7 @@
     <ClInclude Include="ConfigData.h" />
     <ClInclude Include="LogData.h" />
     <ClInclude Include="LogMonitor.h" />
-    <ClInclude Include="ParamData.h" />
+    <ClInclude Include="ArgumentData.h" />
     <ClInclude Include="LogReader.h" />
     <ClInclude Include="ResultWriter.h" />
     <ClInclude Include="Console.h" />
@@ -129,7 +129,7 @@
     <ClCompile Include="ConfigData.cpp" />
     <ClCompile Include="LogData.cpp" />
     <ClCompile Include="LogMonitor.cpp" />
-    <ClCompile Include="ParamData.cpp" />
+    <ClCompile Include="ArgumentData.cpp" />
     <ClCompile Include="LogReader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResultWriter.cpp" />

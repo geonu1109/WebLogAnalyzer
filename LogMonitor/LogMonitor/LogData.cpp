@@ -1,5 +1,5 @@
 #include "LogData.h"
-#include "ParamData.h"
+#include "ArgumentData.h"
 #include <stack>
 
 LogData::LogData(void) {
@@ -32,11 +32,11 @@ bool LogData::isValid(void) const {
 	if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField()) {
 		return false;
 	}
-	else if (stof(m_vecLogField[ConfigData::getInstance().getIndexOfResponseTimeField() - 1]) >= ParamData::getInstance().getDelayTimeLimit()) {
-		if (ParamData::getInstance().getHttpStatusCode().empty()) {
+	else if (stof(m_vecLogField[ConfigData::getInstance().getIndexOfResponseTimeField() - 1]) >= ArgumentData::getInstance().getDelayTimeLimit()) {
+		if (ArgumentData::getInstance().getHttpStatusCode().empty()) {
 			return true;
 		}
-		for (auto i : ParamData::getInstance().getHttpStatusCode()) {
+		for (auto i : ArgumentData::getInstance().getHttpStatusCode()) {
 			if (i == stoi(m_vecLogField[ConfigData::getInstance().getIndexOfHttpStatusCodeField() - 1])) {
 				return true;
 			}

@@ -30,13 +30,13 @@
     <ClInclude Include="LogData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ParamData.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="LogMonitor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Console.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgumentData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,13 +59,13 @@
     <ClCompile Include="LogData.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ParamData.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="LogMonitor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Console.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ArgumentData.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
