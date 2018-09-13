@@ -48,6 +48,9 @@ void ConfigData::load(const string &strConfigFilePath) {
 		else if (strBuffer == "IndexOfDateTimeField") {
 			ssBuffer >> ConfigData::getInstance().m_iDateTimeField;
 		}
+		else if (strBuffer == "IndexOfHttpStatusCodeField") {
+			ssBuffer >> ConfigData::getInstance().m_iHttpStatusCodeField;
+		}
 		else if (strBuffer == "LogDirPath") {
 			ssBuffer >> ConfigData::getInstance().m_strLogDirPath;
 		}
@@ -67,6 +70,10 @@ const int &ConfigData::getIndexOfResponseTimeField(void) const {
 
 const int &ConfigData::getIndexOfDateTimeField(void) const {
 	return m_iDateTimeField;
+}
+
+const int &ConfigData::getIndexOfHttpStatusCodeField(void) const {
+	return m_iHttpStatusCodeField;
 }
 
 const int &ConfigData::getNumberOfFile(void) const {

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#define CLion
+// #define CLion
 DataConfig DataConfig::instance;
 
 DataConfig::DataConfig(void)

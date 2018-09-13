@@ -31,7 +31,12 @@ const string &LogData::getLogField(int &iField) const {
 bool LogData::isValid(void) const {
 	if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField()) return false;
 	else if (stof(m_vecLogField[ConfigData::getInstance().getIndexOfResponseTimeField() - 1]) >= ParamData::getInstance().getDelayTimeLimit()) {
-		return true;
+		if (ParamData::getInstance().getHttpStatusCode == 0) {
+			return true;
+		}
+		else if (stoi(m_vecLogField[ConfigData::getInstance().getIndexOfHttpStatusCodeField() - 1]) == ParamData::getInstance().getHttpStatusCode()) {
+			return true;
+		}
 	}
 	return false;
 }
