@@ -67,7 +67,7 @@ void LogMonitor::subprocess(const string &strLogFilePath) {
 	}
 }
 
-string LogMonitor::getLogFilePath(const int &iLogFile) {
+const string LogMonitor::getLogFilePath(const int &iLogFile) {
 	char strBuffer[128];
 	time_t secNow;
 	tm tmNow;

@@ -1,5 +1,6 @@
 #include "LogData.h"
 #include "ArgumentData.h"
+#include "ConfigData.h"
 #include <stack>
 
 LogData::LogData(void) {
