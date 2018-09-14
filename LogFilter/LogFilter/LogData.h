@@ -1,7 +1,6 @@
 #ifndef __LogData_h__
 #define __LogData_h__
 
-#include "ConfigData.h"
 #include <string>
 #include <vector>
 using namespace std;

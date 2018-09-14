@@ -1,4 +1,5 @@
 #include "LogData.h"
+#include "ConfigData.h"
 #include "ArgumentData.h"
 #include <stack>
 

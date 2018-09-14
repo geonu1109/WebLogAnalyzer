@@ -1,0 +1,6 @@
+NumberOfLogField 14
+IndexOfResponseTimeField 14
+LogDirPath C:/Users/user/Desktop/logdata
+NumberOfFile 1
+IndexOfDateTimeField 5
+IndexOfHttpStatusCodeField 9

@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConfigData.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="LogData.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ArgumentData.cpp" />
@@ -123,7 +124,11 @@
   <ItemGroup>
     <ClInclude Include="ArgumentData.h" />
     <ClInclude Include="ConfigData.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="LogData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="logfiltercfg.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
