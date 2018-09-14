@@ -14,53 +14,70 @@ int LogFilter::arrcValidLog[24];
 
 void LogFilter::run(void) {
 	stack<thread> stkThread;
-	for (int i = 0; i < ConfigData::getInstance().getNumberOfFile(); i++)
-	{
-		stkThread.push(thread(&subprocess, i + 1)); // file indexes start at 1
+	for (int i = 0; i < ConfigData::getInstance().getNumberOfFile(); i++) {
+		stkThread.push(thread(&subprocess, i + 1)); // create threads; file indexes start at 1
 	}
 	for (int i = 0; i < ConfigData::getInstance().getNumberOfFile(); i++) {
-		stkThread.top().join();
-		stkThread.pop();
+		stkThread.top().join(); // join threads
+		stkThread.pop(); // destroy threads
 	}
-	// 전체 통계 출력
+	Console::getInstance().printChart(arrcValidLog, arrcTotalLog); // print result
 }
 
 void LogFilter::subprocess(const int &iFile) {
 	ifstream ifLog(getLogFilePath(iFile));
 	string strBuffer;
 	LogData dataLog;
+	unsigned long int totalsize, curpos;
+	unsigned short int ratio = 0;
 
-	if (ifLog.fail()) {
-		throw string("fail to open log file");
-	}
-
-	while (ifLog.eof()) {
-		getline(ifLog, strBuffer);
-		dataLog.update(strBuffer);
-
-		mtxTotalLog.lock();
-		arrcTotalLog[dataLog.getHour()]++; // count total log
-		mtxTotalLog.unlock();
-
-		if (dataLog.isValid()) // 유효값 검사 확인해볼 것
-		{
-			mtxValidLog.lock();
-			arrcValidLog[dataLog.getHour()]++; // count valid log
-			mtxValidLog.unlock();
-			Console::getInstance().print(strBuffer);
+	try {
+		if (ifLog.fail()) {
+			Console::getInstance().print(getLogFilePath(iFile));
+			throw string("fail to open log file");
 		}
+
+		totalsize = ifLog.seekg(0, ios::end).tellg();
+		ifLog.seekg(0, ios::beg);
+
+		while (!ifLog.eof()) {
+			getline(ifLog, strBuffer);
+			dataLog.update(strBuffer);
+
+			if (!dataLog.isValid()) {
+				continue; // ignore error log
+			}
+
+			mtxTotalLog.lock();
+			arrcTotalLog[dataLog.getHour()]++; // count total log
+			mtxTotalLog.unlock();
+
+			if (dataLog.isConditional()) {
+
+				mtxValidLog.lock();
+				arrcValidLog[dataLog.getHour()]++; // count valid log
+				mtxValidLog.unlock();
+				// Console::getInstance().print(strBuffer);
+			}
+
+			curpos = ifLog.tellg();
+			if (ratio != curpos / (totalsize / 100)) {
+				ratio = curpos / (totalsize / 100);
+				Console::getInstance().showProgress(ratio);
+			}
+		}
+	}
+	catch (const string &strErrMsg) {
+		Console::getInstance().printErr(strErrMsg);
+		system("pause");
+		exit(1);
 	}
 }
 
 const string LogFilter::getLogFilePath(const int &iLogFile) {
 	char strBuffer[128];
-	time_t secNow;
-	tm tmNow;
 
-	secNow = time(nullptr);
-	localtime_s(&tmNow, &secNow);
-
-	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", ConfigData::getInstance().getLogDirPath().c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday, iLogFile, "daouoffice.com_access", tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
+	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", ConfigData::getInstance().getLogDirPath().c_str(), ArgumentData::getInstance().getDate().tm_year , ArgumentData::getInstance().getDate().tm_mon, ArgumentData::getInstance().getDate().tm_mday, iLogFile, "daouoffice.com_access", ArgumentData::getInstance().getDate().tm_year, ArgumentData::getInstance().getDate().tm_mon, ArgumentData::getInstance().getDate().tm_mday);
 
 	return strBuffer;
 }

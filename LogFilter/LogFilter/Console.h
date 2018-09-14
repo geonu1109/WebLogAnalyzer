@@ -12,6 +12,8 @@ public:
 	static Console &getInstance(void);
 	void print(const string &strMsg) const;
 	void printErr(const string &strErrMsg) const;
+	void printChart(int arrValid[], int arrTotal[]) const;
+	void showProgress(const unsigned short int &ratio) const;
 
 private:
 	Console();

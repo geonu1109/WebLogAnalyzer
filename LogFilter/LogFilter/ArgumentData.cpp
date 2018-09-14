@@ -55,7 +55,7 @@ const string &ArgumentData::getResultFilePath(void) const {
 }
 
 const tm &ArgumentData::getDate(void) const {
-
+	return tmDate;
 }
 
 ArgumentData::ArgumentData() : DelayTimeLimit(0.0) {

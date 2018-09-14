@@ -16,6 +16,7 @@ public:
 	const string &getLogRecord(void) const;
 	const string &getLogField(int &iField) const;
 	const bool isValid(void) const;
+	const bool isConditional(void) const;
 	const int getHour(void) const;
 
 private:

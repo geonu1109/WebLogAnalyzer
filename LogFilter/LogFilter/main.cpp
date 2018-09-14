@@ -8,8 +8,8 @@ int main(int argc, char *argv[]) {
 	const string ConfigFilePath("../LogFilter/logfiltercfg.txt");
 
 	try {
-		ConfigData::getInstance().load(ConfigFilePath);
-		ArgumentData::getInstance().init(argc, argv);
+		ConfigData::load(ConfigFilePath);
+		ArgumentData::init(argc, argv);
 
 		LogFilter::run();
 	}
