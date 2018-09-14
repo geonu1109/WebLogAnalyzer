@@ -35,7 +35,8 @@ void LogFilter::subprocess(const int &iFile) {
 
 		// 전체 로그 카운트
 
-		if (dataLog.isValid()) {
+		if (dataLog.isValid()) // 유효값 검사 확인해볼 것
+		{
 			// 해당 로그 카운트
 			Console::getInstance().print(strBuffer);
 		}

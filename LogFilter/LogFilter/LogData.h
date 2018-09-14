@@ -15,7 +15,8 @@ public:
 	void update(const string &strLogRecord);
 	const string &getLogRecord(void) const;
 	const string &getLogField(int &iField) const;
-	bool isValid(void) const;
+	const bool isValid(void) const;
+	const int getHour(void) const;
 
 private:
 	void splitLog(const string &strLogRecord);

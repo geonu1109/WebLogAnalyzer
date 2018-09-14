@@ -29,7 +29,7 @@ const string &LogData::getLogField(int &iField) const {
 	return m_vecLogField[iField];
 }
 
-bool LogData::isValid(void) const {
+const bool LogData::isValid(void) const {
 	if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField()) {
 		return false;
 	}
@@ -44,6 +44,10 @@ bool LogData::isValid(void) const {
 		}
 	}
 	return false;
+}
+
+const int LogData::getHour(void) const {
+	return stoi(m_vecLogField[ConfigData::getInstance().getIndexOfDateTimeField() - 1].substr(13, 2));
 }
 
 void LogData::splitLog(const string &strLogRecord) {
