@@ -11,7 +11,15 @@ using namespace std;
 
 const string strLogDirPath("C:/Users/user/Desktop/logdata");
 
-string getLogFilePath(const int &iLogFile) {
+string getInputFilePath(const int &iLogFile) {
+	char strBuffer[128];
+
+	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", strLogDirPath.c_str(), 2018, 8, 24, iLogFile, "daouoffice.com_access", 2018, 8, 24);
+
+	return strBuffer;
+}
+
+string getResultFilePath(const int &iLogFile) {
 	char strBuffer[128];
 	time_t secNow;
 	tm tmNow;
@@ -27,7 +35,7 @@ string getLogFilePath(const int &iLogFile) {
 int main(void) {
 	try {
 		ConfigData::load("../LogGenerator/loggencfg.txt");
-		ifstream ifFile("C:/Users/user/Desktop/logdata/20180824/ap1.daouoffice.com_access_2018-08-24.txt");
+		ifstream ifFile(getInputFilePath(1));
 		ofstream ofFile;
 		string strBuffer;
 		int count = 1;
@@ -36,17 +44,17 @@ int main(void) {
 
 		srand(time(nullptr));
 		system("mkdir C:\\Users\\user\\Desktop\\logdata\\20180913");
-		ofFile.open(getLogFilePath(1));
+		ofFile.open(getResultFilePath(1));
 		ofFile.close();
 
 		while (true) {
 			this_thread::sleep_for(chrono::milliseconds(100));
 
-			ofFile.open(getLogFilePath(1), ios::app);
+			ofFile.open(getResultFilePath(1), ios::app);
 			pos = (float)rand() / RAND_MAX * ifFile.seekg(0, ios::end).tellg() - 1000;
 			cout << "pos: " << pos << endl;
 			ifFile.seekg(pos);
-			getline(ifFile, strBuffer); // 불완전한 로그 제거
+			getline(ifFile, strBuffer); // remove uncomplete log
 			getline(ifFile, strBuffer);
 			dataLog.update(strBuffer);
 			dataLog.setDateTime();
