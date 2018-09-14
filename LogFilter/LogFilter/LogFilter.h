@@ -6,7 +6,8 @@ public:
 	static void run(void);
 
 private:
-	static void subprocess(void);
+	static void subprocess(const int &iFile);
+	static const string getLogFilePath(const int &iLogFile);
 };
 
 #endif
