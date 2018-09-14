@@ -33,6 +33,9 @@ void ArgumentData::init(const int &argc, const char * const argv[]) {
 		else if (strBuffer == "--output" || strBuffer == "-o") {
 			ArgumentData::getInstance().ResultFilePath = argv[++i];
 		}
+		else if (strBuffer == "--easy" || strBuffer == "-e") {
+			ArgumentData::getInstance().bEasy = true;
+		}
 	}
 }
 
@@ -48,5 +51,9 @@ const string &ArgumentData::getResultFilePath(void) const {
 	return ResultFilePath;
 }
 
-ArgumentData::ArgumentData() : DelayTimeLimit(0.0) {
+const bool &ArgumentData::isEasyMode(void) const {
+	return bEasy;
+}
+
+ArgumentData::ArgumentData() : DelayTimeLimit(0.0), bEasy(false) {
 }

@@ -12,6 +12,7 @@ private:
 	float DelayTimeLimit;
 	list<int> HttpStatusCode;
 	string ResultFilePath;
+	bool bEasy;
 	tm tmDate;
 
 public:
@@ -20,6 +21,7 @@ public:
 	const float &getDelayTimeLimit(void) const;
 	const list<int> &getHttpStatusCode(void) const;
 	const string &getResultFilePath(void) const;
+	const bool &isEasyMode(void) const;
 	const tm &getDate(void) const;
 
 private:

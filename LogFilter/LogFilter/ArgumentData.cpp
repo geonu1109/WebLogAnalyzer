@@ -33,6 +33,9 @@ void ArgumentData::init(const int &argc, const char * const argv[]) {
 		else if (strBuffer == "--output" || strBuffer == "-o") {
 			ArgumentData::getInstance().ResultFilePath = argv[++i];
 		}
+		else if (strBuffer == "--easy" || strBuffer == "-e") {
+			ArgumentData::getInstance().bEasy = true;
+		}
 		else if (strBuffer == "--date" || strBuffer == "-d") {
 			strBuffer = argv[++i];
 			ArgumentData::getInstance().tmDate.tm_year = stoi(strBuffer.substr(0, 4));
@@ -54,9 +57,13 @@ const string &ArgumentData::getResultFilePath(void) const {
 	return ResultFilePath;
 }
 
+const bool &ArgumentData::isEasyMode(void) const {
+	return bEasy;
+}
+
 const tm &ArgumentData::getDate(void) const {
 	return tmDate;
 }
 
-ArgumentData::ArgumentData() : DelayTimeLimit(0.0) {
+ArgumentData::ArgumentData() : DelayTimeLimit(0.0), bEasy(false) {
 }
