@@ -115,11 +115,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigData.cpp" />
+    <ClCompile Include="LogData.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ArgumentData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArgumentData.h" />
+    <ClInclude Include="ConfigData.h" />
+    <ClInclude Include="LogData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
