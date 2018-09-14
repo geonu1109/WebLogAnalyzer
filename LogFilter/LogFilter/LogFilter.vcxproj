@@ -118,6 +118,7 @@
     <ClCompile Include="ConfigData.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="LogData.cpp" />
+    <ClCompile Include="LogFilter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ArgumentData.cpp" />
   </ItemGroup>
@@ -126,6 +127,7 @@
     <ClInclude Include="ConfigData.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="LogData.h" />
+    <ClInclude Include="LogFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="logfiltercfg.txt" />

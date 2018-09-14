@@ -24,7 +24,7 @@ void ArgumentData::init(const int &argc, const char * const argv[]) {
 
 	for (int i = 1; i < argc; i++) {
 		strBuffer = string(argv[i]);
-		if (strBuffer == "--delay" || strBuffer == "-d") {
+		if (strBuffer == "--limit" || strBuffer == "-l") {
 			ArgumentData::getInstance().DelayTimeLimit = stof(argv[++i]);
 		}
 		else if (strBuffer == "--status" || strBuffer == "-s") {
@@ -32,6 +32,12 @@ void ArgumentData::init(const int &argc, const char * const argv[]) {
 		}
 		else if (strBuffer == "--output" || strBuffer == "-o") {
 			ArgumentData::getInstance().ResultFilePath = argv[++i];
+		}
+		else if (strBuffer == "--date" || strBuffer == "-d") {
+			strBuffer = argv[++i];
+			ArgumentData::getInstance().tmDate.tm_year = stoi(strBuffer.substr(0, 4));
+			ArgumentData::getInstance().tmDate.tm_mon = stoi(strBuffer.substr(4, 2));
+			ArgumentData::getInstance().tmDate.tm_mday = stoi(strBuffer.substr(6, 2));
 		}
 	}
 }
@@ -46,6 +52,10 @@ const list<int> &ArgumentData::getHttpStatusCode(void) const {
 
 const string &ArgumentData::getResultFilePath(void) const {
 	return ResultFilePath;
+}
+
+const tm &ArgumentData::getDate(void) const {
+
 }
 
 ArgumentData::ArgumentData() : DelayTimeLimit(0.0) {

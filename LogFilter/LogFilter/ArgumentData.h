@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <ctime>
 using namespace std;
 
 class ArgumentData {
@@ -11,6 +12,7 @@ private:
 	float DelayTimeLimit;
 	list<int> HttpStatusCode;
 	string ResultFilePath;
+	tm tmDate;
 
 public:
 	static ArgumentData &getInstance(void);
@@ -18,6 +20,7 @@ public:
 	const float &getDelayTimeLimit(void) const;
 	const list<int> &getHttpStatusCode(void) const;
 	const string &getResultFilePath(void) const;
+	const tm &getDate(void) const;
 
 private:
 	ArgumentData(void);
