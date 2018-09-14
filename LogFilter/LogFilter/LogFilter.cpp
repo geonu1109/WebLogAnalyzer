@@ -6,7 +6,11 @@
 #include <thread>
 #include <stack>
 #include <fstream>
-using namespace std;
+
+int LogFilter::arrcTotalLog[24];
+int LogFilter::arrcValidLog[24];
+ mutex LogFilter::mtxTotalLog;
+ mutex LogFilter::mtxValidLog;
 
 void LogFilter::run(void) {
 	stack<thread> stkThread;
@@ -18,6 +22,7 @@ void LogFilter::run(void) {
 		stkThread.top().join();
 		stkThread.pop();
 	}
+	// 전체 통계 출력
 }
 
 void LogFilter::subprocess(const int &iFile) {
@@ -33,15 +38,18 @@ void LogFilter::subprocess(const int &iFile) {
 		getline(ifLog, strBuffer);
 		dataLog.update(strBuffer);
 
-		// 전체 로그 카운트
+		mtxTotalLog.lock();
+		arrcTotalLog[dataLog.getHour()]++; // count total log
+		mtxTotalLog.unlock();
 
 		if (dataLog.isValid()) // 유효값 검사 확인해볼 것
 		{
-			// 해당 로그 카운트
+			mtxValidLog.lock();
+			arrcValidLog[dataLog.getHour()]++; // count valid log
+			mtxValidLog.unlock();
 			Console::getInstance().print(strBuffer);
 		}
 	}
-	// 전체 통계 출력
 }
 
 const string LogFilter::getLogFilePath(const int &iLogFile) {
