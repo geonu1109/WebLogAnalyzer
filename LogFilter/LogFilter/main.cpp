@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
 		LogFilter::run();
 	}
 	catch (const string &strErrMsg) {
-		Console::getInstance().printErr(strErrMsg);
+		Console::getInstance()->printErr(strErrMsg);
 		system("pause");
 		exit(1);
 	}

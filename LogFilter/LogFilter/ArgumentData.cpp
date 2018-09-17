@@ -74,5 +74,5 @@ const tm &ArgumentData::getDate(void) const {
 	return tmDate;
 }
 
-ArgumentData::ArgumentData() : DelayTimeLimit(0.0), bEasy(false) {
+ArgumentData::ArgumentData() : DelayTimeLimit(0.0), bEasy(false), ResultFilePath() {
 }

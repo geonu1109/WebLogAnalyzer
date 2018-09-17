@@ -2,13 +2,16 @@
 #include <iostream>
 #define WINDOWS
 
-Console Console::instance;
+Console *Console::pInstance = nullptr;
 
-Console &Console::getInstance(void) {
-	return instance;
+Console *Console::getInstance(void) {
+	if (pInstance == nullptr) {
+		pInstance = new Console();
+	}
+	return pInstance;
 }
 
-void Console::print(const string &strMsg) const {
+void Console::print(const string &strMsg) {
 	cout << strMsg << endl;
 }
 
@@ -29,7 +32,7 @@ void Console::printChart(int arrValid[], int arrTotal[]) const {
 		sumTotal += arrTotal[i];
 	}
 	for (int i = 0; i < 24; i++) {
-		printf("| %4d | %11d | ", i, arrValid[i], arrTotal[i]);
+		printf("| %4d | %11d | ", i, arrValid[i]);
 		ratio = arrValid[i] * 32 / maxValid;
 		if (arrValid[i] * 32 % maxValid != 0) {
 			ratio++;

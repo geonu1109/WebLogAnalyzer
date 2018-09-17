@@ -16,7 +16,6 @@ public:
 
 private:
 	static void subprocess(const int &iFile);
-	static const string getLogFilePath(const int &iLogFile);
 };
 
 #endif

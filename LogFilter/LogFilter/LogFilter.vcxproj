@@ -122,6 +122,9 @@
     <ClCompile Include="LogFilter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ArgumentData.cpp" />
+    <ClCompile Include="Output.cpp" />
+    <ClCompile Include="OutputFile.cpp" />
+    <ClCompile Include="PathGenerator.cpp" />
     <ClCompile Include="SimpleLogData.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +134,9 @@
     <ClInclude Include="LogData.h" />
     <ClInclude Include="LogFactory.h" />
     <ClInclude Include="LogFilter.h" />
+    <ClInclude Include="Output.h" />
+    <ClInclude Include="OutputFile.h" />
+    <ClInclude Include="PathGenerator.h" />
     <ClInclude Include="SimpleLogData.h" />
   </ItemGroup>
   <ItemGroup>

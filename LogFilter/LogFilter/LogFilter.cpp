@@ -2,8 +2,10 @@
 #include "ConfigData.h"
 #include "LogData.h"
 #include "ArgumentData.h"
+#include "Output.h"
 #include "Console.h"
 #include "LogFactory.h"
+#include "PathGenerator.h"
 #include <thread>
 #include <stack>
 #include <fstream>
@@ -23,11 +25,11 @@ void LogFilter::run(void) {
 		stkThread.top().join(); // join threads
 		stkThread.pop(); // destroy threads
 	}
-	Console::getInstance().printChart(s_arrcValidLog, s_arrcTotalLog); // print result
+	Console::getInstance()->printChart(s_arrcValidLog, s_arrcTotalLog); // print result
 }
 
 void LogFilter::subprocess(const int &iFile) {
-	ifstream ifLog(getLogFilePath(iFile));
+	ifstream ifLog(PathGenerator::mkLogFilePath(iFile));
 	string strBuffer;
 	LogData *pDataLog = LogFactory::getInstance().create();
 	//unsigned long int ulSize, ulPos;
@@ -36,7 +38,7 @@ void LogFilter::subprocess(const int &iFile) {
 
 	try {
 		if (ifLog.fail()) {
-			Console::getInstance().print(getLogFilePath(iFile));
+			Console::getInstance()->print(PathGenerator::mkLogFilePath(iFile));
 			throw string("fail to open log file");
 		}
 
@@ -55,7 +57,7 @@ void LogFilter::subprocess(const int &iFile) {
 
 			if (pDataLog->isConditional()) {
 				arrcValidLog[pDataLog->getHour()]++; // count valid log
-				// Console::getInstance().print(pDataLog->getLogRecord());
+				Output::getInstance()->print(pDataLog->getLogRecord());
 			}
 
 			//ulPos = ifLog.tellg();
@@ -75,16 +77,8 @@ void LogFilter::subprocess(const int &iFile) {
 		}
 	}
 	catch (const string &strErrMsg) {
-		Console::getInstance().printErr(strErrMsg);
+		Console::getInstance()->printErr(strErrMsg);
 		system("pause");
 		exit(1);
 	}
-}
-
-const string LogFilter::getLogFilePath(const int &iLogFile) {
-	char strBuffer[128];
-
-	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", ConfigData::getInstance().getLogDirPath().c_str(), ArgumentData::getInstance().getDate().tm_year , ArgumentData::getInstance().getDate().tm_mon, ArgumentData::getInstance().getDate().tm_mday, iLogFile, "daouoffice.com_access", ArgumentData::getInstance().getDate().tm_year, ArgumentData::getInstance().getDate().tm_mon, ArgumentData::getInstance().getDate().tm_mday);
-
-	return strBuffer;
 }
