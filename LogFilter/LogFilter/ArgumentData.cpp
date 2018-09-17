@@ -42,6 +42,15 @@ void ArgumentData::init(const int &argc, const char * const argv[]) {
 			ArgumentData::getInstance().tmDate.tm_mon = stoi(strBuffer.substr(4, 2));
 			ArgumentData::getInstance().tmDate.tm_mday = stoi(strBuffer.substr(6, 2));
 		}
+		else if (strBuffer == "--time" || strBuffer == "-t") {
+			strBuffer = argv[++i];
+			ArgumentData::getInstance().tmStart.tm_hour = stoi(strBuffer.substr(0, 2));
+			ArgumentData::getInstance().tmStart.tm_min = stoi(strBuffer.substr(2, 2));
+			ArgumentData::getInstance().tmStart.tm_sec = stoi(strBuffer.substr(4, 2));
+			ArgumentData::getInstance().tmEnd.tm_hour = stoi(strBuffer.substr(7, 2));
+			ArgumentData::getInstance().tmEnd.tm_min = stoi(strBuffer.substr(9, 2));
+			ArgumentData::getInstance().tmEnd.tm_sec = stoi(strBuffer.substr(11, 2));
+		}
 	}
 }
 

@@ -3,6 +3,7 @@
 #include "LogData.h"
 #include "ArgumentData.h"
 #include "Console.h"
+#include "LogFactory.h"
 #include <thread>
 #include <stack>
 #include <fstream>
@@ -27,8 +28,8 @@ void LogFilter::run(void) {
 void LogFilter::subprocess(const int &iFile) {
 	ifstream ifLog(getLogFilePath(iFile));
 	string strBuffer;
-	LogData dataLog;
-	unsigned long int totalsize, curpos;
+	LogData *pDataLog = LogFactory::getInstance().create();
+	unsigned long int ulSize, ulPos;
 	unsigned short int ratio = 0;
 
 	try {
@@ -37,32 +38,32 @@ void LogFilter::subprocess(const int &iFile) {
 			throw string("fail to open log file");
 		}
 
-		totalsize = ifLog.seekg(0, ios::end).tellg();
+		ulSize = ifLog.seekg(0, ios::end).tellg();
 		ifLog.seekg(0, ios::beg);
 
 		while (!ifLog.eof()) {
 			getline(ifLog, strBuffer);
-			dataLog.update(strBuffer);
+			pDataLog->update(strBuffer);
 
-			if (!dataLog.isValid()) {
+			if (!pDataLog->isValid()) {
 				continue; // ignore error log
 			}
 
 			mtxTotalLog.lock();
-			arrcTotalLog[dataLog.getHour()]++; // count total log
+			arrcTotalLog[pDataLog->getHour()]++; // count total log
 			mtxTotalLog.unlock();
 
-			if (dataLog.isConditional()) {
+			if (pDataLog->isConditional()) {
 
 				mtxValidLog.lock();
-				arrcValidLog[dataLog.getHour()]++; // count valid log
+				arrcValidLog[pDataLog->getHour()]++; // count valid log
 				mtxValidLog.unlock();
 				// Console::getInstance().print(strBuffer);
 			}
 
-			curpos = ifLog.tellg();
-			if (ratio != curpos / (totalsize / 100)) {
-				ratio = curpos / (totalsize / 100);
+			ulPos = ifLog.tellg();
+			if (ratio != ulPos / (ulSize / 100)) {
+				ratio = ulPos / (ulSize / 100);
 				Console::getInstance().showProgress(ratio);
 			}
 		}

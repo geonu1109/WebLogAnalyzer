@@ -14,6 +14,8 @@ private:
 	string ResultFilePath;
 	bool bEasy;
 	tm tmDate;
+	tm tmStart;
+	tm tmEnd;
 
 public:
 	static ArgumentData &getInstance(void);

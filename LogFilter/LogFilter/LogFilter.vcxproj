@@ -118,16 +118,20 @@
     <ClCompile Include="ConfigData.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="LogData.cpp" />
+    <ClCompile Include="LogFactory.cpp" />
     <ClCompile Include="LogFilter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ArgumentData.cpp" />
+    <ClCompile Include="SimpleLogData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArgumentData.h" />
     <ClInclude Include="ConfigData.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="LogData.h" />
+    <ClInclude Include="LogFactory.h" />
     <ClInclude Include="LogFilter.h" />
+    <ClInclude Include="SimpleLogData.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="logfiltercfg.txt" />

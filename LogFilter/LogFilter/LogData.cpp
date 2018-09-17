@@ -1,6 +1,6 @@
 #include "LogData.h"
-#include "ConfigData.h"
 #include "ArgumentData.h"
+#include "ConfigData.h"
 #include <stack>
 
 LogData::LogData(void) {
@@ -11,21 +11,16 @@ LogData::~LogData() {
 }
 
 void LogData::update(const string &strLogRecord) {
+	m_strLogRecord = strLogRecord;
 	m_vecLogField.clear();
 	splitLog(strLogRecord);
 }
 
 const string &LogData::getLogRecord(void) const {
-	string strBuffer;
-
-	for (auto i : m_vecLogField) {
-		strBuffer += i + ' ';
-	}
-
-	return strBuffer.substr(0, strBuffer.length() - 1);
+	return m_strLogRecord;
 }
 
-const string &LogData::getLogField(int &iField) const {
+const string &LogData::getLogField(const int &iField) const {
 	return m_vecLogField[iField];
 }
 
@@ -50,6 +45,83 @@ const bool LogData::isConditional(void) const {
 	return false;
 }
 
+const bool LogData::isStaticResource(void) const {
+	if (m_vecLogField[ConfigData::getInstance().getIndexOfApiField() - 1].find("/resource") != string::npos || m_vecLogField[ConfigData::getInstance().getIndexOfApiField() - 1].find("/favicon") != string::npos) {
+		return true;
+	}
+	return false;
+}
+
+const string LogData::getApi(void) const {
+	const string &strApiField = m_vecLogField[ConfigData::getInstance().getIndexOfApiField() - 1];
+	int iApiChar = strApiField.find('?');
+	string strApi;
+
+	if (iApiChar != string::npos) {
+		strApi = strApiField.substr(0, iApiChar);
+	}
+	else {
+		strApi = strApiField;
+	}
+
+	iApiChar = strApi.find('/', 1);
+	iApiChar = strApi.find('/', iApiChar + 1);
+	iApiChar = strApi.find('/', iApiChar + 1);
+
+	if (iApiChar != string::npos) {
+		return strApi.substr(0, iApiChar);
+	}
+	else {
+		return strApi;
+	}
+}
+
+const string LogData::getBrowser(void) const {
+	const string &strAgent = m_vecLogField[ConfigData::getInstance().getIndexOfClientAgentField() - 1];
+
+	if (strAgent.find("compatible") != string::npos || strAgent.find("Windows") != string::npos) {
+		return string("\"Internet Explorer\"");
+	}
+	else if (strAgent.find("Safari") != string::npos) {
+		if (strAgent.find("Chrome") != string::npos) {
+			if (strAgent.find("Edge") != string::npos) {
+				return string("Edge");
+			}
+			else if (strAgent.find("OPR") != string::npos) {
+				return string("Opera");
+			}
+			else if (strAgent.find("Whale") != string::npos) {
+				return string("Whale");
+			}
+			else return string("Chrome");
+		}
+		else if (strAgent.find("Android") != string::npos) {
+			return string("Android Browser");
+		}
+		else if (strAgent.find("Version") != string::npos) {
+			return string("Safari");
+		}
+		else {
+			return string("?");
+		}
+	}
+	else if (strAgent.find("Firefox")) return string("Firefox");
+	else return string("?");
+}
+
+const string LogData::getOS(void) const {
+	const string &strAgent = m_vecLogField[ConfigData::getInstance().getIndexOfClientAgentField() - 1];
+
+	if (strAgent.find("Windows") != string::npos) return string("Windows");
+	else if (strAgent.find("Linux") != string::npos) {
+		if (strAgent.find("Android") != string::npos) return string("Android");
+		else return string("Linux");
+	}
+	else if (strAgent.find("iPhone") != string::npos || strAgent.find("iPad") != string::npos) return string("iOS");
+	else if (strAgent.find("Macintosh") != string::npos) return string("macOS");
+	else return string("?");
+}
+
 const int LogData::getHour(void) const {
 	return stoi(m_vecLogField[ConfigData::getInstance().getIndexOfDateTimeField() - 1].substr(13, 2));
 }
@@ -68,7 +140,7 @@ void LogData::splitLog(const string &strLogRecord) {
 			if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField() - 1) {
 				// throw string("fail to split log");
 			}
-			m_vecLogField.push_back(strLogRecord.substr(iLogFieldCharStart, iLogRecordChar - iLogFieldCharStart));
+			m_vecLogField.push_back(strLogRecord.substr(iLogFieldCharStart, nLogRecordLen - iLogFieldCharStart));
 			break;
 		}
 
