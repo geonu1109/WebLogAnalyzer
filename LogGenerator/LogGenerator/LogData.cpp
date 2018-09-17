@@ -1,3 +1,5 @@
+// #define WINDOWS
+
 #include "LogData.h"
 #include <stack>
 #include <ctime>
@@ -43,7 +45,11 @@ void LogData::setDateTime(void) {
 	string mon;
 
 	secNow = time(nullptr);
+#ifdef WINDOWS
 	localtime_s(&tmNow, &secNow);
+#else
+	tmNow = *localtime(&secNow);
+#endif
 
 	switch (tmNow.tm_mon) {
 	case 0:
@@ -86,7 +92,11 @@ void LogData::setDateTime(void) {
 		throw string("wrong month");
 	}
 
+#ifdef WINDOWS
 	sprintf_s(strBuffer, 128, "[%02d/%s/%04d:%02d:%02d:%02d +09:00]", tmNow.tm_mday, mon.c_str(), tmNow.tm_year + 1900, tmNow.tm_hour, tmNow.tm_min, tmNow.tm_sec);
+#else
+	sprintf(strBuffer, "[%02d/%s/%04d:%02d:%02d:%02d +09:00]", tmNow.tm_mday, mon.c_str(), tmNow.tm_year + 1900, tmNow.tm_hour, tmNow.tm_min, tmNow.tm_sec);
+#endif
 	m_vecLogField[ConfigData::getInstance().getIndexOfDateTimeField() - 1] = strBuffer;
 }
 
