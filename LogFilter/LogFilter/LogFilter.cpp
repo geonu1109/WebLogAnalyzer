@@ -58,13 +58,13 @@ void LogFilter::subprocess(const int &iFile) {
 				mtxValidLog.lock();
 				arrcValidLog[pDataLog->getHour()]++; // count valid log
 				mtxValidLog.unlock();
-				// Console::getInstance().print(strBuffer);
+				Console::getInstance().print(pDataLog->getLogRecord());
 			}
 
 			ulPos = ifLog.tellg();
 			if (ratio != ulPos / (ulSize / 100)) {
 				ratio = ulPos / (ulSize / 100);
-				Console::getInstance().showProgress(ratio);
+				// Console::getInstance().showProgress(ratio);
 			}
 		}
 	}
