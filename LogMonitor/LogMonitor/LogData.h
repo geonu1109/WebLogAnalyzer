@@ -17,7 +17,8 @@ public:
 	virtual void update(const string &strLogRecord);
 	virtual const string &getLogRecord(void) const;
 	const string &getLogField(const int &iField) const;
-	bool isValid(void) const;
+	const bool isValid(void) const;
+	const bool isStaticResource(void) const;
 	const string getApi(void) const;
 	const string getBrowser(void) const;
 	const string getOS(void) const;

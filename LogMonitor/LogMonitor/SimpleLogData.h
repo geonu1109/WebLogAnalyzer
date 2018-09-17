@@ -10,8 +10,7 @@ private:
 	string m_strSimpleLogRecord;
 
 public:
-	SimpleLogData();
-	~SimpleLogData();
+	SimpleLogData(void);
 	virtual const string &getLogRecord(void) const;
 	virtual void update(const string &strLogRecord);
 

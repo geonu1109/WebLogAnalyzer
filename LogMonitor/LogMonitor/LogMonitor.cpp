@@ -51,7 +51,7 @@ void LogMonitor::subprocess(const string &strLogFilePath) {
 				while (!ifLog.eof()) {
 					getline(ifLog, strBuffer);
 					pDataLog->update(strBuffer);
-					if (pDataLog->isValid()) {
+					if (pDataLog->isValid() && !pDataLog->isStaticResource()) {
 						Console::getInstance().print(pDataLog->getLogRecord());
 					}
 				}

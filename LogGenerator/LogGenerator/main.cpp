@@ -43,7 +43,7 @@ int main(void) {
 		LogData dataLog;
 
 		srand(time(nullptr));
-		system("mkdir C:\\Users\\user\\Desktop\\logdata\\20180913");
+		system("mkdir C:\\Users\\user\\Desktop\\logdata\\20180917");
 		ofFile.open(getResultFilePath(1));
 		ofFile.close();
 

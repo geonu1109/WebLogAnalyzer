@@ -24,7 +24,7 @@ const string &LogData::getLogField(const int &iField) const {
 	return m_vecLogField[iField];
 }
 
-bool LogData::isValid(void) const {
+const bool LogData::isValid(void) const {
 	if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField()) {
 		return false;
 	}
@@ -37,6 +37,13 @@ bool LogData::isValid(void) const {
 				return true;
 			}
 		}
+	}
+	return false;
+}
+
+const bool LogData::isStaticResource(void) const {
+	if (m_vecLogField[ConfigData::getInstance().getIndexOfApiField() - 1].find("/resource") != string::npos || m_vecLogField[ConfigData::getInstance().getIndexOfApiField() - 1].find("/favicon") != string::npos) {
+		return true;
 	}
 	return false;
 }
@@ -68,7 +75,9 @@ const string LogData::getApi(void) const {
 const string LogData::getBrowser(void) const {
 	const string &strAgent = m_vecLogField[ConfigData::getInstance().getIndexOfClientAgentField() - 1];
 
-	if (strAgent.find("compatible") != string::npos || strAgent.find("compatible") != string::npos) return string("Internet Explorer");
+	if (strAgent.find("compatible") != string::npos || strAgent.find("Windows") != string::npos) {
+		return string("\"Internet Explorer\"");
+	}
 	else if (strAgent.find("Safari") != string::npos) {
 		if (strAgent.find("Chrome") != string::npos) {
 			if (strAgent.find("Edge") != string::npos) {
@@ -123,7 +132,7 @@ void LogData::splitLog(const string &strLogRecord) {
 			if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField() - 1) {
 				// throw string("fail to split log");
 			}
-			m_vecLogField.push_back(strLogRecord.substr(iLogFieldCharStart, iLogRecordChar - iLogFieldCharStart));
+			m_vecLogField.push_back(strLogRecord.substr(iLogFieldCharStart, nLogRecordLen - iLogFieldCharStart));
 			break;
 		}
 

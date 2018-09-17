@@ -63,7 +63,7 @@ void ConfigData::load(const string &strConfigFilePath) {
 		else if (strBuffer == "IndexOfApiField") {
 			ssBuffer >> ConfigData::getInstance().m_iApiField;
 		}
-		else if (strBuffer == "IndexOfClientAgent") {
+		else if (strBuffer == "IndexOfClientAgentField") {
 			ssBuffer >> ConfigData::getInstance().m_iClientAgentField;
 		}
 	}

@@ -6,3 +6,4 @@ IndexOfDateTimeField 5
 IndexOfHttpStatusCodeField 9
 IndexOfHttpRequestMethodField 6
 IndexOfApiField 7
+IndexOfClientAgentField 12
