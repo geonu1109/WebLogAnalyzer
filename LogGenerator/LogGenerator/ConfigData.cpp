@@ -36,10 +36,11 @@ void ConfigData::load(const string &strConfigFilePath) {
 		ssBuffer.str(strBuffer);
 
 		ssBuffer >> strBuffer;
-		if (strBuffer.at(0) == '#') {
-			continue;
-		}
-		else if (strBuffer == "NumberOfLogField") {
+		//if (strBuffer.at(0) == '#') {
+		//	continue;
+		//}
+		//else
+		if (strBuffer == "NumberOfLogField") {
 			ssBuffer >> ConfigData::getInstance().m_nLogField;
 		}
 		else if (strBuffer == "IndexOfResponseTimeField") {
