@@ -1,3 +1,5 @@
+// #define WINDOWS
+
 #include "LogMonitor.h"
 #include "Console.h"
 #include "LogData.h"
@@ -74,9 +76,13 @@ const string LogMonitor::getLogFilePath(const int &iLogFile) {
 	tm tmNow;
 
 	secNow = time(nullptr);
+#ifdef WINDOWS
 	localtime_s(&tmNow, &secNow);
-
 	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", ConfigData::getInstance().getLogDirPath().c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday, iLogFile, "daouoffice.com_access", tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
+#else
+	tmNow = *localtime(&secNow);
+	sprintf(strBuffer, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", ConfigData::getInstance().getLogDirPath().c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday, iLogFile, "daouoffice.com_access", tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
+#endif
 
 	return strBuffer;
 }

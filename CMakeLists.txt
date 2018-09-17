@@ -10,3 +10,7 @@ add_executable(CppWebLogAnalyzer ${CppWebLogAnalyzer})
 set(LogGenerator LogGenerator/LogGenerator/main.cpp LogGenerator/LogGenerator/LogData.cpp LogGenerator/LogGenerator/Console.cpp LogGenerator/LogGenerator/ConfigData.cpp)
 
 add_executable(LogGenerator ${LogGenerator})
+
+set(LogMonitor LogMonitor/LogMonitor/ArgumentData.cpp LogMonitor/LogMonitor/ConfigData.cpp LogMonitor/LogMonitor/Console.cpp LogMonitor/LogMonitor/Controller.cpp LogMonitor/LogMonitor/LogData.cpp LogMonitor/LogMonitor/LogFactory.cpp LogMonitor/LogMonitor/LogMonitor.cpp LogMonitor/LogMonitor/main.cpp LogMonitor/LogMonitor/SimpleLogData.cpp)
+
+add_executable(LogMonitor ${LogMonitor})
