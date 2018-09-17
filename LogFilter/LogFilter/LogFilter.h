@@ -6,10 +6,10 @@ using namespace std;
 
 class LogFilter {
 public:
-	static int arrcTotalLog[24];
-	static int arrcValidLog[24];
-	static mutex mtxTotalLog;
-	static mutex mtxValidLog;
+	static int s_arrcTotalLog[24];
+	static int s_arrcValidLog[24];
+	static mutex s_mtxTotalLog;
+	static mutex s_mtxValidLog;
 
 public:
 	static void run(void);

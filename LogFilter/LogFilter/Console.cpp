@@ -17,18 +17,21 @@ void Console::printErr(const string &strErrMsg) const {
 }
 
 void Console::printChart(int arrValid[], int arrTotal[]) const {
-	int sumValid = 0, sumTotal = 0;
+	int sumValid = 0, sumTotal = 0, maxValid = 0;
 	int ratio;
 	
-	printf("| %-4s | %-12s | %-20s | %-12s | %-12s |\n", "Hour","Conditional", "Traffic", "Total", "Ratio");
+	printf("| %-4s | %-11s | %-32s | %-8s | %-7s |\n", "Hour","Conditional", "Traffic", "Total", "Ratio");
 	for (int i = 0; i < 24; i++) {
+		if (arrValid[i] > maxValid) {
+			maxValid = arrValid[i];
+		}
 		sumValid += arrValid[i];
 		sumTotal += arrTotal[i];
 	}
 	for (int i = 0; i < 24; i++) {
-		printf("| %4d | %12d | ", i, arrValid[i], arrTotal[i]);
-		ratio = arrValid[i] * 20 / sumValid;
-		if (arrValid[i] * 20 % sumValid != 0) {
+		printf("| %4d | %11d | ", i, arrValid[i], arrTotal[i]);
+		ratio = arrValid[i] * 32 / maxValid;
+		if (arrValid[i] * 32 % maxValid != 0) {
 			ratio++;
 		}
 		int j = 0;
@@ -36,13 +39,13 @@ void Console::printChart(int arrValid[], int arrTotal[]) const {
 			cout << '|';
 			j++;
 		}
-		while(j < 20) {
+		while(j < 32) {
 			cout << ' ';
 			j++;
 		}
-		printf(" | %12d | %5s%0.3f %% |\n", arrTotal[i], "", (float)arrValid[i] / arrTotal[i]);
+		printf(" | %8d | %0.3f %% |\n", arrTotal[i], (float)arrValid[i] / arrTotal[i]);
 	}
-	printf("| %-4s | %12d | %20s | %12d | %5s%0.3f %% |\n", "Sum", sumValid, "||||||||||||||||||||", sumTotal, "", (float)sumValid / sumTotal);
+	printf("| %-4s | %11d | %32s | %8d | %0.3f %% |\n", "Sum", sumValid, "", sumTotal, (float)sumValid / sumTotal);
 }
 
 void Console::showProgress(const unsigned short int &ratio) const {

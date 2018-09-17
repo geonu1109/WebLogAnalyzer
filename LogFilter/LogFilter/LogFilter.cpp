@@ -7,11 +7,12 @@
 #include <thread>
 #include <stack>
 #include <fstream>
+#include <iostream>
 
-int LogFilter::arrcTotalLog[24];
-int LogFilter::arrcValidLog[24];
- mutex LogFilter::mtxTotalLog;
- mutex LogFilter::mtxValidLog;
+int LogFilter::s_arrcTotalLog[24];
+int LogFilter::s_arrcValidLog[24];
+mutex LogFilter::s_mtxTotalLog;
+mutex LogFilter::s_mtxValidLog;
 
 void LogFilter::run(void) {
 	stack<thread> stkThread;
@@ -22,15 +23,16 @@ void LogFilter::run(void) {
 		stkThread.top().join(); // join threads
 		stkThread.pop(); // destroy threads
 	}
-	Console::getInstance().printChart(arrcValidLog, arrcTotalLog); // print result
+	Console::getInstance().printChart(s_arrcValidLog, s_arrcTotalLog); // print result
 }
 
 void LogFilter::subprocess(const int &iFile) {
 	ifstream ifLog(getLogFilePath(iFile));
 	string strBuffer;
 	LogData *pDataLog = LogFactory::getInstance().create();
-	unsigned long int ulSize, ulPos;
-	unsigned short int ratio = 0;
+	//unsigned long int ulSize, ulPos;
+	//unsigned short int ratio = 0;
+	int arrcTotalLog[24] = { 0 }, arrcValidLog[24] = { 0 };
 
 	try {
 		if (ifLog.fail()) {
@@ -38,8 +40,8 @@ void LogFilter::subprocess(const int &iFile) {
 			throw string("fail to open log file");
 		}
 
-		ulSize = ifLog.seekg(0, ios::end).tellg();
-		ifLog.seekg(0, ios::beg);
+		//ulSize = ifLog.seekg(0, ios::end).tellg();
+		//ifLog.seekg(0, ios::beg);
 
 		while (!ifLog.eof()) {
 			getline(ifLog, strBuffer);
@@ -49,23 +51,27 @@ void LogFilter::subprocess(const int &iFile) {
 				continue; // ignore error log
 			}
 
-			mtxTotalLog.lock();
 			arrcTotalLog[pDataLog->getHour()]++; // count total log
-			mtxTotalLog.unlock();
 
 			if (pDataLog->isConditional()) {
-
-				mtxValidLog.lock();
 				arrcValidLog[pDataLog->getHour()]++; // count valid log
-				mtxValidLog.unlock();
-				Console::getInstance().print(pDataLog->getLogRecord());
+				// Console::getInstance().print(pDataLog->getLogRecord());
 			}
 
-			ulPos = ifLog.tellg();
-			if (ratio != ulPos / (ulSize / 100)) {
-				ratio = ulPos / (ulSize / 100);
-				// Console::getInstance().showProgress(ratio);
-			}
+			//ulPos = ifLog.tellg();
+			//if (ratio != ulPos / (ulSize / 100)) {
+			//	ratio = ulPos / (ulSize / 100);
+			//	Console::getInstance().showProgress(ratio);
+			//}
+		}
+		for (int i = 0; i < 24; i++) {
+			s_mtxTotalLog.lock();
+			s_arrcTotalLog[i] += arrcTotalLog[i];
+			s_mtxTotalLog.unlock();
+
+			s_mtxValidLog.lock();
+			s_arrcValidLog[i] += arrcValidLog[i];
+			s_mtxValidLog.unlock();
 		}
 	}
 	catch (const string &strErrMsg) {
