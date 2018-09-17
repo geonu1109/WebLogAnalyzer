@@ -28,7 +28,11 @@ const bool LogData::isValid(void) const {
 	if (m_vecLogField.size() != ConfigData::getInstance().getNumberOfLogField()) {
 		return false;
 	}
-	else if (stof(m_vecLogField[ConfigData::getInstance().getIndexOfResponseTimeField() - 1]) >= ArgumentData::getInstance().getDelayTimeLimit()) {
+	return true;
+}
+
+const bool LogData::isConditional(void) const {
+	if (stof(m_vecLogField[ConfigData::getInstance().getIndexOfResponseTimeField() - 1]) >= ArgumentData::getInstance().getDelayTimeLimit()) {
 		if (ArgumentData::getInstance().getHttpStatusCode().empty()) {
 			return true;
 		}

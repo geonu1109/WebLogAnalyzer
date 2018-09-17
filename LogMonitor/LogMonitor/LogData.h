@@ -18,6 +18,7 @@ public:
 	virtual const string &getLogRecord(void) const;
 	const string &getLogField(const int &iField) const;
 	const bool isValid(void) const;
+	const bool isConditional(void) const;
 	const bool isStaticResource(void) const;
 	const string getApi(void) const;
 	const string getBrowser(void) const;
