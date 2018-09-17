@@ -1,6 +1,7 @@
 #include "LogMonitor.h"
 #include "Console.h"
 #include "LogData.h"
+#include "LogFactory.h"
 #include <stack>
 #include <thread>
 #include <ctime>
@@ -27,7 +28,7 @@ void LogMonitor::run(void) {
 void LogMonitor::subprocess(const string &strLogFilePath) {
 	try {
 		ifstream ifLog(strLogFilePath);
-		LogData dataLog;
+		LogData *pDataLog = LogFactory::getInstance().create();
 		streampos posPrev(ifLog.seekg(0, ios::end).tellg()), posCur;
 		string strBuffer;
 
@@ -49,9 +50,9 @@ void LogMonitor::subprocess(const string &strLogFilePath) {
 
 				while (!ifLog.eof()) {
 					getline(ifLog, strBuffer);
-					dataLog.update(strBuffer);
-					if (dataLog.isValid()) {
-						Console::getInstance().print(strBuffer);
+					pDataLog->update(strBuffer);
+					if (pDataLog->isValid()) {
+						Console::getInstance().print(pDataLog->getLogRecord());
 					}
 				}
 				posPrev = posCur;

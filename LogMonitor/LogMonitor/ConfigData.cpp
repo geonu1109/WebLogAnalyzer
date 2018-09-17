@@ -51,11 +51,20 @@ void ConfigData::load(const string &strConfigFilePath) {
 		else if (strBuffer == "IndexOfHttpStatusCodeField") {
 			ssBuffer >> ConfigData::getInstance().m_iHttpStatusCodeField;
 		}
+		else if (strBuffer == "IndexOfHttpRequestMethodField") {
+			ssBuffer >> ConfigData::getInstance().m_iHttpRequestMethodField;
+		}
 		else if (strBuffer == "LogDirPath") {
 			ssBuffer >> ConfigData::getInstance().m_strLogDirPath;
 		}
 		else if (strBuffer == "NumberOfFile") {
 			ssBuffer >> ConfigData::getInstance().m_nFile;
+		}
+		else if (strBuffer == "IndexOfApiField") {
+			ssBuffer >> ConfigData::getInstance().m_iApiField;
+		}
+		else if (strBuffer == "IndexOfClientAgent") {
+			ssBuffer >> ConfigData::getInstance().m_iClientAgentField;
 		}
 	}
 }
@@ -76,12 +85,24 @@ const int &ConfigData::getIndexOfHttpStatusCodeField(void) const {
 	return m_iHttpStatusCodeField;
 }
 
+const int &ConfigData::getIndexOfHttpRequestMethodField(void) const {
+	return m_iHttpRequestMethodField;
+}
+
 const int &ConfigData::getNumberOfFile(void) const {
 	return m_nFile;
 }
 
 const string &ConfigData::getLogDirPath(void) const {
 	return m_strLogDirPath;
+}
+
+const int &ConfigData::getIndexOfApiField(void) const {
+	return m_iApiField;
+}
+
+const int &ConfigData::getIndexOfClientAgentField(void) const {
+	return m_iClientAgentField;
 }
 
 ConfigData::ConfigData() {
