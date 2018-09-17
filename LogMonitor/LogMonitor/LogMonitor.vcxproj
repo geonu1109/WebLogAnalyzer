@@ -121,8 +121,6 @@
     <ClInclude Include="LogFactory.h" />
     <ClInclude Include="LogMonitor.h" />
     <ClInclude Include="ArgumentData.h" />
-    <ClInclude Include="LogReader.h" />
-    <ClInclude Include="ResultWriter.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="SimpleLogData.h" />
   </ItemGroup>
@@ -133,9 +131,7 @@
     <ClCompile Include="LogFactory.cpp" />
     <ClCompile Include="LogMonitor.cpp" />
     <ClCompile Include="ArgumentData.cpp" />
-    <ClCompile Include="LogReader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ResultWriter.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="SimpleLogData.cpp" />
   </ItemGroup>

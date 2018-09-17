@@ -1,7 +1,8 @@
+#define WINDOWS
+
 #include "Controller.h"
 #include "ConfigData.h"
 #include "ArgumentData.h"
-#include "ResultWriter.h"
 #include "Console.h"
 #include "LogMonitor.h"
 #include <iostream>
@@ -10,8 +11,11 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
+#ifdef WINDOWS
 	const string ConfigFilePath("../LogMonitor/logmoncfg.txt");
-	const string ResultFilePath("~/result.txt");
+#else
+	const string ConfigFilePath("/etc/logmoncfg.txt");
+#endif
 	LogMonitor logMonitor;
 
 	try {

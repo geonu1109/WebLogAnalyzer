@@ -30,7 +30,7 @@ string mkResultDirPath(void) {
 #ifdef WINDOWS
 	sprintf_s(strBuffer, 128, "mkdir %s\\%04d%02d%02d", ConfigData::getInstance().getLogDirPath().c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
 #else
-	sprintf_s(strBuffer, 128, "mkdir %s/%04d%02d%02d", strLogDirPath.c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
+	sprintf_s(strBuffer, 128, "mkdir %s/%04d%02d%02d", ConfigData::getInstance().getLogDirPath().c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
 #endif
 
 	return strBuffer;
@@ -51,7 +51,11 @@ string mkResultFilePath(const int &iLogFile) {
 
 int main(void) {
 	try {
+#ifdef WINDOWS
 		ConfigData::load("../LogGenerator/loggencfg.txt");
+#else
+		ConfigData::load("/etc/loggencfg.txt");
+#endif
 		ifstream ifFile(mkInputFilePath(1));
 		ofstream ofFile;
 		string strBuffer;
