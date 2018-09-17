@@ -1,3 +1,5 @@
+#define WINDOWS
+
 #include "ConfigData.h"
 #include "LogData.h"
 #include "Console.h"
@@ -9,17 +11,15 @@
 #include <ctime>
 using namespace std;
 
-const string strLogDirPath("C:/Users/user/Desktop/logdata");
-
-string getInputFilePath(const int &iLogFile) {
+string mkInputFilePath(const int &iLogFile) {
 	char strBuffer[128];
 
-	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", strLogDirPath.c_str(), 2018, 8, 24, iLogFile, "daouoffice.com_access", 2018, 8, 24);
+	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", ConfigData::getInstance().getLogDirPath().c_str(), 2018, 8, 24, iLogFile, "daouoffice.com_access", 2018, 8, 24);
 
 	return strBuffer;
 }
 
-string getResultFilePath(const int &iLogFile) {
+string mkResultDirPath(void) {
 	char strBuffer[128];
 	time_t secNow;
 	tm tmNow;
@@ -27,7 +27,24 @@ string getResultFilePath(const int &iLogFile) {
 	secNow = time(nullptr);
 	localtime_s(&tmNow, &secNow);
 
-	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", strLogDirPath.c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday, iLogFile, "daouoffice.com_access", tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
+#ifdef WINDOWS
+	sprintf_s(strBuffer, 128, "mkdir %s\\%04d%02d%02d", ConfigData::getInstance().getLogDirPath().c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
+#else
+	sprintf_s(strBuffer, 128, "mkdir %s/%04d%02d%02d", strLogDirPath.c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
+#endif
+
+	return strBuffer;
+}
+
+string mkResultFilePath(const int &iLogFile) {
+	char strBuffer[128];
+	time_t secNow;
+	tm tmNow;
+
+	secNow = time(nullptr);
+	localtime_s(&tmNow, &secNow);
+
+	sprintf_s(strBuffer, 128, "%s/%04d%02d%02d/ap%d.%s_%04d-%02d-%02d.txt", ConfigData::getInstance().getLogDirPath().c_str(), tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday, iLogFile, "daouoffice.com_access", tmNow.tm_year + 1900, tmNow.tm_mon + 1, tmNow.tm_mday);
 
 	return strBuffer;
 }
@@ -35,7 +52,7 @@ string getResultFilePath(const int &iLogFile) {
 int main(void) {
 	try {
 		ConfigData::load("../LogGenerator/loggencfg.txt");
-		ifstream ifFile(getInputFilePath(1));
+		ifstream ifFile(mkInputFilePath(1));
 		ofstream ofFile;
 		string strBuffer;
 		int count = 1;
@@ -43,14 +60,15 @@ int main(void) {
 		LogData dataLog;
 
 		srand(time(nullptr));
-		system("mkdir C:\\Users\\user\\Desktop\\logdata\\20180917");
-		ofFile.open(getResultFilePath(1));
+		cout << "mkResultDirPath(): " << mkResultDirPath() << endl;
+		system(mkResultDirPath().c_str());
+		ofFile.open(mkResultFilePath(1));
 		ofFile.close();
 
 		while (true) {
 			this_thread::sleep_for(chrono::milliseconds(100));
 
-			ofFile.open(getResultFilePath(1), ios::app);
+			ofFile.open(mkResultFilePath(1), ios::app);
 			pos = (float)rand() / RAND_MAX * ifFile.seekg(0, ios::end).tellg() - 1000;
 			cout << "pos: " << pos << endl;
 			ifFile.seekg(pos);
